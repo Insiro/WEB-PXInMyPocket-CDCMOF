@@ -16,6 +16,19 @@
  - 3. 병사들의 물품 선호를 파악하여 익년 납품업체 선정에 도움이 될 수 있도록 한다. 
  - 4. 해당 부대 px운영에 대한 정보를 게시하며 이용자가 개선점을 표명할 수 있는 게시판을 제공한다.
 
+## 어플리케이션 예시
+### 첫 페이지
+![px_application_example_1](https://user-images.githubusercontent.com/55325690/132701650-f2b13637-8175-47ea-8bf6-70903bfa486d.png)
+
+### 주문확인 페이지
+![px_application_example_2](https://user-images.githubusercontent.com/55325690/132704631-3ed5b421-64bb-4138-a6cf-4a628f7c995e.png)
+
+### 재고확인 페이지
+![px_application_example_3](https://user-images.githubusercontent.com/55325690/132704351-2de1b05a-b2d1-4e47-afca-dae4247c096e.png)
+
+
+
+
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 리눅스계열 OS
 ECMAScript 6 지원 브라우저 사용
