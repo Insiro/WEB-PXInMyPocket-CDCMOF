@@ -3,35 +3,38 @@
 
 
 # Project name or Logo
-![Logo](https://logosbynick.com/wp-content/uploads/2018/03/final-logo-example.png)
+프로젝트명: 내손안에 PX
 
-프로젝트명 또는 프로젝트 로고 이미지 **(택1)**
 
 ## 프로잭트 소개
-- 설명 기입
+- Node.js 와 Vue를 이용하여 제작한 px어플리케이션
 
 
 ## 기능 설명
- - 설명 기입
+ - 1. 본인이 복무하고 있는 부대의 px 물품 재고 상황을 어플리케이션을 통해 실시간으로 확인 할 수 있게 한다. 
+ - 2. px에 납품 가능한 물품 중 원하는 물품을 예약 신청하게끔 한다. 예약 신청시 선입금 기능을 추가한다. 
+ - 3. 병사들의 물품 선호를 파악하여 익년 납품업체 선정에 도움이 될 수 있도록 한다. 
+ - 4. 해당 부대 px운영에 대한 정보를 게시하며 이용자가 개선점을 표명할 수 있는 게시판을 제공한다.
 
 ## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
-* ECMAScript 6 지원 브라우저 사용
-* 권장: Google Chrome 버젼 77 이상
+리눅스계열 OS
+ECMAScript 6 지원 브라우저 사용
 
 ## 기술 스택 (Technique Used) 
 ### Server(back-end)
- -  nodejs, php, java 등 서버 언어 버전 
- - express, laravel, sptring boot 등 사용한 프레임워크 
- - DB 등 사용한 다른 프로그램 
+ - 운영체제: Linux 계열
+ - 서버 프로그래밍 언어와 프레임 워크: node.js v16.6.0, express 
+ - 데이터베이스: MySQL(sequelize ORM 사용)
+ - 기타 사용한 라이브러리:
  
 ### Front-end
- -  react.js, vue.js 등 사용한 front-end 프레임워크 
- -  UI framework
- - 기타 사용한 라이브러리
+ -  프론트엔트 프레임워크: vue.js 
+ -  UI framework: BootStrap
+ - 기타 사용한 라이브러리:
 
 ## 설치 안내 (Installation Process)
 ```bash
-$ git clone git주소
+$ git clone https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF.git
 $ yarn or npm install
 $ yarn start or npm run start
 ```
@@ -47,8 +50,8 @@ $ yarn start or npm run start
  샘플 에디터 [https://stackedit.io/app#](https://stackedit.io/app#)
  
 ## 팀 정보 (Team Information)
-- hong gil dong (hong999@gmail.com), Github Id: gildong999
-- kim su ji (suji999@gmail.com), Github Id: suji999
+- jung jin wook (rlwlsdnr@naver.com), Github Id: jwj3400
+- kim seong hun (insiro@gmail.com), Github Id: insiro
 
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
  * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)
