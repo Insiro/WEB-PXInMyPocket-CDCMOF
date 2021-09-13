@@ -1,0 +1,342 @@
+2021-08-20
+
+1.타입 스크립트 설치
+npm install typescript express nodemon ts-node @types/express @types/node
+
+2.tsconfig.json파일과 package.json파일을 수정(빌드와 런을 유용하게 하기 위해 package.json파일의 scripts 수정) 
+-> npm run build로 src파일의 app.ts 파일을 빌드 시켜 bulid에 app.js 파일이 생성되고, npm run start로 서버 실행
+
+3.nodemon 설치
+nodemon은 nodemon은 node monitor의 약자로, 노드가 실행하는 파일이 속한 디렉터리를 감시하고 있다가 파일이 수정되면 자동으로 노드 애플리케이션을 재시작하는 확장 모듈
+nodemon 은 javascript 파일만 반영되기 때문에 이때 ts-node라는 모듈을 사용해야함. ts-node는 메모리 상에서 typescript를 transpile 해주는 모듈
+scripts의 "start:dev": "nodemon --config ./nodemon.json"를 통해 nodemon으로 실행
+
+
+2021-08-21
+
+1.vue 프로젝트 생성
+npm install -g @vue/cli, vue create vue-3-and-typescript 을 통해 typescript 기반 vue 프로젝트 생성
+
+babel 선택,
+	최신 버전의 자바스크립트 코드를(ECMA 2015+/ES6 코드를) ES5 환경에서 동작하도록 컴파일하는 자바스크립트 컴파일러이다. (트랜스파일러라고 칭하기도 함.) 여기서 말하는 ES5 환경이란 즉 현재나 이전 브라우저 환경을 의미한다.
+	@babel/core 는 어떤 방식으로 babel을 사용하든 항상 필요한 패키지, @babel/cli는 터미널에서 커맨드를 입력해서 babel을 사용할 때 필요한 패키지
+	plugin/preset 플러그인이나 프리셋은 babel에게 문법 변환 규칙을 알려줄 수 있음
+	
+
+ESLint 선택
+	ESLint는 JavaScript, JSX의 정적 분석 도구로 오픈 소스 프로젝트입니다. 코드를 분석해 문법적인 오류나 안티 패턴을 찾아주고 일관된 코드 스타일로 작성하도록 도와줍니다.
+
+main.js: 이 파일은 애플리케이션의 진입점입니다. 현재 이 파일은 Vue 앱을 초기화하고 index.html 파일에서 어떤 HTML 엘리멘트를 앱에 붙여야 하는지 (예제 프로젝트에서는 #app 엘리멘트) 나타냅니다. 이 파일에 전역 컴포넌트나 부가적인 Vue 라이브러리를 등록하는 경우가 많습니다. 
+
+App.vue: Vue 애플리케이션의 최상위 컴포넌트입니다
+
+컴포넌트: 웹을 구성하는 로고, 메뉴바, 버튼, 창, 등 웹 페이지 내의 다양한 ui요소, 재사용 가능 하도록 구조화 함
+
+
+2021-08-22
+
+1. 쿼리스트링와 시멘틱 url
+쿼리스트링:
+https://a.com/user?name=kim&age=29
+->user 뒤에 붙은 물음표 기준 name=kim과 age=29라는 정보가 주어졌고 여러개의 변수를 &기호가 연결해줌
+node.js의 url모듈과 querystring 모듈을 통해 별도의 패키지 설치 없이 사용 가능
+
+ex) url모듈 사용
+var rq_url = require('url');
+var curURLObj = rq_url.parse('https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD');
+var curStr = rq_url.format(curURLObj);
+
+
+curStr == https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD
+
+curURLObj == URL {
+protocol: 'https:',
+slashes: true,
+auth: null,
+host: 'search.naver.com'
+port: null,
+hostname: 'search.naver.com'
+hash: null,
+search: '?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD',
+query: 'where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD',
+pathname: '/search.naver',
+path: '/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD',
+href: 'https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=%ED%8F%89%EC%B0%BD'
+}
+
+ex) querystring 모듈 사용
+var rq_queryStr = require('querystring');
+
+var paramObj = rq_queryStr.parse(curURLObj.query);
+
+paramObj == { 
+	where: 'nexearch',
+	sm: 'top_hty',
+	fm: '0',
+	ie: 'utf8',
+	query: '평창'
+}
+paramOBj.query == '평창'
+
+
+
+서버주소/Test?page=about으로 접속했을때 req.query.page = about이 됨
+app.get('/Test',function(req,res) {
+	res.send(req.query.page);
+});
+
+시멘틱 url:
+서버주소/Test/about로 접속하면 req.query.page = about이 됨
+app.get('/Test/:page',function(req,res) {
+	res.send(req.params.page);
+});
+
+
+			Non-semantic URL 					vs							  Semantic URL
+http://example.com/index.php?page=name								http://example.com/name
+http://example.com/index.php?page=consulting/marketing				http://example.com/consulting/marketing
+http://example.com/products?category=12&pid=25						http://example.com/products/12/25
+http://example.com/cgi-bin/feed.cgi?feed=news&frm=rss				http://example.com/news.rss
+http://example.com/services/index.jsp?category=legal&id=patents		http://example.com/services/legal/patents
+http://example.com/kb/index.php?cat=8&id=41							http://example.com/kb/8/41
+http://example.com/index.php?mod=profiles&id=193					http://example.com/profiles/193
+http://en.wikipedia.org/w/index.php?title=Semantic_URL				http://en.wikipedia.org/wiki/Semantic_URL
+
+
+->px_application은 시맨틱 url을 사용하도록 함
+
+
+
+2.웹팩이란
+모듈이란:
+	CommonJS(개념)는 자바스크립트를 사용하는 모든 환경에서 모듈을 하는 것이 목표다. exports 키워드로 모듈을 만들고 require() 함수로 불러 들이는 방식이다. 대표적으로 서버 사이드 플래폼인 Node.js에서 이를 사용한다.
+ex) const math = require("./math.js")
+	
+	UMD(Universal Module Definition)는 AMD기반으로 CommonJS 방식까지 지원하는 통합 형태다.
+ex) import * as math from "./math.js"
+
+	<script type=module></script>
+	-모듈은 항상 엄격 모드(use strict)로 실행됩니다. 선언되지 않은 변수에 값을 할당하는 등의 코드는 에러를 발생시킵니다.
+<script type="module">
+  a = 5; // 에러
+</script>
+
+	-모듈은 자신만의 스코프가 있습니다. 따라서 모듈 내부에서 정의한 변수나 함수는 다른 스크립트에서 접근할 수 없습니다. (변수를 공유하지 않음, 공유하려면 export해야됨)
+	
+	-안타깝게도 모든 브라우져에서 모듈 시스템을 지원하지는 않는다. 인터넷 익스플로러를 포함한 몇 몇 브라우져에서는 여전히 모듈을 사용하지 못한다. => 웹팩이 나온 이유
+	
+웹팩이란:
+	웹팩은 여러개 파일을 하나의 파일로 합쳐주는 번들러(bundler)다. 하나의 시작점(entry point)으로부터 의존적인 모듈을 전부 찾아내서 하나의 결과물을 만들어 낸다. app.js부터 시작해 math.js 파일을 찾은 뒤 하나의 파일로 만드는 방식이다.
+	
+
+3. 벡엔드는 node.js express로 돌리고 프론트엔드는 vue를 통해 돌리기 위해 back_end_sever 폴더와 front_end_server 폴더 생성,
+vue.config.js파일에서 /api 요청이 백엔드를 통해 돌아가도록 설정
+
+
+4. 서버포트 8080으로 고정 -> front의 vue.config.js,와 package.json 수정
+	서버 종료후 재시작시 8080이 점유중이면 kill -9나 killall -9 node로 서버 죽이고 다시 시작
+	
+다음에 해야할일: 백엔드와 프론트 엔드 연결, 
+				bin/www가 무엇인지 파악할 것, 
+				https://marshmello.tistory.com/64 보고 데이터가 잘 전송되는지도 확인해야됨
+
+
+
+2021-08-23
+1.front backend 연결
+	vue init webpack으로 설치했는지 vue.config.js의 outputDir설정이 먹히지 않음 -> vue create으로 다시 설치함-> 실패!!
+	vue.config.js파일의 publicPath를 지워야 outputDir 설정한 부분이 front/dist 가 아닌 backend부분에 설치됨 2시간 날림 ㅅㅂ
+	
+babel: 자바스크립트 컴파일러, 최신의 자바스크립트 코드를 이전단계의 자바스크립트 코드로 변환가능하게 해주는 개발 도구, 하위호환성, 트랜스파일러(Transpiler)
+ESLint: 자바스크립트 문법 에러 표시 도구
+
+2.데이터 전송 파악
+backend routes에 index.js 파일 수정, backend에서는 get,post 라우팅 잘 됨을 확인,
+
+/참고
+res.set('Content-Type', 'text/html');
+res.send(new Buffer('<h2>Test String</h2>'));
+을 이용하면 html코드 바로 보낼 수 있음
+
+프록시서버(=프론트엔드 서버), api서버(=백엔드 서버)
+frontend에서는 주소 연결시 실패, 프록시 문제인것같음 -> 프록시 문제가 아니라 백엔드와 프론트엔드 서버를 둘다 켜서 서로 통신되게 해야됨 (첨알았네), 프론트엔드 백엔드 사이 포트도 맞춰야되고 (백엔드 /bin/www랑 프론트엔드 vue.config.js 맞춰주기)
+
+
+vue.config.js 파일 중
+"/api/*": {
+   target: "http://localhost:8080",
+   pathRewrite: {"^/api": "/agent"}, // /api로 시작하는 문자를 /agent 로 변경
+},
+
+
+다음에 해야할일: 
+1. /api가 뭐냐?, 프록시서버가 배포 후 필요없다??
+https://blog.naver.com/PostView.nhn?blogId=psj9102&logNo=221435535795&parentCategoryNo=&categoryNo=44&viewDate=&isShowPopularPosts=false&from=postView 참고
+2. 데이터베이스 만들 수 있으면 만들고, https://marshmello.tistory.com/64 이거 먼저 하기
+
+2021-08-24
+1. vue router 설치
+2. ts 안 익숙해서 js로 다시 재설치
+
+2021-08-25
+1. data들이 접속하면 나오긴 하는데 렌더링 되서 나오는게 아니라 txt로 나옴,
+-> axios 추가 (백엔드와 프론트엔드 통신을 하도록 함)
+
+
+
+
+
+////////////////////이전꺼 다 갈아 엎음///////////////////////////////
+2021-08-26
+1. 
+-데이터베이스 생성 mysql 아이디 root, 비밀번호 cdcmof
+sequlize의 config 설정도 변경
+
+-데이터베이스 테이블들 추가
+
+*데이터 베이스 명명규칙
+[
+	1. 이름은 snake case를 따른다.
+		- snake case란 모든 글자를 소문자로 하고, 언더스코어(_)로 단어를 구분해주는 방법이다.
+		ex) userLogin, Name (X) -->  user_login, name (O)
+	 
+	2. prefix와 postfix는 사용하지 않는다. (옛날 방식)
+		ex) user_TB (X)
+	
+	테이블 관련
+	3. 테이블의 이름은 복수가 아닌 단수로 쓴다.
+		ex) members (X) -> member (O)
+	
+	4. 가능하면 단어를 줄여쓰지 않는다. (no abbreviation)
+		ex) mid_ma (X) --> middle_name (O)
+	
+	속성 관련
+	5. 테이블이 하나의 Primary Key를 가진다면 그 속성의 이름은 id로 한다.
+		ex) user_id (X) -> id
+	
+	6. Foreign Key는 테이블 이름과 속성 이름을 더해 정한다.
+		ex) user 테이블의 id -> user_id
+		 
+	7. index와 constraint는 descriptive하게 작성한다.
+		- 예를 들어 index의 경우 테이블명, 속성명, 인덱스 유형이 포함되어야 한다.
+		ex) user_ix (X) -> user_ix_email_lower
+]
+
+
+https://www.python2.net/questions-1155744.htm 참고
+
+
+2021-08-29
+동적으로 require하는 것은 지양
+eslint가 추적하여 포멧팅, 인텔리 센스를 지원못하는 부분과, 작성한 코드에 대한 정확한 이해에 방해가 되기에. 지양하는것을 제안
+
+conventional Commit 에 신경 쓸 것.
+자신이 작성한 코드의 변경 사항이 어떤 것 인지, 다른 사람들도 알기위한 커밋양식입니다. 이를 지키는 것을 권장.
+
+공부한 내용을 md 양식에 맞춰 작성할 것
+무엇을 공부했는 지에 대한 자료 정리도 개인 활동의 핵심 내용
+
+
+
+2021-08-29
+1. model의 index.js 파일 중 db 객체에 테이블 추가하는 과정을 직관적이게 수정
+/bin/www파일을 없애고 app.js에서 listen을 통해 연결, app.js 명을 server.js로 수정
+
+2. routing 부분을 모듈화 시킴, server.js에서 라우팅 부분은 routes파일에 controller.js 파일을 통해 처리, 해당 url이 어느 라우터파일을 통해 처리되는지 controller.js에서 결정되며 각각의 라우팅 파일들에서 그 이후 처리를 담당함
+
+3. models(table)들의 이름들이 router파일들과 헷갈리기에 table명의 앞글자는 대문자, 나머지는 소문자로 통일함
+
+4. url방식은 querystring 방식을 사용, req.query를 통해 요청되는 내용들을 처리
+	product/category?kinds=liquor -> product 중 카테고리가 '술'인 항목들을 모아 보내줌
+
+5. 모든 파일의 모듈 방식은 require가 아닌 import 방식을 사용, es6 문법으로 babel-node를 통해 실행
+	models 폴더에서 각각의 테이블들을 export 한뒤 Index.js의 db에 담아 둠
+
+2021-08-30
+1. Request 객체는 API를 컨트롤하기 위한 메소드를 셋 담고 있다. 그것이 각각 param, query,body이다.
+
+-req.param
+	주소에 포함된 변수를 담는다. 예를 들어 https://okky.com/post/12345 라는 주소가 있다면 12345를 담는다
+
+-req.query
+	주소 바깥, ? 이후의 변수를 담는다. 예를 들어 https://okky.com/post?q=Node.js 일 경우 Node.js를 담는다
+
+-req.body
+	XML, JSON, Multi Form 등의 데이터를 담는다. 당연히 주소에선 확인할 수 없다.
+
+	var bodyParser = require('body-parser');	// 모듈 import. Express v4.16.0이상은 생략 가능
+	ex)
+	app.use(bodyParser.json());	// json 등록	
+	app.use(bodyParser.urlencoded({ extended : false }));	// URL-encoded 등록
+ URL-encoded는 주소 형식으로 데이터를 보내는 방식이다. 'extended' 옵션이 false면 쿼리스트링을 해석함에 있어서 querystring 모듈을 사용해야하고 true면 qs 모듈을 사용해야 한다. 모든게 완료되면 'req.body'를 이용하여  파라미터를 받을 수 있게 된다. 
+
+
+you can’t use require and import at the same time in your node program and it is more preferred to use require instead of import as you are required to use the experimental module flag feature to run import program. -> import로 통일
+
+export 지시자를 변수나 함수 앞에 붙이면 외부 모듈에서 이용가능
+
+import 구문
+
+import defaultExport from "module-name"; 
+import * as name from "module-name";
+import { export1 } from "module-name";
+import { export1 as alias1 } from "module-name";
+import { export1 , export2 } from "module-name";
+import { foo , bar } from "module-name/path/to/specific/un-exported/file";
+import { export1 , export2 as alias2 , [...] } from "module-name";
+import defaultExport, { export1 [ , [...] ] } from "module-name";
+import defaultExport, * as name from "module-name";
+import "module-name";
+var promise = import("module-name");
+
+기본값으로 바로 가져오는 가장 간단한 버전: import myModule from "my-module.js";
+
+
+2021-09-02
+로그인 회원가입 기능 구현
+https://it-learning.tistory.com/227
+
+
+ GET 방식으로 요청할 때는 주소 문자열에 요청 파라미터가 들어가지만 POST 방식으로 요청할 때는 본문 영역(body 영역)에 요청 파라미터가 들어 있게 되므로 요청 파라미터를 파싱하는 방법이 GET 방식과 다르다.
+ 
+ body-parser 모듈을 사용하기 위한 설정은 두 줄이다. app 객체의 use() 메소드를 사용해 미들웨어를 설정하는데 bodyParser.urlencoded() 메소드를 호출하여 미들웨어를 설정하면 application/x-www-form-urlencoded 형식으로 전달된 요청 파라미터를 파싱할 수 있다.
+ 
+ 
+ 
+ 담에 할 일
+ https://resttesttest.com/ 사이트 이용해서 post 가 잘 되는지 확인할것, (회원가입 기능)
+
+
+2021-09-03
+1. 테이블에 로우를 추가할 때 Data too long for column 에러 -> 
+	sql_mode 값이 STRICT_TRANS_TABLES 일 경우 필드에 선언된 대로의 값이 주어지지 않으면 에러를 발생시키는 엄격한 모드로, 데이터 입력을 까다롭게 받아 무결성 유지에는 좋으나 번거롭기도 하기 때문에 my.cnf의 설정을 변경해주자. 우선, my.cnf의 sql_mode 값이 어떤 상태인지 확인하려면 mysql에 접속해야 한다.
+select @@global.sql_mode; 위와 같은 명령어를 입력하면 현재 sql_mode 값을 확인할 수 있다.
+sql_mode의 strict를 해제하려면 아래 명령어를 입력하자.
+SET @@global.sql_mode= 'NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'; 
+user 생성에서 post 잘 되는 것을 확인함!
+(id:abc, password:abc, name:abb, email:sdf@naver.com)
+
+2. 라우터부분을 기능에 따라 폴더별로 나누어 구현
+
+
+
+다음에 할것: 개발도중 컬럼이나 테이블 추가해야 할 때 백업을 위해 db 마이그레이션을 이용함, db마이그레이션이 무엇인지 찾아보고, 컬럼 추가시 어떻게 해야 하는지 알아볼것
+https://devonaws.com/back-end/node-js/node-js-orm-sequelize-add-column/
+
+
+
+2021-09-05
+1. 라우터에서 login 부분을 home에서 동작하도록 함
+2. 아이디 찾기 비밀번호 변경 구현
+다음에 할 것: 메일로 비밀번호 보내는 부분 
+
+2021-09-06
+1. nodemailer를 통해 비밀번호 찾기에서 메일로 비밀번호를 보내줌 차후 수정 필요
+2. 로그인 유지를 세션을 통해서 해결
+
+다음에 할 것:  /home/user 부분 만들기
+
+2021-09-08
+1. login 후 이동시 session을 이용함, session이 없으면 로그인 페이지로 이동됨
+
+다음에 할 것: foreignkey를 사용하여 해당하는 데이터 찾기
