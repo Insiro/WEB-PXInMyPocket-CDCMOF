@@ -6,11 +6,12 @@ import logger from 'morgan';
 import router from './routes/controller.js';
 const app = express();
 
+
 //sequelize를 db와 연결시키는 부분
 import db from './models/Index.js';
 const sequelize = db.sequelize;
 sequelize.sync().then(() => {
-	console.log(db.Product);
+	console.log(db.User);
 });
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -43,7 +44,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.set('port', process.env.PORT || 8080)
+app.set('port', process.env.PORT || 8000)
 
 app.listen(app.get('port'), () => {
   console.log(`Express server listening on port ${app.get('port')}`);

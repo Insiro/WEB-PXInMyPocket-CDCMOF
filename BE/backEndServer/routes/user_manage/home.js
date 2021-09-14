@@ -17,13 +17,13 @@ const User = db.User;
 
 //이미 로그인을 하여 session이 존재하면 /user로 이동 합니다.
 router.get('/', (req, res, next) => {
-	console.log('get에 들어감');
+	console.log('/home get에 들어감');
+	console.log('세션 유저:',req.session.user);
 	if (req.session.user) {
-		console.log(req.session.user);
 		res.redirect('/home/user');
 	}
 	//html 파일을 보내주는 부분
-	res.send("abc");
+	res.send("home without login");
 });
 
 
