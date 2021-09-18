@@ -29,7 +29,7 @@ module.exports = {
         MemberExpression: 0,
       },
     ],
-
+    "@typescript-eslint/no-inferrable-types":"off",
     "no-inferrable-types": "off",
     "no-await-in-loop": "error",
     "no-return-await": "error",
