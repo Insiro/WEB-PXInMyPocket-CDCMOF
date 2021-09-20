@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
-export * as Pages from "./pagelist";
+import * as Pages from "./pagelist";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -24,3 +25,4 @@ const router = createRouter({
 });
 
 export default router;
+export { Pages };

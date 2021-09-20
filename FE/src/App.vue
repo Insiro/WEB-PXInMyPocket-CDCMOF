@@ -1,9 +1,11 @@
 <template>
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
-  </div>
-  <router-view />
+  </div> -->
+  <base-layout>
+    <router-view />
+  </base-layout>
 </template>
 
 <style>
@@ -28,3 +30,4 @@
   color: #42b983;
 }
 </style>
+<script lang="ts"></script>
