@@ -1,8 +1,6 @@
 import express from 'express';
 var router = express.Router();
 import db from '../../models/Index.js'
-const Product = db.Product;
-const Order = db.Order;
 
 //물품을 주문예약 시킴 /product/order?kind=snack&name=초코파이&price=1000
 router.post('/', function (req, res, next) {
@@ -26,8 +24,6 @@ router.post('/', function (req, res, next) {
 		console.log(err);
 		
 	})
-	
-
 });
 
 export default router;

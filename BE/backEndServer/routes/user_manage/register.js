@@ -1,17 +1,17 @@
+// /home/register 페이지는 회원가입 기능을 담당합니다.
+// front페이지를 만들어 주세요.
 import express from 'express';
-import cookiePaser from 'cookie-parser';
 import db from '../../models/Index.js'
 import bodyParser from 'body-parser'
 import crypto from 'crypto';
 
-const User = db.User;
 var router = express.Router();
 
 //bodyParser사용
 router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
-//POST home/register: 회원가입 기능입니다:  /register 프론트를 만들어주세요.
+//POST home/register: 회원가입 기능입니다
 router.post('/', (req, res) => {
 	var inputPassword = req.body.password;
 	var salt = Math.round((new Date().valueOf() * Math.random())) + "";
@@ -28,8 +28,8 @@ router.post('/', (req, res) => {
 		expire_date: req.body.expire_date,
 		rank: req.body.rank,
 	})
-	.then((items) => {
-		res.json(items);
+	.then((createdUser) => {
+		res.send("회원가입이 완료되었습니다");
 		console.log('user create success');
 	})
 	.catch((err) => {
@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', function (req, res) {
-  res.send('GET request to the registerpage');
+  res.send('This is registerPage');
 });
 
 export default router;
