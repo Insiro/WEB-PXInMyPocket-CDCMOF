@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -13,15 +13,14 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "webpack-env",
-      "jest"
-    ],
+    "rootDir": "./src",
+    "typeRoots": [ "./node_modules/@types"],
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
+    "types": ["node","vue","webpack-env"],
     "lib": [
       "esnext",
       "dom",
