@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon --experimental-json-modules --exec babel-node server.js"
+    "start": "nodemon --experimental-json-modules --exec babel-node server.js --port 8000"
   },
   "dependencies": {
     "@babel/node": "^7.14.9",

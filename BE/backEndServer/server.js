@@ -14,6 +14,9 @@ sequelize.sync().then(() => {
 	console.log(db.User);
 });
 
+//데이터베이스 초기화
+//sequelize.drop();
+
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,11 +1,11 @@
-import sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 
 const orderData = (sequelize, DataTypes) => {
 	const order = sequelize.define('Order',{
 		//주문번호
 		order_id: {
 			type:DataTypes.UUID,
-			defaultValue: sequelize.UUIDV4,
+			defaultValue: Sequelize.UUIDV4,
 			unique: true,
 		},
 		order_date: {

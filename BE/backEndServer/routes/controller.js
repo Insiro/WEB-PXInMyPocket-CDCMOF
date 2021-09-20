@@ -2,7 +2,8 @@ import express from 'express';
 import expressSession from 'express-session';
 import home from './user_manage/home.js';
 import product from './product_manage/product.js';
-import cookieParser from 'cookie-parser';
+import admin from './admin_manage/admin.js';
+import post from './post_manage/post.js';
 
 var router = express.Router();
 
@@ -15,5 +16,7 @@ router.use(expressSession({
 
 router.use('/home', home);
 router.use("/product", product);
+router.use('/admin',admin);
+router.use('/post',post);
 
 export default router;
