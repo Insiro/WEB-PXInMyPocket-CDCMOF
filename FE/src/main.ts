@@ -1,13 +1,12 @@
 import { createApp } from "vue";
-import App from "./App.vue";
 import "./registerServiceWorker";
+import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
 import "reset.css";
 import "normalize.css";
-import "./main.css";
-
+import "./assets/main.css";
 import Layout from "@/components/Layout.vue";
 
 const app = createApp(App);
