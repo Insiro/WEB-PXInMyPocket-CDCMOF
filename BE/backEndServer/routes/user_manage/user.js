@@ -2,20 +2,18 @@ import express from 'express';
 import db from '../../models/Index.js'
 import crypto from 'crypto';
 
-const User = db.User;
 var router = express.Router();
 var loginUser;
 
 //로그인을 하지 않은 상태로 /user로 접속하면 /home으로 돌아가게 됩니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
 router.all('/', (req, res, next) => {
 	console.log('/home/user get에 들어감');
-	console.log(req.session.user)
 	if (!req.session.user) {
 		res.redirect('/home');
 	}
 	else
 	{	//session 내용의 유저를 User 변수로 함
-		User.findOne({
+		db.User.findOne({
 			where: {id: req.session.user.id}
 		})
 		.then((selectedUser) => {
@@ -50,7 +48,7 @@ router.post('/change-userinfo', (req, res) => {
 	var new_password = req.body.newpassword;
 	var check_password = req.body.checkpassword;
 	if (new_password === check_password) {
-		var salt = user.salt;
+		var salt = loginUser.salt;
 		var hashPassword = crypto
 			.createHash('sha512')
 			.update(new_password + salt)
@@ -76,33 +74,14 @@ router.post('/change-userinfo', (req, res) => {
 
 });
 
-//GET home/user/mypost
+// GET home/user/mypost
+// 해당유저가 작성한 게시물들 정보를 보내줌
 router.get('/mypost', (req,res) => {
 	console.log('작성글목록페이지');
-	console.log(loginUser);
 	loginUser.getPosts()
-		.then((items) =>{
-			console.log(items);
+		.then((posts) =>{
+			res.send(posts);
 		});
-});
-
-//Get home/user/mypost?post_id=324234
-
-//삭제 버튼을 눌렀을 때 Post home/user/mypost  바디로 넘어가는 부분 post_id=23423
-router.post('/mypost', (req,res) => {
-	console.log('작성글을 제거합니다.');
-	db.Post.destroy({where : post_id = req.body.post_id});
-});
-//edit 버튼을 눌렀을 때 수정 창을 띄어줌, 그 후 수정하기 버튼을 누르면 => Post home/user/mypost  바디로 넘어가는 부분 post_id=23423
-router.post('/mypost', (req,res) => {
-	db.Post.findOne({
-		where: {
-			id: req.body.post_id,
-		},
-	})
-	.then((selectedPost) => {
-		selectedPost.update
-	})
 });
 
 

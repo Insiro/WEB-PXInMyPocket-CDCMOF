@@ -1,8 +1,7 @@
+// admin 페이지에서는 관리자 권한은 가진 유저가 물품정보를 수정할 수 있습니다.
 import express from 'express';
 var router = express.Router();
 import db from '../../models/Index.js'
-const User = db.User;
-const Product = db.Product;
 
 //admin이 아니라면 user 페이지로 이동 시킵니다.
 router.all('/', (req, res, next) => {
@@ -12,9 +11,8 @@ router.all('/', (req, res, next) => {
 		console.log(req.session.user);
 		res.redirect('/home');
 	}
-	//session 내용의 유저를 User 변수로 함, authority가 1이면 관리자 권한
-
-	User.findOne({
+	//session 내용의 유저를 User 변수로 하고, authority가 0이면 기본페이지로 이동 시킵니다.
+	db.User.findOne({
 		where: {id: req.session.user.id}
 	})
 	.then((selectedUser) => {
@@ -34,7 +32,8 @@ router.all('/', (req, res, next) => {
 
 });
 
-//물품을 주문예약 시킴 /admin/add-product
+// POST /admin/add-product
+// 새로운 재고를 추가합니다.
 router.post('/add-product', function (req, res, next) {
 	var product_name = req.body.product_name;
 	var remaining = req.body.remaining;
@@ -58,7 +57,6 @@ router.post('/add-product', function (req, res, next) {
 		console.log('add product fail');
 		console.log(err);
 	})
-	
 
 });
 

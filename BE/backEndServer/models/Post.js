@@ -29,9 +29,6 @@ const postData = (sequelize, DataTypes) => {
 			sourceKEy: 'id'
 		})
 	}
-	{
-		timestamps: true;
-	}
 	return post;
 }
 export default postData;
