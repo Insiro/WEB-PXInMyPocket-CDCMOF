@@ -5,11 +5,12 @@ import crypto from 'crypto';
 var router = express.Router();
 var loginUser;
 
-//로그인을 하지 않은 상태로 /user로 접속하면 /home으로 돌아가게 됩니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
+//로그인을 하지 않은 상태로 /user로 접속하면 403 error를 보냅니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
 router.all('/', (req, res, next) => {
 	console.log('/home/user get에 들어감');
 	if (!req.session.user) {
-		res.redirect('/home');
+		console.log('로그인이 유효하지 않습니다');
+		res.status(403).send();
 	}
 	else
 	{	//session 내용의 유저를 User 변수로 함
@@ -31,6 +32,9 @@ router.get('/', function (req, res) {
 	console.log('home/user로 접속하였습니다.')
 });
 
+router.all('/signed',()=>{
+
+});
 
 //GET home/user/orderlist 해당유저가 주문한 목록을 보여줍니다.
 router.get('/orderlist', (req,res) => {

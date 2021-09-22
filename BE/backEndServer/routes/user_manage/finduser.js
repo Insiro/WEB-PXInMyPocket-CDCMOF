@@ -1,16 +1,13 @@
 // /home/finduser 에서는 유저의 아이디 및 비밀번호를 찾을 수 있습니다.
 // 비밀번호 찾기의 경우 새로운 비밀번호를 메일로 보내드립니다.
 import express from 'express';
-import bodyParser from 'body-parser';
 import db from '../../models/Index.js';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer'
 
 var router = express.Router();
 
-//bodyParser사용
-router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
+
 
 //POST /home/finduser/find-id 
 router.post('/find-id', (req, res) => {

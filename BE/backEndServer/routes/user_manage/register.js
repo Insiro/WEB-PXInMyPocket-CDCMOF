@@ -2,14 +2,9 @@
 // front페이지를 만들어 주세요.
 import express from 'express';
 import db from '../../models/Index.js'
-import bodyParser from 'body-parser'
 import crypto from 'crypto';
 
 var router = express.Router();
-
-//bodyParser사용
-router.use(bodyParser.urlencoded({extended:true}));
-router.use(bodyParser.json());
 
 //POST home/register: 회원가입 기능입니다
 router.post('/', (req, res) => {

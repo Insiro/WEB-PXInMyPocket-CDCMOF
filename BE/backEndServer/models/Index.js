@@ -12,7 +12,6 @@ const config = config1[env];
 
 import User from './User.js'
 import Product from './Product.js'
-import Sale from './Sale.js'
 import Post from './Post.js'
 import Order from './Order.js'
 
@@ -24,7 +23,6 @@ const sequelize =  new Sequelize(config.database, config.username, config.passwo
 //db 객체에 테이블들을 추가
 db.User = User(sequelize,Sequelize);
 db.Product = Product(sequelize,Sequelize);
-db.Sale = Sale(sequelize,Sequelize);
 db.Post = Post(sequelize,Sequelize);
 db.Order = Order(sequelize,Sequelize);
 

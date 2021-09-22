@@ -1,6 +1,5 @@
 // </home/*> 에서는 로그인과 회원가입, 비밀번호 찾기, 유저정보를 담당합니다.
 import express from 'express';
-import bodyParser from 'body-parser'
 import crypto from 'crypto';
 import db from '../../models/Index.js'
 import register from './register.js';
@@ -25,8 +24,6 @@ router.get('/', (req, res, next) => {
 
 // POST home/login 
 // 로그인 기능입니다. login은 home페이지를 통해 가능합니다. 로그인이 성공하면 /home/user로 이동합니다.
-router.use(bodyParser.urlencoded({extended:true}));
-router.use(bodyParser.json());
 
 router.post('/login', (req, res) => {
 	console.log('login check');
