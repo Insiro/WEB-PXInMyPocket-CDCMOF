@@ -1,5 +1,5 @@
 import SideBar from "./SideBar.vue";
 import SideBarFrame from "./SideBarFrame.vue";
-import Item from "./SideBarFrame.vue";
-export { SideBarFrame, SideBar, Item };
+import SideBarItem from "./SideBarFrame.vue";
+export { SideBarFrame, SideBar, SideBarItem };
 export default SideBar;

@@ -1,14 +1,19 @@
 <template>
-  <SideBarFrame :abv="abv" :title="title" :backgroundColor="backgroundColor">
-    <Item v-for="item in links" :key="item.name" :link="item"></Item>
+  <SideBarFrame>
+    <SideBarItem
+      v-for="item in links"
+      :key="item.name"
+      :link="item"
+    ></SideBarItem>
   </SideBarFrame>
-  <slot></slot>
 </template>
+
 <script lang="ts">
+import { ref } from "vue";
 import { Vue, Options, prop } from "vue-class-component";
 import SideBarFrame from "./SideBarFrame.vue";
-import Item from "./Item.vue";
-import { Pages } from "@/router";
+import SideBarItem from "./SideBarItem.vue";
+import { pageList, pageObj } from "@/router";
 // import { Pages } from "@/router";
 
 class Props {
@@ -18,9 +23,9 @@ class Props {
 }
 
 @Options({
-  components: { SideBarFrame, Item },
+  components: { SideBarFrame, SideBarItem },
 })
 export default class SideBar extends Vue.with(Props) {
-  links: Array<Pages.pgobj> = Pages.list;
+  links: Array<pageObj> = pageList;
 }
 </script>

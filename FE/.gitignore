@@ -160,3 +160,4 @@ yarn-error.log
 
 .vscode/
 .vim/
+vetur.config.js

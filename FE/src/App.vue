@@ -1,7 +1,7 @@
 <template>
-  <base-layout>
+  <baseLayout>
     <router-view />
-  </base-layout>
+  </baseLayout>
 </template>
 
 <style>
