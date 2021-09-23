@@ -28,6 +28,14 @@ const productData = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(10),
 			allowNull: false,
 		},
+		monthly_sale: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+		},
+		weekly_sale: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+		},
 	});
 }
 export default productData;

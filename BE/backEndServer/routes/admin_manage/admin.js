@@ -8,8 +8,8 @@ router.all('/', (req, res, next) => {
 	console.log('admin page에 들어감');
 	console.log(req.session.user)
 	if (!req.session.user) {
-		console.log(req.session.user);
-		res.redirect('/home');
+		console.log('로그인이 유효하지 않습니다.');
+		res.status(403).send();
 	}
 	//session 내용의 유저를 User 변수로 하고, authority가 0이면 기본페이지로 이동 시킵니다.
 	db.User.findOne({
@@ -58,6 +58,74 @@ router.post('/add-product', function (req, res, next) {
 		console.log(err);
 	})
 
+
+});
+
+// POST /admin/modify-product
+// 재고수량, 가격을 변경합니다.
+router.post('/modify-product', function (req, res, next) {
+	var product_name = req.body.product_name;
+	var remaining = req.body.remaining;
+	var price = req.body.price;
+	var limit_item = req.body.limit_item;
+	var category = req.body.category;
+
+	db.Product.findOne({
+		where: {
+			name: product_name,
+		},
+	})
+	.then((product) => {
+		product.update({
+			remaining: remaining,
+			price: price,
+			limit_item: limit_item,
+			category: category,
+		})
+		.then((item) => {
+			res.json(item);
+			console.log('modify product success', item);
+		})
+		.catch((err) => {
+			console.log('modify product fail');
+			console.log(err);
+		})
+	})
+
+});
+
+// POST /admin/delete-product?product_name=초코파이
+// 해당물품을 삭제합니다.
+router.get('/delete-product', (req,res,next) => {
+	console.log('해당물품을 제거합니다.');
+	var product_name = req.query.product_name;
+	db.Product.destroy({where : product_name = product_name});
+});
+
+
+// GET /admin/sell?product_name=초코파이
+// pos기에서 물품이 해당 부분이 실행되고 물품의 수량변화가 일어남
+router.get('/sell',(req,res,next) => {
+	console.log('제품이 하나 팔림');
+	var product_name = req.query.product_name;
+	var product_id;
+	db.Product.findOne({
+		where: {
+			name: product_name,
+		},
+	})
+	.then((foundProduct) => {
+		var remaining = foundProduct.remaining;
+		var weelky_sale = foundProduct.weelky_sale + 1;
+		var monthly_sale = foundProduct.monthly_sale + 1;
+		foundProduct.update({
+			remaining: remaining,
+			weelky_sale: weelky_sale,
+			monthly_sale: monthly_sale
+		});
+		product_id = foundProduct.product_id;
+	})
+	
 });
 
 export default router;

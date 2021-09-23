@@ -4,11 +4,12 @@ var router = express.Router();
 import db from '../../models/Index.js'
 
 var loginUser;
-//로그인을 하지 않은 상태로 /freeboard로 접속하면 /home으로 돌아가게 됩니다. 
+//로그인을 하지 않은 상태로 /freeboard로 접속하면 403 error를 보냅니다. 
 router.all('/', (req, res, next) => {
 	console.log('/freeboard에 들어감');
 	if (!req.session.user) {
-		res.redirect('/home');
+		console.log('로그인이 유효하지 않습니다');
+		res.status(403).send();
 	}else{	//session 내용의 유저를 User 변수로 함
 		db.User.findOne({
 			where: {id: req.session.user.id}
@@ -21,7 +22,7 @@ router.all('/', (req, res, next) => {
 	}
 });
 
-// POST /freeboard
+// POST /freeboard/
 // 게시글을 생성합니다.
 router.post('/', function (req, res, next) {
 	var title = req.body.title;
