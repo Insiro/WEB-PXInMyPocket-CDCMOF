@@ -30,7 +30,7 @@
           />
         </svg>
       </button>
-      <TextInput type="text" placeholder="Search">
+      <TextInput type="text" placeholder="Search" :is_icon="true">
         <IconSearch />
       </TextInput>
     </div>
