@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
 import { Vue, Options, prop } from "vue-class-component";
 import SideBarFrame from "./SideBarFrame.vue";
 import SideBarItem from "./SideBarItem.vue";
