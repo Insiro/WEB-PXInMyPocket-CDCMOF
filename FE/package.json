@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "yarn start:dev",
-    "start:dev": "vite --port 8080 --host 0.0.0.0",
+    "start:dev": "vite --port 10001 --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e"
+    "test:e2e": "vue-cli-service test:e2e",
+    "lint": "eslint \"src/**/*.{tsx,ts,vue}\""
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.2.0",
@@ -36,7 +37,8 @@
     "@yarnpkg/pnpify": "^3.0.1-rc.5",
     "@yarnpkg/sdks": "^2.4.2-rc.5",
     "autoprefixer": "^10.2.6",
-    "eslint": "^6.7.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0",
     "lint-staged": "^9.5.0",

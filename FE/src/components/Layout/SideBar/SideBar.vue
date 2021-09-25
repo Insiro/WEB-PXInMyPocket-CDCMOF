@@ -13,7 +13,6 @@ import { Vue, Options, prop } from "vue-class-component";
 import SideBarFrame from "./SideBarFrame.vue";
 import SideBarItem from "./SideBarItem.vue";
 import { pageList, pageObj } from "@/router";
-// import { Pages } from "@/router";
 
 class Props {
   title = prop<string>({ default: "testTitle" });

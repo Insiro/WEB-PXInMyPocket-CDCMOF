@@ -3,7 +3,6 @@
     <!-- Backdrop -->
     <div
       :class="isOpen ? 'block' : 'hidden'"
-      @click="isOpen = false"
       class="
         fixed
         inset-0
@@ -13,6 +12,7 @@
         opacity-50
         lg:hidden
       "
+      @click="isOpen = false"
     ></div>
     <!-- End Backdrop -->
 
