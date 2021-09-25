@@ -6,7 +6,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Options, prop } from "vue-class-component";
+import { Vue, Options } from "vue-class-component";
 import Item from "./Item.vue";
 @Options({ components: { Item } })
 export default class PgFrame extends Vue {}
