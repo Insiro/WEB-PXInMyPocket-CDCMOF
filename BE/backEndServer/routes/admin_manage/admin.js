@@ -108,22 +108,21 @@ router.get('/delete-product', (req,res,next) => {
 router.get('/sell',(req,res,next) => {
 	console.log('제품이 하나 팔림');
 	var product_name = req.query.product_name;
-	var product_id;
 	db.Product.findOne({
 		where: {
-			name: product_name,
+			product_name: product_name,
 		},
 	})
 	.then((foundProduct) => {
-		var remaining = foundProduct.remaining;
-		var weelky_sale = foundProduct.weelky_sale + 1;
+		var remaining = foundProduct.remaining - 1;
+		var weekly_sale = foundProduct.weekly_sale + 1;
 		var monthly_sale = foundProduct.monthly_sale + 1;
 		foundProduct.update({
 			remaining: remaining,
-			weelky_sale: weelky_sale,
+			weekly_sale: weekly_sale,
 			monthly_sale: monthly_sale
 		});
-		product_id = foundProduct.product_id;
+		res.send(foundProduct);
 	})
 	
 });

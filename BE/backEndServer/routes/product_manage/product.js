@@ -10,7 +10,7 @@ import preference from './preference.js'
 router.use('/order', order);
 
 //선호도 관련 페이지는 preference.js에서 처리
-router.use('preference', preference);
+router.use('/preference', preference);
 
 // GET /product
 // 로그인을 하지 않은 상태로 /product로 접속하면 403 error를 보냅니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => {
 		console.log('전체 상품을 가져옴');
 		db.Product.findAll()
 			.then((items) => {
-				res.json(items);
+				res.send(items);
 			})
 			.catch((err) => {
 				console.error(err);
@@ -43,7 +43,6 @@ router.get('/', (req, res, next) => {
 	.catch((err) => {
 		console.log(err);
 	})
-	next();
 });
 
 
@@ -57,7 +56,7 @@ router.get('/category', function (req, res, next) {
 		},
 	})
 		.then((items) => {
-			res.json(items);
+			res.send(items);
 		})
 		.catch((err) => {
 			console.error(err);
@@ -75,7 +74,7 @@ router.get('/detailview', function (req, res, next) {
 		},
 	})
 		.then((items) => {
-			res.json(items);
+			res.send(items);
 		})
 		.catch((err) => {
 			console.error(err);

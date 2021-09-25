@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import schedule from 'node-schedule';
 import router from './routes/controller.js';
-import db from '../../models/Index.js'
+import db from './models/Index.js'
 
 
 //매주 일요일마다 weelkly sale 초기화
@@ -19,12 +19,12 @@ schedule.scheduleJob('* * * 1 *', function(){
 
 const app = express();
 //sequelize를 db와 연결시키는 부분
-import db from './models/Index.js';
+
 const sequelize = db.sequelize;
+
 sequelize.sync().then(() => {
 	console.log(db.User);
 });
-
 //데이터베이스 초기화
 //sequelize.drop();
 

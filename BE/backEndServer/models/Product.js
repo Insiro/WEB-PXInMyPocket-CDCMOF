@@ -18,7 +18,6 @@ const productData = (sequelize, DataTypes) => {
 		price: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique:true,
 		},
 		limit_item: {
 			type: DataTypes.BOOLEAN,
