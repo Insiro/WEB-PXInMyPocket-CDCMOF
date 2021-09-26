@@ -24,7 +24,7 @@ class Props {
 })
 export default class IconButton extends Vue.with(Props) {
   onClick(): void {
-    this.$emit("conClick");
+    this.$emit("onClick");
   }
   baseStyle = BtnStyle;
 }

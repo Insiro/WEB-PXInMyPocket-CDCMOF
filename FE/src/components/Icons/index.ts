@@ -1,2 +1,3 @@
 import IconSearch from "./Search.vue";
-export {IconSearch};
+import Xicon from "./Xicon.vue";
+export { IconSearch, Xicon };
