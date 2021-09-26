@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "yarn start:dev",
-    "start:dev": "vite --port 10001 --host 0.0.0.0",
+    "start:dev": "ENV=dev vite --port 10001 --host 0.0.0.0",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "test:unit": "vue-cli-service test:unit",
@@ -15,14 +15,17 @@
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
     "@tailwindcss/typography": "^0.4.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^10.0.0",
     "normalize.css": "^8.0.1",
     "reset.css": "^2.0.2",
     "tailwindcss": "^2.2.2",
     "vue": "^3.0.5",
     "vue-class-component": "^8.0.0-rc.1",
-    "vue-router": "4",
-    "vuex": "^4.0.0-0",
-    "vuex-class": "^0.3.2"
+    "vue-router": "4.0.11",
+    "vuex": "4.0.2",
+    "vuex-class": "^0.3.2",
+    "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -58,7 +61,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
-      "vue-cli-service lint",
+      "eslint \"src/**/*.{tsx,ts,vue} --fix",
       "git add"
     ]
   }

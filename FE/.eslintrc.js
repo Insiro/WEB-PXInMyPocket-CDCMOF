@@ -5,7 +5,7 @@ module.exports = {
   },
   extends: [
     "plugin:@typescript-eslint/recommended",
-    "eslint:recommended",
+    // "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:vue/vue3-recommended",
     "eslint-config-prettier",
@@ -31,10 +31,12 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-inferrable-types": "off",
+    "prettier/prettier": "warn",
     "no-inferrable-types": "off",
     "no-await-in-loop": "error",
     "no-return-await": "error",
     "no-array-constructor": "error",
+    failOnWarning: "off",
     eqeqeq: "error",
   },
   overrides: [

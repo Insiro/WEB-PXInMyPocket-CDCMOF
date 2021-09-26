@@ -1,12 +1,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
+import SignIn from "@/views/SignIn.vue";
 import Components from "@/views/Components.vue";
-import { defineComponent } from "vue";
-
-const SignIn = defineComponent({
-  template:"<div>signIn</div>"
-})
 
 interface Meta {
   authRequired?: boolean;
@@ -20,11 +16,6 @@ export interface pageObj {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: any;
   meta?: Meta;
-}
-
-class defaultMeta implements Meta {
-  authRequired = false;
-  noLayout = false;
 }
 
 export const pageList: Array<pageObj> = [
