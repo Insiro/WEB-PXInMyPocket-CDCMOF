@@ -8,17 +8,28 @@
       <CheckBox text="checkbox" name="checkbox" />
     </ComponentFrame>
     <ComponentFrame title="inputForm">
-      <TextInput />
+      <TextInput><icon-search /></TextInput>
     </ComponentFrame>
+    <ComponentFrame title="radio"> <Radio /> </ComponentFrame>
+    <Button><router-link to="/signIn">goto SignIn</router-link></Button>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import PageNation from "@/components/PageNation";
-import { CheckBox, TextInput } from "@/components/Inputs";
+import { CheckBox, TextInput, Radio } from "@/components/Inputs";
 import ComponentFrame from "@/components/ComponentsFrame.vue";
-
-@Options({ components: { TextInput, PageNation, ComponentFrame, CheckBox } })
+import { IconSearch } from "@/components/Icons";
+@Options({
+  components: {
+    TextInput,
+    PageNation,
+    ComponentFrame,
+    CheckBox,
+    IconSearch,
+    Radio,
+  },
+})
 export default class Home extends Vue {}
 </script>

@@ -3,7 +3,7 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import SignIn from "@/views/SignIn.vue";
 import Components from "@/views/Components.vue";
-
+import Regist from "@/views/Regist.vue";
 interface Meta {
   authRequired?: boolean;
   noLayout?: boolean;
@@ -30,6 +30,13 @@ const hiddenUrl: Array<pageObj> = [
     name: "signIn",
     url: "/signIn",
     component: SignIn,
+    meta: { noLayout: true },
+  },
+  {
+    icon: null,
+    name: "regist",
+    url: "/regist",
+    component: Regist,
     meta: { noLayout: true },
   },
 ];

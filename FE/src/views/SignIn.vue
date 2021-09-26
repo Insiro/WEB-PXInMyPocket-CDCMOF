@@ -49,6 +49,13 @@
             >Sign In
           </Button>
         </div>
+        <div class="mt-6">
+          <Button
+            class="w-full px-4 text-sm text-center"
+            @onClick="router.push('regist')"
+            >regist
+          </Button>
+        </div>
       </form>
     </div>
   </div>
