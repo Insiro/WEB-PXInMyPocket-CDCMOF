@@ -1,8 +1,16 @@
 <template>
   <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
     <BaseModal :open="modalOpen" @close="modalClose">
-      <div v-show="mod.regist">등록을 기다려 주세요</div>
-      <div v-show="mod.id">ID 검사</div>
+      <div v-show="mod.regist">
+        <div v-show="passed.id == false">군번을 확인 해주세요</div>
+        <div v-show="passed.email == false">이메일을 확인 해주세요</div>
+        <div v-show="passed.pwd == false">비밀번호를 확인 해주세요</div>
+        등록을 기다려 주세요
+      </div>
+      <div v-show="mod.email">
+        <div v-show="passed.email">사용 가능한 메일 입니다</div>
+        <div v-show="passed.email == false">이미 가입된 메일 입니다</div>
+      </div>
     </BaseModal>
     <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
       <div class="flex items-center justify-center">
@@ -14,7 +22,7 @@
         <label class="block">
           <span class="text-sm text-gray-700">
             Email
-            <Button class="ml-7" @onClick="checkID()"> 확인</Button>
+            <Button class="ml-7" @onClick="checkID"> 확인</Button>
           </span>
           <TextInput
             v-model="register.email"
@@ -105,7 +113,7 @@
       </form>
     </div>
   </div>
-  {{ register.category }}
+  {{ mod }}
 </template>
 <script lang="ts">
 import { ref } from "vue";
@@ -125,6 +133,7 @@ export default class Regist extends Vue {
     id: false,
     email: false,
     pwd: false,
+    all: false,
   };
   register = {
     email: "",
@@ -135,8 +144,9 @@ export default class Regist extends Vue {
     bye: "", //전역일
     category: "", //병사 | 간부
   };
+  //모달 트리거
   mod = {
-    id: false,
+    email: false,
     regist: false,
   };
   modalOpen: boolean = false;
@@ -149,13 +159,26 @@ export default class Regist extends Vue {
     //TODO: check regist value is availble
     if (this.passed.id && this.passed.email && this.passed.pwd) {
       //TODO: run regist api
+      this.passed.all = true;
       this.router.push("/");
     } else {
-      //TODO: alert wrong passwod
-      this.mod.id = false;
+      //TODO: alert wrong Input
+      this.passed.all = false;
+      this.mod.email = false;
       this.mod.regist = true;
       this.modalOpen = true;
     }
+  }
+  checkID(): void {
+    //TODO: check ID then alert
+    if (true) {
+      this.passed.id = false;
+    }
+    //Change Contents following result
+    //TODO: Bug: mod.email not changed to true
+    this.mod.email = true;
+    this.mod.regist = false;
+    this.modalOpen = true;
   }
   //#region Item Event
   modalClose(): void {
@@ -191,14 +214,7 @@ export default class Regist extends Vue {
     this.register.category = data;
     console.log(data);
   }
-  checkID(): void {
-    //TODO: check ID then alert
-    if (true) this.passed.id = false;
-    //TODO: Change Contents following result
-    this.mod.id = true;
-    this.mod.regist = false;
-    this.modalOpen = true;
-  }
+
   //#endregion Item Event
 }
 </script>

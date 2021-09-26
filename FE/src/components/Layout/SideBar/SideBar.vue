@@ -4,6 +4,7 @@
       v-for="item in links"
       :key="item.name"
       :link="item"
+      :icon="item.icon"
     ></SideBarItem>
   </SideBarFrame>
 </template>
