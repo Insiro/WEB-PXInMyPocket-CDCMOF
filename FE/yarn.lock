@@ -845,9 +845,9 @@ __metadata:
   linkType: hard
 
 "@vue/devtools-api@npm:^6.0.0-beta.11, @vue/devtools-api@npm:^6.0.0-beta.14":
-  version: 6.0.0-beta.17
-  resolution: "@vue/devtools-api@npm:6.0.0-beta.17"
-  checksum: ab4c987b79cd9f69d8c194e243249c0e604508ea97410e4687b4709e9066531edd6a35dd497c2d454ef702c84dcdf9334164fc5ac79c9fa680cc7ccfe52ad304
+  version: 6.0.0-beta.18
+  resolution: "@vue/devtools-api@npm:6.0.0-beta.18"
+  checksum: aa9e894a7abb3da08264a241f565339bf05a312b8366cf6c8e624b8c6637548dd43ef1ba7f84fea37a1dfd84737e32671d4bae5e1bc6dde75cbaef9f08d2630d
   languageName: node
   linkType: hard
 
@@ -1955,7 +1955,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:7.0.3, cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.2":
+"cross-env@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "cross-env@npm:7.0.3"
+  dependencies:
+    cross-spawn: ^7.0.1
+  bin:
+    cross-env: src/bin/cross-env.js
+    cross-env-shell: src/bin/cross-env-shell.js
+  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
+  languageName: node
+  linkType: hard
+
+"cross-spawn@npm:7.0.3, cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.1, cross-spawn@npm:^7.0.2":
   version: 7.0.3
   resolution: "cross-spawn@npm:7.0.3"
   dependencies:
@@ -2211,6 +2223,13 @@ __metadata:
     domelementtype: ^2.2.0
     domhandler: ^4.2.0
   checksum: abf7434315283e9aadc2a24bac0e00eab07ae4313b40cc239f89d84d7315ebdfd2fb1b5bf750a96bc1b4403d7237c7b2ebf60459be394d625ead4ca89b934391
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "dotenv@npm:10.0.0"
+  checksum: f412c5fe8c24fbe313d302d2500e247ba8a1946492db405a4de4d30dd0eb186a88a43f13c958c5a7de303938949c4231c56994f97d05c4bc1f22478d631b4005
   languageName: node
   linkType: hard
 
@@ -4087,6 +4106,8 @@ fsevents@~2.3.2:
     "@yarnpkg/pnpify": ^3.0.1-rc.5
     "@yarnpkg/sdks": ^2.4.2-rc.5
     autoprefixer: ^10.2.6
+    cross-env: ^7.0.3
+    dotenv: ^10.0.0
     eslint: ^7.32.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^4.0.0
@@ -4106,10 +4127,11 @@ fsevents@~2.3.2:
     vue-cli-plugin-tailwind: ~2.0.6
     vue-eslint-parser: ^7.11.0
     vue-jest: ^5.0.0-0
-    vue-router: 4
+    vue-router: 4.0.11
     vue-tsc: ^0.3.0
-    vuex: ^4.0.0-0
+    vuex: 4.0.2
     vuex-class: ^0.3.2
+    vuex-module-decorators: ^1.0.1
   languageName: unknown
   linkType: soft
 
@@ -6043,7 +6065,7 @@ typescript@^4.3.2:
   languageName: node
   linkType: hard
 
-"vue-router@npm:4":
+"vue-router@npm:4.0.11":
   version: 4.0.11
   resolution: "vue-router@npm:4.0.11"
   dependencies:
@@ -6089,7 +6111,17 @@ typescript@^4.3.2:
   languageName: node
   linkType: hard
 
-"vuex@npm:^4.0.0-0":
+"vuex-module-decorators@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "vuex-module-decorators@npm:1.0.1"
+  peerDependencies:
+    vue: ">=2"
+    vuex: 3
+  checksum: a8b91f6f87ae813ba17c9f31ad3aaaf51d085c51bbf31f240d2788f3413611003af6f3637a6ae5c576428ac1bb83211e46eec468a8406a0d84bc85e90706cec6
+  languageName: node
+  linkType: hard
+
+"vuex@npm:4.0.2":
   version: 4.0.2
   resolution: "vuex@npm:4.0.2"
   dependencies:

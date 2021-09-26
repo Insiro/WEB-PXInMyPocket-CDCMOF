@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
@@ -11,7 +12,7 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
   },
   "importHelpers": true,
   "moduleResolution": "node",
