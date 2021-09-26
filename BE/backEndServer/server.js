@@ -9,12 +9,26 @@ import db from './models/Index.js'
 
 
 //매주 일요일마다 weelkly sale 초기화
-schedule.scheduleJob('* * * * 0', function(){
+const a = schedule.scheduleJob('* * * * 0', function(){
+  
+  
+  console.log("reset sales");
+  db.Product.update({
+		weekly_sale: 0,
+	},{
+		where: {category: 'snack'}
+	})
   
 });
-//매달 1일마다 monthyl sale 초기화
+//매달 1일마다 monthly sale 초기화
 schedule.scheduleJob('* * * 1 *', function(){
-  
+  console.log("reset sales");
+  db.Product.update({
+		weekly_sale: 0,
+	},{
+		where: {category: 'snack'}
+	})
+
 });
 
 const app = express();

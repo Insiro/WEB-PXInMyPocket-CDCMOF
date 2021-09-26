@@ -20,6 +20,10 @@ router.get('/', (req, res, next) => {
 	next();
 });
 
+//FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
+router.all('/signed',()=>{
+	res.send(req.session);
+});
 
 
 // POST home/login 

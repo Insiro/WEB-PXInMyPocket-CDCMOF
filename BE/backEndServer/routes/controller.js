@@ -14,6 +14,7 @@ router.use(expressSession({
     saveUninitialized: true
 }));
 
+
 //home으로 이동
 router.get('/', (req,res) => {
     res.redirect('/home');

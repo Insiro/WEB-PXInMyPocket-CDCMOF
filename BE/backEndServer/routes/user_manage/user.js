@@ -26,15 +26,15 @@ router.all('/', (req, res, next) => {
 	}
 
 });
+  
+
 
 //home/user: 프론트 페이지가 필요합니다. 버튼을 통해 주문목록, 개인정보 수정, 내 게시글에 접속할 수 있습니다.
 router.get('/', function (req, res) {
 	console.log('home/user로 접속하였습니다.')
 });
 
-router.all('/signed',()=>{
 
-});
 
 //GET home/user/orderlist 해당유저가 주문한 목록을 보여줍니다.
 router.get('/orderlist', (req,res) => {
