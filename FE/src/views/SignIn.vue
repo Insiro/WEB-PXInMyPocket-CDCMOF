@@ -37,11 +37,12 @@
           </div>
 
           <div>
-            <a
+            <router-link
               class="block text-sm text-indigo-700 fontme hover:underline"
-              href="#"
-              >Forgot your password?</a
+              to="/reset"
             >
+              Forgot your password?
+            </router-link>
           </div>
         </div>
         <div class="mt-6">

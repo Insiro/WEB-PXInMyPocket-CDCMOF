@@ -19,6 +19,7 @@
 import { Vue, Options } from "vue-class-component";
 import PageNation from "@/components/PageNation";
 import { CheckBox, TextInput, Radio } from "@/components/Inputs";
+import { Button } from "@/components/Button";
 import ComponentFrame from "@/components/ComponentsFrame.vue";
 import { IconSearch } from "@/components/Icons";
 @Options({
@@ -29,7 +30,8 @@ import { IconSearch } from "@/components/Icons";
     CheckBox,
     IconSearch,
     Radio,
+    Button,
   },
 })
-export default class Home extends Vue {}
+export default class Components extends Vue {}
 </script>

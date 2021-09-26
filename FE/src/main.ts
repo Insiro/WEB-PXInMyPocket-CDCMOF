@@ -8,8 +8,12 @@ import "reset.css";
 import "normalize.css";
 import "./assets/main.css";
 
-const app = createApp(App);
+import { IconComponentList } from "./components/Icons";
 
+const app = createApp(App);
+IconComponentList.forEach((icon) => {
+  app.component(icon.name, icon.component);
+});
 app.use(store);
 app.use(router);
 app.mount("#app");
