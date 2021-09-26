@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="mt-6">
-          <Button class="w-full px-4 text-sm text-center" @conClick="login"
+          <Button class="w-full px-4 text-sm text-center" @onClick="login"
             >Sign In
           </Button>
         </div>
@@ -83,11 +83,13 @@ export default class SignIn extends Vue {
       //TODO: alert wrong passwod
     }
   }
+  //#region Item Event
   onEmailChanged(data: string): void {
     this.sign.email = data;
   }
   onPwdChanged(data: string): void {
     this.sign.password = data;
   }
+  //#endregion Item Event
 }
 </script>
