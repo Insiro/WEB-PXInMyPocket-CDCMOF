@@ -94,11 +94,11 @@ router.post('/modify-product', function (req, res, next) {
 
 });
 
-// POST /admin/delete-product?product_name=초코파이
+// POST /admin/delete-product
 // 해당물품을 삭제합니다.
-router.get('/delete-product', (req,res,next) => {
+router.post('/delete-product', (req,res,next) => {
 	console.log('해당물품을 제거합니다.');
-	var product_name = req.query.product_name;
+	var product_name = req.body.product_name;
 	db.Product.destroy({where : product_name = product_name});
 });
 

@@ -21,9 +21,12 @@ router.get('/', (req, res, next) => {
 });
 
 //FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
-router.all('/signed',()=>{
+router.all('/signed',(req,res)=>{
 	res.send(req.session);
 });
+router.all('/authority-check', (req,res) => {
+	res.send(req.session.user.authority);
+})
 
 
 // POST home/login 
@@ -49,7 +52,8 @@ router.post('/login', (req, res) => {
 				console.log('로그인 성공!');
 				req.session.user = {
 					id: req.body.id,
-					name: req.body.name,
+					name: user.name,
+					authority: user.authority,
 					authorized: true,
 				};
 				res.redirect('/home/user');
