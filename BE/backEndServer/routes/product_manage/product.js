@@ -65,6 +65,20 @@ router.get('/category', function (req, res, next) {
 	next();
 });
 
+// GET /product/all-category
+// Products의 카테고리 속성을 중복 없이 가져옴
+router.get('/all-category', function (req, res, next) {
+	db.Product.findAll({
+		attributes: [
+			[Sequelize.fn('DISTINCT', Sequelize.col('category')) ,'category'],
+		]
+	}).then((category) => {  
+		res.send(category);
+	})
+});
+
+
+
 // GET /product/detailview?name=초코파이
 // 해당상품을 클릭하였을 때 해당상품에 대한 정보를 가져옵니다.
 router.get('/detailview', function (req, res, next) {
