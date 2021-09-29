@@ -1,7 +1,8 @@
 <template>
   <label>
     <input
-      v-model="value"
+      v-model="checked_value"
+      :value="value"
       type="checkbox"
       class="w-5 h-5 text-indigo-600 rounded-md focus:ring-indigo-500"
       :name="name"
@@ -19,10 +20,15 @@ import { Vue, prop } from "vue-class-component";
 class Prop {
   name = prop<string>({ default: "checkbox" });
   value = prop<string>({ default: "Checkbox" });
+  checked_value = prop<boolean>({ default: false });
 }
-export default class Name extends Vue.with(Prop) {
+
+export default class CheckBox extends Vue.with(Prop) {
   onInputChanged(e: Event): void {
-    this.$emit("updates", (e.target as HTMLInputElement).value);
+    this.$emit("updates", {
+      value: this.value,
+      checked: (e.target as HTMLInputElement).checked,
+    });
   }
 }
 </script>
