@@ -3,7 +3,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Components from "../views/Components.vue";
-import Cart from "../views/Carts.vue";
+import Cart from "@/views/Carts.vue";
 import authUrl from "./auth";
 
 export interface Meta {

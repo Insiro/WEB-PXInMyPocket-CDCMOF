@@ -78,10 +78,9 @@ export default class Carts extends Vue {
   );
   CartList = CartState.kartData;
   purchase(): void {
-    if (CartState.Purchase()) {
+    if (CartState.Purchase())
       //TODO: hadle on Async func
       this.updateFee();
-    }
   }
   checkItem(data: CheckBoxEmit): void {
     CartState.check(data.value, data.checked);
