@@ -62,7 +62,16 @@ export class CartModule extends VuexModule implements CartInterface {
     //TODO: Request Purchare to Server and return result
     return true;
   }
-
+  @Mutation appendForTest(): void {
+    this.items.push({
+      id: "id",
+      amount: 0,
+      checked: false,
+      name: "name",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Logo_Apple.inc.gif",
+      price: 0,
+    });
+  }
   get kartData(): Array<CartItemInterface> {
     return this.items;
   }

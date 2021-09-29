@@ -1,10 +1,15 @@
 import { Store, createLogger } from "vuex";
-import UserInterface from "./User/Interfaces";
+import UserInterface, { UserInfoInterface } from "./User/Interfaces";
+import CartInterface from "./Cart/Interfaces";
 export interface RootState {
   user: UserInterface;
+  cart: CartInterface;
 }
 const store = new Store<RootState>({
-  state: { user: { email: null, signed: false, profileImg: null } },
+  state: {
+    user: { signed: false, info: {} as UserInfoInterface },
+    cart: { items: [] },
+  },
   plugins: [createLogger()],
 });
 export default store;
