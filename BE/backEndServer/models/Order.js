@@ -1,19 +1,27 @@
-import sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 
 const orderData = (sequelize, DataTypes) => {
 	const order = sequelize.define('Order',{
 		//주문번호
 		order_id: {
 			type:DataTypes.UUID,
-			defaultValue: sequelize.UUIDV4,
+			defaultValue: Sequelize.UUIDV4,
 			unique: true,
 		},
 		order_date: {
 			type: DataTypes.DATE,
-			allowNull: false,
+			allowNull: true,
 			defaultValue: new Date()
 		},
-		quantitiy: {
+		product_name: {
+			type: DataTypes.STRING(10),
+			allowNull: false
+		},
+		quantity: {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		price: {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
@@ -22,8 +30,12 @@ const orderData = (sequelize, DataTypes) => {
 	order.associate = function (models) {
 		models.User.hasMany(order, {
 			onDelete: 'cascade',
-			foreignKey: 'orderer_id',
-			sourceKEy: 'id'
+			foreignKey: {
+				name: 'orderer_id',
+				allowNull: false,
+			},
+			sourceKEy: 'id',
+
 		})
 	}
 	return order;

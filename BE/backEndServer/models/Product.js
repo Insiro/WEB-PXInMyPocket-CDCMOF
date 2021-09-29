@@ -1,9 +1,9 @@
-import sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 const productData = (sequelize, DataTypes) => {
 	return sequelize.define('Product',{
 		product_id: {
 			type:DataTypes.UUID,
-			defaultValue: sequelize.UUIDV4,
+			defaultValue: Sequelize.UUIDV4,
 			unique: true,
 			primaryKey: true,
 		},
@@ -18,7 +18,6 @@ const productData = (sequelize, DataTypes) => {
 		price: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique:true,
 		},
 		limit_item: {
 			type: DataTypes.BOOLEAN,
@@ -28,14 +27,14 @@ const productData = (sequelize, DataTypes) => {
 			type: DataTypes.STRING(10),
 			allowNull: false,
 		},
-		createdAt: {
-		    type: DataTypes.DATE,
-		    defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+		monthly_sale: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
 		},
-		updatedAt: {
-		    type: DataTypes.DATE,
-		    defaultValue: DataTypes.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
-		}
+		weekly_sale: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+		},
 	});
 }
 export default productData;

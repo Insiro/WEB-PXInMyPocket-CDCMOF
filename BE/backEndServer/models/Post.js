@@ -1,9 +1,9 @@
-import sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 const postData = (sequelize, DataTypes) => {
 	const post = sequelize.define('Post',{
 		post_id: {
 			type:DataTypes.UUID,
-			defaultValue: sequelize.UUIDV4,
+			defaultValue: Sequelize.UUIDV4,
 			unique: true,
 		},
 		title: {
@@ -28,9 +28,6 @@ const postData = (sequelize, DataTypes) => {
 			foreignKey: 'writer',
 			sourceKEy: 'id'
 		})
-	}
-	{
-		timestamps: true;
 	}
 	return post;
 }
