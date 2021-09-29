@@ -10,29 +10,55 @@ import store from "..";
 
 @Module({ namespaced: true, store, name: "UserModule", dynamic: true })
 export class UserModule extends VuexModule implements UserInterface {
-  email: string | null = null;
+  info: UserInfoInterface = {
+    email: null,
+    profileImg: null,
+  };
   signed: boolean = false;
-  profileImg: string | null = null;
   //class안에서는 인자 1개
-  @Mutation setEmail(email: string): void {
-    this.email = email;
+  @Mutation setEmail(email: string | null): void {
+    this.info.email = email;
   }
   @Mutation setSign(value: boolean): void {
     this.signed = value;
   }
-  @Mutation signOut(): void {
-    this.signed = false;
+  @Mutation setProfileImg(imgdir: string | null): void {
+    this.info.profileImg = imgdir;
+  }
+  @Mutation setData(data: UserInfoInterface): boolean {
+    if (data.email === null) return false;
+    this.setEmail(data.email);
+    this.setProfileImg(data.profileImg);
+    return true;
   }
   //mutation하고 같은 범위라 이름 안겹치게.
-  @Action editData(data: string): void {
-    this.context.commit("setData", data);
+  @Action updateData(data: UserInfoInterface): boolean {
+    if (data.email === null) return false;
+    //TODO: update UserInfo with API
+    if (true) {
+      this.setData(data);
+    } else {
+      return false;
+    }
+    return true;
+  }
+  @Action signIn(email: string, pwd: string): boolean {
+    //TODO: signIn from server;
+    if (false) return false;
+    const data = {} as UserInfoInterface;
+    this.setSign(true);
+    this.setData(data);
+    return true;
+  }
+  @Action signOut(): void {
+    this.setSign(false);
+    this.setData({} as UserInfoInterface);
   }
   get bSigned(): boolean {
     return this.signed;
   }
   get UserData(): UserInfoInterface | null {
-    if (this.signed === false) return null;
-    return Object.assign({}, this as UserInfoInterface);
+    return this.signed ? this.info : null;
   }
 }
 export const UserState = getModule(UserModule);

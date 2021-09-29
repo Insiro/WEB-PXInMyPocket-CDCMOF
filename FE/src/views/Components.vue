@@ -20,7 +20,7 @@ import { Vue, Options } from "vue-class-component";
 import PageNation from "@/components/PageNation";
 import { CheckBox, TextInput, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
-import ComponentFrame from "@/components/ComponentsFrame.vue";
+import ComponentFrame from "@/components/CardFrame/ComponentsFrame.vue";
 import { IconSearch } from "@/components/Icons";
 @Options({
   components: {

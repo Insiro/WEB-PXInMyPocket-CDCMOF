@@ -80,12 +80,8 @@ export default class SignIn extends Vue {
   };
   inputStyle = ref("block rounded-md w-full ");
   login(): void {
-    //TODO: check sign success of Failed
-    // success -> redirect to previous page
-    // Fail -> inform failed to user
-    if (true) {
-      UserState.setSign(true);
-      UserState.setEmail(this.sign.email);
+    const result = UserState.signIn(this.sign.email, this.sign.password);
+    if (result) {
       this.router.push("/");
     } else {
       //TODO: alert wrong passwod
