@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon --experimental-json-modules --exec babel-node src/server.js --port 8000",
-    "lint": "eslint **/*.js"
+    "lint": "eslint \"src/**/*.js\""
   },
   "dependencies": {
     "@babel/node": "^7.14.9",
