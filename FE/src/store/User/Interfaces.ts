@@ -3,6 +3,7 @@ export interface UserInfoInterface {
   profileImg: string | null;
 }
 
-export default interface UserInterface extends UserInfoInterface {
+export default interface UserInterface {
   signed: boolean;
+  info: UserInfoInterface;
 }

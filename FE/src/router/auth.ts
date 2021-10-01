@@ -1,7 +1,7 @@
 import SignIn from "@/views/SignIn.vue";
 import Regist from "@/views/Regist.vue";
 import FindAccount from "@/views/FindAccount.vue";
-import { pageObj } from "./interface";
+import { pageObj } from ".";
 export const authUrl: Array<pageObj> = [
   {
     icon: null,

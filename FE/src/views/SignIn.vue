@@ -32,7 +32,9 @@
         <div class="flex items-center justify-between mt-4">
           <div>
             <label class="inline-flex items-center">
-              <CheckBox>Remember Me</CheckBox>
+              <CheckBox value="save" :checked_value="save" @updates="toggleSave"
+                >Remember Me</CheckBox
+              ><!--TODO: set  remomber sign-in info-->
             </label>
           </div>
 
@@ -65,7 +67,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { Vue, Options } from "vue-class-component";
-import { TextInput, CheckBox } from "@/components/Inputs";
+import { TextInput, CheckBox, CheckBoxEmit } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import UserState from "@/store/User";
@@ -78,14 +80,18 @@ export default class SignIn extends Vue {
     email: "",
     password: "",
   };
+  save: boolean = false;
   inputStyle = ref("block rounded-md w-full ");
+  created(): void {
+    this.save = localStorage.getItem("save_sign_data") === "true";
+    if (this.save) {
+      this.sign.email = localStorage.getItem("saved_email") ?? "";
+      this.sign.password = localStorage.getItem("saved_pwd") ?? "";
+    }
+  }
   login(): void {
-    //TODO: check sign success of Failed
-    // success -> redirect to previous page
-    // Fail -> inform failed to user
-    if (true) {
-      UserState.setSign(true);
-      UserState.setEmail(this.sign.email);
+    const result = UserState.signIn(this.sign.email, this.sign.password);
+    if (result) {
       this.router.push("/");
     } else {
       //TODO: alert wrong passwod
@@ -97,6 +103,9 @@ export default class SignIn extends Vue {
   }
   onPwdChanged(data: string): void {
     this.sign.password = data;
+  }
+  toggleSave(data: CheckBoxEmit): void {
+    this.save = data.checked;
   }
   //#endregion Item Event
 }
