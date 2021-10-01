@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   deploy:
-    name: Build, Deploy to S3 bucket
+    name: Lint project
     runs-on: [ubuntu-latest]
     
     strategy:
