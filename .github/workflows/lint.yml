@@ -1,42 +1,42 @@
 name: pacage lint check
     
-    on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  deploy:
+    name: Build, Deploy to S3 bucket
+    runs-on: [ubuntu-latest]
     
-    jobs:
-      deploy:
-        name: Build, Deploy to S3 bucket
-        runs-on: [ubuntu-latest]
+    strategy:
+      matrix:
+        node-version: [14.x]
     
-        strategy:
-          matrix:
-            node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
     
-        steps:
-          - uses: actions/checkout@v2
-    
-          - name: Use Node.js ${{ matrix.node-version }}
-            uses: actions/setup-node@v1
-            with:
-              node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
               
-          - name: install yarn
-            run: npm install -g yarn
+      - name: install yarn
+        run: npm install -g yarn
             
-          - name: yarn install BE
-            run: yarn install
-            working-directory: ${{ env.working-directory }}/BE/backEndServer
+      - name: yarn install BE
+        run: yarn install
+        working-directory: BE/backEndServer
             
-          - name: yarn lint BE
-            run: yarn lint
-            working-directory: ${{ env.working-directory }}/BE/backEndServer
+      - name: yarn lint BE
+        run: yarn lint
+        working-directory: BE/backEndServer
             
-          - change yarn to v-2
-            run: yarn set version berry
+      - name: change yarn to v-2
+        run: yarn set version berry
             
-          - name: yarn install FE
-            run: yarn install
-            working-directory: ${{ env.working-directory }}/FE
+      - name: yarn install FE
+        run: yarn install
+        working-directory: FE
             
-          - name: yarn lint FE
-            run: yarn lint
-            working-directory: ${{ env.working-directory }}/FE
+      - name: yarn lint FE
+        run: yarn lint
+        working-directory: FE
