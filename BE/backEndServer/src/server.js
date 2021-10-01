@@ -8,7 +8,7 @@ import router from "./routes/controller.js";
 import db from "./models/Index.js";
 
 //매주 일요일마다 weelkly sale 초기화
-const a = schedule.scheduleJob("* * * * 0", function () {
+schedule.scheduleJob("* * * * 0", function () {
   console.log("reset sales");
   db.Product.update(
     {
@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

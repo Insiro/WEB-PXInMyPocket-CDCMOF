@@ -26,7 +26,7 @@ router.post("/", (req, res) => {
     expire_date: req.body.expire_date,
     rank: req.body.rank,
   })
-    .then((createdUser) => {
+    .then(() => {
       res.send("회원가입이 완료되었습니다");
       console.log("user create success");
     })

@@ -14,20 +14,25 @@ router.all("/", (req, res, next) => {
     //session 내용의 유저를 User 변수로 함
     db.User.findOne({
       where: { id: req.session.user.id },
-    }).then((selectedUser) => {
-      loginUser = selectedUser;
-      console.log(
-        "로그인 성공 후 freeboard 페이지에 들어갔습니다 선택된 유저는:",
-        loginUser.id
-      );
-    });
-    next();
+    })
+      .then((selectedUser) => {
+        loginUser = selectedUser;
+        console.log(
+          "로그인 성공 후 freeboard 페이지에 들어갔습니다 선택된 유저는:",
+          loginUser.id
+        );
+        next();
+      })
+      .catch((err) => {
+        res.redirect("/home");
+        console.log(err);
+      });
   }
 });
 
 // POST /freeboard/
 // 게시글을 생성합니다.
-router.post("/", function (req, res, next) {
+router.post("/", function (req, res) {
   var title = req.body.title;
   var content = req.body.content;
 
@@ -68,15 +73,16 @@ router.get("/detailview", (req, res, next) => {
 
 // GET freeboard/delete/detailview?post_id=23423
 // 게시글을 삭제합니다.
-router.get("/delete/detailview", (req, res, next) => {
+router.get("/delete/detailview", (req) => {
   console.log("작성글을 제거합니다.");
-  const post_id = "12343"; //TODO: fixed temperaturly need to checkIt
-  db.Post.destroy({ where: post_id == req.query.post_id });
+  db.Post.destroy({
+    where: { post_id: req.query.post_id },
+  });
 });
 
 // POST freeboard/edit/detailview?post_id=
 // 게시글을 수정합니다.
-router.post("/edit/detailview", (req, res, next) => {
+router.post("/edit/detailview", (req) => {
   var post_id = req.query.post_id;
   var title = req.body.title;
   var content = req.body.content;

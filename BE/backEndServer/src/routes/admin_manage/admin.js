@@ -12,27 +12,30 @@ router.all("/", (req, res, next) => {
     res.status(403).send();
   }
   //session 내용의 유저를 User 변수로 하고, authority가 0이면 기본페이지로 이동 시킵니다.
-  db.User.findOne({
-    where: { id: req.session.user.id },
-  })
-    .then((selectedUser) => {
-      var loginUser = selectedUser;
-      console.log("로그인 성공  선택된 유저는:", loginUser.id);
-      if (!loginUser.authority) {
-        res.redirect("/home/user");
-      } else {
-        res.send("관리자권한 페이지 입니다.");
-      }
+  else {
+    db.User.findOne({
+      where: { id: req.session.user.id },
     })
-    .catch((err) => {
-      res.redirect("/home");
-      console.log(err);
-    });
+      .then((selectedUser) => {
+        var loginUser = selectedUser;
+        console.log("로그인 성공  선택된 유저는:", loginUser.id);
+        if (!loginUser.authority) {
+          res.redirect("/home/user");
+        } else {
+          console.log("관리자 권한 페이지 접속");
+          next();
+        }
+      })
+      .catch((err) => {
+        res.redirect("/home");
+        console.log(err);
+      });
+  }
 });
 
 // POST /admin/add-product
 // 새로운 재고를 추가합니다.
-router.post("/add-product", function (req, res, next) {
+router.post("/add-product", function (req, res) {
   var product_name = req.body.product_name;
   var remaining = req.body.remaining;
   var price = req.body.price;
@@ -59,7 +62,7 @@ router.post("/add-product", function (req, res, next) {
 
 // POST /admin/modify-product
 // 재고수량, 가격을 변경합니다.
-router.post("/modify-product", function (req, res, next) {
+router.post("/modify-product", function (req, res) {
   var product_name = req.body.product_name;
   var remaining = req.body.remaining;
   var price = req.body.price;
@@ -91,7 +94,7 @@ router.post("/modify-product", function (req, res, next) {
 
 // POST /admin/delete-product
 // 해당물품을 삭제합니다.
-router.post("/delete-product", (req, res, next) => {
+router.post("/delete-product", (req) => {
   console.log("해당물품을 제거합니다.");
   var product_name = req.body.product_name;
   db.Product.destroy({ where: product_name == product_name });
@@ -99,7 +102,7 @@ router.post("/delete-product", (req, res, next) => {
 
 // GET /admin/sell?product_name=초코파이
 // pos기에서 물품이 해당 부분이 실행되고 물품의 수량변화가 일어남
-router.get("/sell", (req, res, next) => {
+router.get("/sell", (req, res) => {
   console.log("제품이 하나 팔림");
   var product_name = req.query.product_name;
   db.Product.findOne({

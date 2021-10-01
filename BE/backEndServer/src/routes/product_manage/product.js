@@ -65,7 +65,7 @@ router.get("/category", function (req, res, next) {
 
 // GET /product/all-category
 // Products의 카테고리 속성을 중복 없이 가져옴
-router.get("/all-category", function (req, res, next) {
+router.get("/all-category", function (req, res) {
   db.Product.findAll({
     attributes: [
       [Sequelize.fn("DISTINCT", Sequelize.col("category")), "category"],

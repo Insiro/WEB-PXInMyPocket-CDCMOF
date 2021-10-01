@@ -1,8 +1,6 @@
 "use strict";
 
-import path from "path";
 import Sequelize from "sequelize";
-const __dirname = path.resolve();
 //const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 
