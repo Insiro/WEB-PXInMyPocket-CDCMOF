@@ -71,7 +71,7 @@
           <!-- TODO: change to profileImg -->
           <img
             class="object-cover w-full h-full"
-            src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80"
+            :src="is_signed ? user?.profileImg ?? '' : ''"
             alt="Your avatar"
           />
         </button>
@@ -104,20 +104,11 @@
               shadow-xl
             "
           >
-            <MenuItem />
-
-            <router-link
-              to="/"
-              class="
-                block
-                px-4
-                py-2
-                text-sm text-gray-700
-                hover:bg-indigo-600 hover:text-white
-              "
-            >
-              Log out
-            </router-link>
+            <MenuItem text="menu item" />
+            <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
+            <MenuItem v-show="is_signed === false" to="/signIn">
+              Log In
+            </MenuItem>
           </div>
         </transition>
       </div>
@@ -132,17 +123,25 @@ import MenuItem from "./MenuItem.vue";
 import { TextInput } from "@/components/Inputs";
 import { IconSearch } from "@/components/Icons";
 import globalState from "@/store/global";
+import userState from "@/store/User/Module";
 
 @Options({
   components: { MenuItem, TextInput, IconSearch },
 })
 export default class Header extends Vue {
+  user = userState.UserData;
   dropdownOpen = ref(false);
   get is_open(): boolean {
     return globalState.isSideBarOpend;
   }
   set is_open(state: boolean) {
     globalState.setSideBar(state);
+  }
+  get is_signed(): boolean {
+    return userState.bSigned;
+  }
+  signOut(): void {
+    userState.signOut();
   }
 }
 </script>
