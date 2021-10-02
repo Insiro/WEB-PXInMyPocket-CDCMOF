@@ -3,6 +3,7 @@
     class="flex items-center px-6 py-2 mt-4 duration-200 border-l-4"
     :class="[isActivePage ? activeClass : inactiveClass]"
     :to="link.url"
+    @click="closeSidebar()"
   >
     <component :is="link.icon" v-if="link.icon !== null" />
     <span class="mx-4">{{ link.name }}</span>
@@ -13,6 +14,7 @@ import { Vue, prop } from "vue-class-component";
 import { pageObj } from "@/router";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
+import globalState from "@/store/global";
 class props {
   link = prop<pageObj>({
     default: { name: "", path: "", icon: null },
@@ -30,6 +32,9 @@ export default class SideBarItem extends Vue.with(props) {
   );
   name = "sidebar-item";
   active = true;
+  closeSidebar(): void {
+    globalState.setSideBar(false);
+  }
   get isActivePage(): boolean {
     return useRoute().name?.toString() === this.link.name;
   }

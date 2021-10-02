@@ -13,7 +13,7 @@
     <div class="flex items-center">
       <button
         class="text-gray-500 focus:outline-none lg:hidden"
-        @click="isOpen = true"
+        @click="is_open = true"
       >
         <svg
           class="w-6 h-6"
@@ -128,13 +128,21 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
-import { useSidebar } from "@/hooks";
 import MenuItem from "./MenuItem.vue";
 import { TextInput } from "@/components/Inputs";
 import { IconSearch } from "@/components/Icons";
-@Options({ components: { MenuItem, TextInput, IconSearch } })
+import globalState from "@/store/global";
+
+@Options({
+  components: { MenuItem, TextInput, IconSearch },
+})
 export default class Header extends Vue {
   dropdownOpen = ref(false);
-  isOpen = useSidebar();
+  get is_open(): boolean {
+    return globalState.isSideBarOpend;
+  }
+  set is_open(state: boolean) {
+    globalState.setSideBar(state);
+  }
 }
 </script>

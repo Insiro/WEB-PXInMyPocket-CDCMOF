@@ -12,7 +12,7 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "@/*": ["./src/*"]
-    },
+    }
   },
   "importHelpers": true,
   "moduleResolution": "node",
@@ -21,6 +21,7 @@
   "esModuleInterop": true,
   "allowSyntheticDefaultImports": true,
   "sourceMap": true,
+  "emitHelpers": true,
   "baseUrl": ".",
   "rootDir": "./src",
   "typeRoots": ["./node_modules/@types"],
