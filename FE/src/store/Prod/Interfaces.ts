@@ -1,5 +1,7 @@
+import { hashList } from "@/components/CardFrame";
 export default interface ProdInterface {
   items: Array<ProductFormat>;
+  cate: Array<hashList>;
 }
 export interface ProductFormat {
   id: string;

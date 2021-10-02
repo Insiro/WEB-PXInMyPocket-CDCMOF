@@ -7,10 +7,12 @@ import {
 } from "vuex-module-decorators";
 import ProdInterface, { ProductFormat } from "./Interfaces";
 import store from "..";
+import { hashList } from "@/components/CardFrame";
 
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
   items: Array<ProductFormat> = [];
+  cate: Array<hashList> = [];
   @Mutation update(data: Array<ProductFormat>): void {
     this.items = data;
   }
@@ -38,7 +40,28 @@ export class ProductModule extends VuexModule implements ProdInterface {
       weekly_sale: 0,
       src: null,
     };
+    const dumyCate = {
+      text: "dumy_category",
+      to: "#",
+    };
     for (let i = 0; i < mount; i++) this.items.push(dumyItem);
+    this.cate.push(dumyCate);
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Action getCategories(cateString: string): Array<hashList> {
+    //TODO: get categories from Server
+    return [
+      {
+        text: "drinks",
+        to: "#",
+      },
+    ];
+  }
+  @Action updateCategories(): void {
+    //TODO: update categories from API;
+  }
+  get cateList(): Array<hashList> {
+    return this.cate;
   }
   get productList(): Array<ProductFormat> {
     return this.items;
