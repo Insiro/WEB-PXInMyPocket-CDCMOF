@@ -19,30 +19,21 @@
     </div>
     <div v-if="hash_tags !== undefined" class="px-6 pt-4 pb-2">
       <!--hashTag Area-->
-      <CardHash
-        v-for="hash in hash_tags"
-        :key="hash"
-        :to="hash.to"
-        :text="hash.text"
-      />
+      <CardHash v-for="hash in hash_tags" :key="hash" :tag="hash" />
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Options, prop, Vue } from "vue-class-component";
 import CardHash from "./CardHash.vue";
-
-interface hashList {
-  to?: string;
-  text: string;
-}
+import { hashList } from ".";
 
 class Prop {
   src = prop<string>({ default: "" });
   alt = prop<string>({ default: "" });
   Title = prop<string>({ default: "" });
   bg_color = prop<string>({ default: "bg-white" });
-  hash_tags?: hashList;
+  hash_tags?: Array<hashList>;
 }
 
 @Options({ components: { CardHash } })

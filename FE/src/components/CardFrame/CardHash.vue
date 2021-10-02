@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to">
+  <router-link :to="tag.to === undefined ? '#' : tag.to">
     <span
       class="
         inline-block
@@ -15,17 +15,16 @@
       "
     >
       <slot>
-        {{ text }}
+        {{ tag.text }}
       </slot>
     </span>
   </router-link>
 </template>
 <script lang="ts">
 import { Vue, prop } from "vue-class-component";
-
+import { hashList } from ".";
 class Prop {
-  text?: string;
-  to = prop<string>({ default: "#" });
+  tag = prop<hashList>({ default: { to: "#", name: "hash_link" } });
 }
 export default class CardHash extends Vue.with(Prop) {}
 </script>
