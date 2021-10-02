@@ -1,6 +1,6 @@
 <template>
   <div class="mt-8">
-    <h4 class="text-gray-600">{{ title }}</h4>
+    <h4 v-if="title !== undefined" class="text-gray-600">{{ title }}</h4>
 
     <div class="mt-4">
       <div
@@ -16,8 +16,8 @@
 import { Vue, prop } from "vue-class-component";
 
 class Props {
-  title = prop<string>({ default: "component Frame" });
+  title?: string;
   bg_color = prop<string>({ default: "bg-white" });
 }
-export default class componentFrame extends Vue.with(Props) {}
+export default class WideFrame extends Vue.with(Props) {}
 </script>

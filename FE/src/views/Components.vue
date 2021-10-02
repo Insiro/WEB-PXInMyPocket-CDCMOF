@@ -1,16 +1,16 @@
 <template>
   <div>
     <h2 class="text-3xl font-medium text-gray-700">components</h2>
-    <ComponentsFrame title="page nation">
+    <WideFrame title="page nation">
       <PageNation />
-    </ComponentsFrame>
-    <ComponentsFrame title="checkbox">
+    </WideFrame>
+    <WideFrame title="checkbox">
       <CheckBox text="checkbox" name="checkbox" />
-    </ComponentsFrame>
-    <ComponentsFrame title="inputForm">
+    </WideFrame>
+    <WideFrame title="inputForm">
       <TextInput><icon-search /></TextInput>
-    </ComponentsFrame>
-    <ComponentsFrame title="radio"> <Radio /> </ComponentsFrame>
+    </WideFrame>
+    <WideFrame title="radio"> <Radio /> </WideFrame>
     <Button><router-link to="/signIn">goto SignIn</router-link></Button>
     <Card
       title="Card"
@@ -25,13 +25,13 @@ import { Vue, Options } from "vue-class-component";
 import PageNation from "@/components/PageNation";
 import { CheckBox, TextInput, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
-import Card, { ComponentsFrame } from "@/components/CardFrame";
+import Card, { WideFrame } from "@/components/CardFrame";
 import { IconSearch } from "@/components/Icons";
 @Options({
   components: {
     TextInput,
     PageNation,
-    ComponentsFrame,
+    WideFrame,
     CheckBox,
     IconSearch,
     Radio,
