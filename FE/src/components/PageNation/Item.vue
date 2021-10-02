@@ -1,13 +1,13 @@
 <template>
-  <a
-    :href="href"
+  <router-link
+    :to="href"
     class="
       px-3
       py-2
       leading-tight
-      text-indigo-700
+      text-black
       bg-white
-      border border-r-0 border-gray-200
+      border border-solid border-gray-400
       hover:bg-indigo-500 hover:text-white
     "
     :class="[
@@ -15,8 +15,8 @@
     ]"
     @click="onItemClick"
   >
-    <span>{{ text }}</span>
-  </a>
+    {{ text }}
+  </router-link>
 </template>
 
 <script lang="ts">
