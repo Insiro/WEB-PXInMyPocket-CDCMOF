@@ -11,7 +11,7 @@
     />
     <div class="px-6 py-4">
       <div class="mb-2 text-xl font-bold text-gray-900">
-        {{ Title }}
+        {{ title }}
       </div>
       <p class="text-base text-gray-700">
         <slot> describe of item </slot>
@@ -19,7 +19,9 @@
     </div>
     <div v-if="hash_tags !== undefined" class="px-6 pt-4 pb-2">
       <!--hashTag Area-->
-      <CardHash v-for="hash in hash_tags" :key="hash" :tag="hash" />
+      <CardHash v-for="hash in hash_tags" :key="hash" :tag="hash">
+        {{ hash.text }}
+      </CardHash>
     </div>
   </div>
 </template>
@@ -31,7 +33,7 @@ import { hashList } from ".";
 class Prop {
   src = prop<string>({ default: "" });
   alt = prop<string>({ default: "" });
-  Title = prop<string>({ default: "" });
+  title = prop<string>({ default: "" });
   bg_color = prop<string>({ default: "bg-white" });
   hash_tags?: Array<hashList>;
 }

@@ -14,9 +14,7 @@
         rounded-full
       "
     >
-      <slot>
-        {{ tag.text }}
-      </slot>
+      <slot>{{ tag.text }}</slot>
     </span>
   </router-link>
 </template>
@@ -24,7 +22,7 @@
 import { Vue, prop } from "vue-class-component";
 import { hashList } from ".";
 class Prop {
-  tag = prop<hashList>({ default: { to: "#", name: "hash_link" } });
+  tag = prop<hashList>({ default: { to: "#", text: "hash_link" } });
 }
 export default class CardHash extends Vue.with(Prop) {}
 </script>
