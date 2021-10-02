@@ -61,5 +61,5 @@ export class UserModule extends VuexModule implements UserInterface {
     return this.signed ? this.info : null;
   }
 }
-export const UserState = getModule(UserModule);
-export default UserState;
+export const userState = getModule(UserModule);
+export default userState;

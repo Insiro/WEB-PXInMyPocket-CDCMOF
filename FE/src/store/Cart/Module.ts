@@ -28,8 +28,8 @@ export class CartModule extends VuexModule implements CartInterface {
     });
   }
   @Mutation addItem(id: string): void {
-    const item = this.items.find((item) => item.id === id);
-    if (item !== undefined) item.amount++;
+    const index: number = this.items.findIndex((item) => item.id === id);
+    if (index !== -1) this.items[index].amount++;
     else this.appendItem(id, 1);
   }
   @Mutation check(id: string, isCheck: boolean): void {
@@ -37,9 +37,13 @@ export class CartModule extends VuexModule implements CartInterface {
     if (item !== undefined) item.checked = isCheck;
   }
   @Mutation reduceItem(id: string): void {
-    const item = this.items.find((item) => item.id === id);
-    if (item !== undefined && item.amount !== 1) item.amount--;
-    else if (item?.amount === 1) this.removdItem(id);
+    const index: number = this.items.findIndex((item) => item.id === id);
+    let amount: number = this.items[index].amount;
+    if (amount === -1) return;
+    else if (amount !== 1) {
+      amount--;
+      this.items[index].amount = amount;
+    } else this.removdItem(id);
   }
   @Mutation removdItem(id: string): void {
     this.items = this.items.filter((item) => item.id !== id);
@@ -62,19 +66,20 @@ export class CartModule extends VuexModule implements CartInterface {
     //TODO: Request Purchare to Server and return result
     return true;
   }
-  @Mutation appendForTest(): void {
-    this.items.push({
-      id: "id",
+  @Mutation dumy(mount: number): void {
+    const dumyItem = {
+      id: "dumy",
       amount: 0,
       checked: false,
-      name: "name",
+      name: "dumy",
       img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Logo_Apple.inc.gif",
       price: 0,
-    });
+    };
+    for (let i = 0; i < mount; i++) this.items.push(dumyItem);
   }
   get kartData(): Array<CartItemInterface> {
     return this.items;
   }
 }
-export const CartState = getModule(CartModule);
-export default CartState;
+export const cartState = getModule(CartModule);
+export default cartState;
