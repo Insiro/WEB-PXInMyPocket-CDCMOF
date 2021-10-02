@@ -13,6 +13,7 @@
     :class="[
       position === 'left' ? leftend : position === 'right' ? rightend : middle,
     ]"
+    @click="onItemClick"
   >
     <span>{{ text }}</span>
   </a>
@@ -30,5 +31,8 @@ export default class PgItem extends Vue.with(Props) {
   leftend = ref("ml-0 rounded-l border-r-0");
   rightend = ref("rounded-r");
   middle = ref("border-r-0");
+  onItemClick(): void {
+    this.$emit("pageItemClick", this.text);
+  }
 }
 </script>
