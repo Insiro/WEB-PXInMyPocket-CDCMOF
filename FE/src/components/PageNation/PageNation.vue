@@ -38,7 +38,8 @@ export default class PageNation extends Vue.with(Prop) {
     }
     if (info.min < 1) {
       info.min = 1;
-      info.max = this.page_size;
+      info.max =
+        this.page_size > this.max_page ? this.max_page : this.page_size;
     }
     this.pageRange = info;
   }
