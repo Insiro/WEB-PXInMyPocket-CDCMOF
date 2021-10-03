@@ -98,7 +98,7 @@ export default class Products extends Vue {
     this.filterName = this.filterName === data ? "" : data;
   }
   onProdCliced(id: string): void {
-    this.router.push({ path: "prod", params: { id: id } });
+    this.router.push({ path: "/prod/" + id.toString() });
   }
 }
 </script>
