@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "yarn start:dev",
     "start:dev": "ENV=dev vite --port 10001 --host 0.0.0.0",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vite build",
     "serve": "vite preview",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "lint": "eslint \"src/**/*.{tsx,ts,vue}\""
+    "lint": "eslint \"src/**/*.{tsx,ts,vue}\"",
+    "lint-tsc": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.2.0",
