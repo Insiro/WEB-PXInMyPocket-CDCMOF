@@ -1,6 +1,6 @@
 export default interface ProdInterface {
   items: Array<ProductFormat>;
-  cate: Array<string>;
+  cate: Set<string>;
 }
 export interface ProductFormat {
   id: string;

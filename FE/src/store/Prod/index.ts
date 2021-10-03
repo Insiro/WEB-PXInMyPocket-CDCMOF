@@ -11,7 +11,7 @@ import store from "..";
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
   items: Array<ProductFormat> = [];
-  cate: Array<string> = [];
+  cate: Set<string> = new Set([]);
   @Mutation update(data: Array<ProductFormat>): void {
     this.items = data;
   }
@@ -39,14 +39,14 @@ export class ProductModule extends VuexModule implements ProdInterface {
       weekly_sale: 0,
       src: null,
     };
-    const dumyCate = "dumy_category";
+    const dumyCate = "dumy";
     for (let i = 0; i < mount; i++) this.items.push(dumyItem);
-    this.cate.push(dumyCate);
+    this.cate.add(dumyCate);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Action getCategories(cateString: string): Array<string> {
     //TODO: get categories from Server
-    return ["dumy_category"];
+    return ["dumy"];
   }
   @Action updateCategories(): void {
     //TODO: update categories from API;
@@ -56,7 +56,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
     if (index === -1) return [];
     return this.items[index].category.split(" ");
   }
-  get cateList(): Array<string> {
+  get cateList(): Set<string> {
     return this.cate;
   }
   get productList(): Array<ProductFormat> {
