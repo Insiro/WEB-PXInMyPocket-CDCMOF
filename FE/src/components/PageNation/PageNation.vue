@@ -2,7 +2,7 @@
   <PgFrame>
     <PgItem text="previous" position="left" @pageItemClick="prevClicked" />
     <PgItem
-      v-for="(value, index) in max_page + 1"
+      v-for="(value, index) in max_page"
       v-show="info.min <= value && info.max >= value"
       :key="index"
       :text="value.toString()"
