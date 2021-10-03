@@ -15,6 +15,7 @@
       :key="item.id"
       :title="item.name"
       :hash_tags="get_cate(item.category)"
+      @click="onProdCliced(item.id)"
     >
       <!--TODO:insert layout for ItemInfo-->
     </Card>
@@ -31,7 +32,6 @@
       @onChanged="changeItemsPage"
     ></PageNation>
   </WideFrame>
-  {{ Array.from(cates) }}
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
@@ -39,6 +39,7 @@ import { PageNation } from "@/components/PageNation";
 import Card, { WideFrame, CardHash } from "@/components/CardFrame";
 import prodState from "@/store/Prod";
 import { ProductFormat } from "@/store/Prod/Interfaces";
+import { useRouter } from "vue-router";
 
 interface min_max {
   min: number;
@@ -55,6 +56,7 @@ interface min_max {
   watch: {},
 })
 export default class Products extends Vue {
+  router = useRouter();
   fNmae: string = "";
   pageSize = 12;
   page = {
@@ -94,6 +96,9 @@ export default class Products extends Vue {
   }
   hashClicked(data: string): void {
     this.filterName = this.filterName === data ? "" : data;
+  }
+  onProdCliced(id: string): void {
+    this.router.push({ path: "prod", params: { id: id } });
   }
 }
 </script>

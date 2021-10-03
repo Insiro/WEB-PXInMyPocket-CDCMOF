@@ -6,6 +6,7 @@ import Components from "../views/Components.vue";
 import Cart from "@/views/Carts.vue";
 import authUrl from "./auth";
 import Prodlist from "../views/Prodlist.vue";
+import ProdInfo from "../views/ProdInfo.vue";
 
 export interface Meta {
   authRequired?: boolean;
@@ -36,7 +37,8 @@ export const pageList: Array<pageObj> = [
     component: Cart,
   },
   { icon: null, name: "프로젝트 정보", url: "/about", component: About },
-  { icon: null, name: "제품", url: "/prod", component: Prodlist },
+  { icon: null, name: "제품 정보", url: "/prod", component: ProdInfo },
+  { icon: null, name: "제품 목록", url: "/prodList", component: Prodlist },
 ];
 
 function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
