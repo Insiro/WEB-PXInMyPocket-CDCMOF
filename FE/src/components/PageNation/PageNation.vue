@@ -11,7 +11,6 @@
     />
     <PgItem text="next" position="right" @pageItemClick="nextClicked" />
   </PgFrame>
-  size : {{ page_size }} info : {{ info }} cur : {{ cur_page }}
 </template>
 <script lang="ts">
 import PgFrame from "./Frame.vue";
