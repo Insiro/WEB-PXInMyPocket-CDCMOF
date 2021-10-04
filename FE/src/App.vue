@@ -17,7 +17,7 @@ export default class App extends Vue {
   }
   dumy(): void {
     cartState.dumy(10);
-    prodState.dumy(10);
+    prodState.dumy(20);
   }
   get layout(): string {
     return useRoute().meta.noLayout === true ? "EmptyLayout" : "Layout";

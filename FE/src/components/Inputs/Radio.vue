@@ -20,7 +20,6 @@ class Prop {
 export default class Radio extends Vue.with(Prop) {
   //TODO: put emit functions
   onClicked(e: Event): void {
-    console.log((e.target as HTMLInputElement).value);
     this.$emit("pickUpdate", (e.target as HTMLInputElement).value);
   }
 }

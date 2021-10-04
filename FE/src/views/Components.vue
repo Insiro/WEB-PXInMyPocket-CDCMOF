@@ -15,7 +15,7 @@
     <Card
       title="Card"
       src="https://upload.wikimedia.org/wikipedia/commons/7/70/Logo_Apple.inc.gif"
-      :hash_tags="[{ text: 'components' }]"
+      :hash_tags="['components']"
     ></Card>
   </div>
 </template>

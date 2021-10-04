@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="tag.to === undefined ? '#' : tag.to">
+  <router-link :to="to" @click="clicked">
     <span
       class="
         inline-block
@@ -9,20 +9,29 @@
         mr-2
         text-sm
         font-semibold
-        text-gray-700
-        bg-gray-200
         rounded-full
       "
+      :class="[highlight ? highlistStyle : defaultStyle]"
     >
-      <slot>{{ tag.text }}</slot>
+      <slot>{{ tag }}</slot>
     </span>
   </router-link>
 </template>
 <script lang="ts">
+import { ref } from "vue";
 import { Vue, prop } from "vue-class-component";
-import { hashList } from ".";
 class Prop {
-  tag = prop<hashList>({ default: { to: "#", text: "hash_link" } });
+  tag = prop<string>({ default: "hash_link" });
+  to = prop<string>({ default: "#" });
+  highlight = prop<boolean>({ default: false });
 }
-export default class CardHash extends Vue.with(Prop) {}
+export default class CardHash extends Vue.with(Prop) {
+  defaultStyle = ref(
+    "hover:bg-indigo-500 hover:text-white bg-gray-200 text-gray-700"
+  );
+  highlistStyle = ref("bg-indigo-500 text-white");
+  clicked(): void {
+    this.$emit("hash_click", this.tag);
+  }
+}
 </script>
