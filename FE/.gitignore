@@ -115,12 +115,6 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
 
 ### Vue ###
 # gitignore template for Vue.js projects
@@ -142,7 +136,6 @@ yarn-error.log
 
 ### yarn ###
 # https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
-**/.yarn
 .yarn/*
 !.yarn/releases
 !.yarn/plugins
@@ -151,10 +144,10 @@ yarn-error.log
 
 # if you are NOT using Zero-installs, then:
 # comment the following lines
-!.yarn/cache
+# !.yarn/cache
 
 # and uncomment the following lines
-# .pnp.*
+.pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,yarn,node
 

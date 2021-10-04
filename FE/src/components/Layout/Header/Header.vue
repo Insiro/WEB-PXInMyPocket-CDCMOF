@@ -12,8 +12,8 @@
   >
     <div class="flex items-center">
       <button
-        @click="isOpen = true"
         class="text-gray-500 focus:outline-none lg:hidden"
+        @click="isOpen = true"
       >
         <svg
           class="w-6 h-6"
@@ -30,7 +30,7 @@
           />
         </svg>
       </button>
-      <TextInput type="text" placeholder="Search" :is_icon="true">
+      <TextInput type="text" placeholder="Search">
         <IconSearch />
       </TextInput>
     </div>
@@ -55,7 +55,6 @@
 
       <div class="relative">
         <button
-          @click="dropdownOpen = !dropdownOpen"
           class="
             relative
             z-10
@@ -67,6 +66,7 @@
             shadow
             focus:outline-none
           "
+          @click="dropdownOpen = !dropdownOpen"
         >
           <!-- TODO: change to profileImg -->
           <img
@@ -78,8 +78,8 @@
 
         <div
           v-show="dropdownOpen"
-          @click="dropdownOpen = false"
           class="fixed inset-0 z-10 w-full h-full"
+          @click="dropdownOpen = false"
         ></div>
 
         <transition

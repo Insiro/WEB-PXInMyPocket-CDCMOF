@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue, prop } from "vue-class-component";
+import { Vue, prop } from "vue-class-component";
 import { ref } from "vue";
 class Props {
   text = prop<string>({ default: "pagenation Item" });

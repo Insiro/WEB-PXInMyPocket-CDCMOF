@@ -4,6 +4,7 @@
       v-for="item in links"
       :key="item.name"
       :link="item"
+      :icon="item.icon"
     ></SideBarItem>
   </SideBarFrame>
 </template>
@@ -13,7 +14,6 @@ import { Vue, Options, prop } from "vue-class-component";
 import SideBarFrame from "./SideBarFrame.vue";
 import SideBarItem from "./SideBarItem.vue";
 import { pageList, pageObj } from "@/router";
-// import { Pages } from "@/router";
 
 class Props {
   title = prop<string>({ default: "testTitle" });
