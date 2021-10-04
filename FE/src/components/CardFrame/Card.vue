@@ -14,7 +14,7 @@
         {{ title }}
       </div>
       <p class="text-base text-gray-700">
-        <slot> describe of item </slot>
+        <slot> <!--describe of item--> </slot>
       </p>
     </div>
     <div v-if="hash_tags !== undefined" class="px-6 pt-4 pb-2">

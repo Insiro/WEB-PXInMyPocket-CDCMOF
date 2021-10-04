@@ -17,7 +17,7 @@ export interface pageObj {
   name: string;
   url: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  component?: any;
+  component?: unknown;
   redirect?: string;
   meta?: Meta;
 }
