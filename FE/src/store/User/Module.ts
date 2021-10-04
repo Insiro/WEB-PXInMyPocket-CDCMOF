@@ -42,7 +42,7 @@ export class UserModule extends VuexModule implements UserInterface {
     }
     return true;
   }
-  @Action signIn(email: string, pwd: string): boolean {
+  @Action signIn(_email: string, _pwd: string): boolean {
     //TODO: signIn from server;
     if (false) return false;
     const data = {} as UserInfoInterface;
@@ -61,5 +61,5 @@ export class UserModule extends VuexModule implements UserInterface {
     return this.signed ? this.info : null;
   }
 }
-export const UserState = getModule(UserModule);
-export default UserState;
+export const userState = getModule(UserModule);
+export default userState;

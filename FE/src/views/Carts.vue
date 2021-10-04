@@ -35,7 +35,7 @@
       </template>
     </Table>
   </div>
-  <ComponentsFrame title="" class="mt-6">
+  <WideFrame title="" class="mt-6">
     <div
       class="flex flex-grow flex-row content-center items-center mx-auto mx-10"
     >
@@ -48,46 +48,43 @@
       <div class="mx-10 px-10" style="width: 1rem" />
       <Button class="" @onClick="purchase">주문 하기</Button>
     </div>
-  </ComponentsFrame>
+  </WideFrame>
 </template>
 <script lang="ts">
 import { ref } from "vue";
 import { Options, Vue } from "vue-class-component";
 import { Table, TableItem, TableHead } from "@/components/Table";
 import { CheckBox, CheckBoxEmit } from "@/components/Inputs";
-import CartState from "@/store/Cart";
+import cartState from "@/store/Cart";
 import { Button } from "@/components/Button";
-import { ComponentsFrame } from "@/components/CardFrame";
+import { WideFrame } from "@/components/CardFrame";
 @Options({
   components: {
     Table,
     TableItem,
     TableHead,
     CheckBox,
-    ComponentsFrame,
+    WideFrame,
     Button,
   },
 })
 export default class Carts extends Vue {
   cartMony = 0;
-  created(): void {
-    CartState.appendForTest(); //TODO: remove It after tested
-  }
   thClass = ref(
     "text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase"
   );
-  CartList = CartState.kartData;
+  CartList = cartState.kartData;
   purchase(): void {
-    if (CartState.Purchase())
+    if (cartState.Purchase())
       //TODO: hadle on Async func
       this.updateFee();
   }
   checkItem(data: CheckBoxEmit): void {
-    CartState.check(data.value, data.checked);
+    cartState.check(data.value, data.checked);
     this.updateFee();
   }
   updateFee(): void {
-    const list = CartState.kartData;
+    const list = cartState.kartData;
     this.cartMony = 0;
     for (let index in list) {
       if (list[index].checked)

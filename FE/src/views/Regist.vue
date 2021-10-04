@@ -212,7 +212,6 @@ export default class Regist extends Vue {
   }
   onCategoryUpdate(data: string): void {
     this.register.category = data;
-    console.log(data);
   }
 
   //#endregion Item Event
