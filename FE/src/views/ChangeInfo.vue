@@ -2,16 +2,21 @@
   <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
     <BaseModal :open="modalOpen" @close="modalClose">
       <div v-show="mod.submitNewInfo">
-        <div v-show="passed.id == false">군번을 확인 해주세요</div>
         <div v-show="passed.pwd == false">현재 비밀번호를 확인 해주세요</div>
-        <div v-show="passed.newPwd == false">새로운 비밀번호가 확인 비밀번호와 동일하지 않습니다.</div>
+        <div v-show="passed.newPwd == false">
+          새로운 비밀번호가 확인 비밀번호와 동일하지 않습니다.
+        </div>
+        <div v-show="passed.all == true">수정이 완료되었습니다</div>
       </div>
       <div v-show="mod.checkPrevPwd">
         <div v-show="passed.pwd">비밀번호를 확인했습니다.</div>
         <div v-show="passed.pwd == false">비밀번호가 틀렸습니다.</div>
       </div>
       <div v-show="mod.raiseAuthority">
-        <div>관리자 권한 신청이 접수되었습니다. <br> 3일이내 승입됩니다.</div>
+        <div>
+          관리자 권한 신청이 접수되었습니다. <br />
+          3일이내 승입됩니다.
+        </div>
       </div>
     </BaseModal>
     <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
@@ -24,13 +29,13 @@
         <label class="block">
           <span class="text-sm text-gray-700">
             비밀번호 확인
-            <Button class="ml-7" @onClick="checkPwd"> 확인</Button>
+            <Button class="ml-7" @onClick="checkCurPwd"> 확인</Button>
           </span>
           <TextInput
-            v-model="changeInfo.password"
+            v-model="Pwd.password"
             placeholder="*****"
             input_type="password"
-            :value="changeInfo.password"
+            :value="Pwd.password"
             :class="inputStyle"
             @updates="onPwdCheck"
           />
@@ -40,7 +45,7 @@
           <TextInput
             placeholder="****"
             input_type="password"
-            :value="changeInfo.newPassword"
+            :value="Pwd.newPassword"
             :class="inputStyle"
             @updates="onPwdChanged"
           />
@@ -52,7 +57,7 @@
           <TextInput
             placeholder="****"
             input_type="password"
-            :value="changeInfo.passwordCheck"
+            :value="Pwd.passwordCheck"
             :class="inputStyle"
             @updates="onPwdCheckChanged"
           />
@@ -107,6 +112,8 @@ import { TextInput, CheckBox, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
+import UserState from "@/store/User";
+import { UserInfoInterface } from "../store/User/Interfaces";
 
 @Options({
   components: { TextInput, webIcon, CheckBox, Button, Radio, BaseModal },
@@ -119,15 +126,12 @@ export default class ChangeInfo extends Vue {
     newPwd: false,
     all: false,
   };
-  changeInfo = {
+  Pwd = {
     password: "",
     newPassword: "",
     passwordCheck: "",
-    id: "", //군번
-    bye: "", //전역일
-    category: "", //병사 | 간부
-    authority: "", // 관리자 권한
   };
+  changeInfo = {} as UserInfoInterface;
   //모달 트리거
   mod = {
     submitNewInfo: false,
@@ -144,7 +148,21 @@ export default class ChangeInfo extends Vue {
     this.mod.raiseAuthority = false;
     this.mod.checkPrevPwd = false;
     this.mod.submitNewInfo = true;
+    this.passed.all = false;
+
+    if (this.passed.pwd && this.passed.newPwd) {
+      this.passed.all = true;
+      UserState.changeInfo(this.changeInfo);
+    }
     this.modalOpen = true;
+
+    /*const result = UserState.signIn(this.changeInfo.email, this.changeInfo.password);
+    if (result) {
+      this.router.push("/");
+    } else {
+      //TODO: alert wrong passwod
+    }
+    */
   }
   giveAuthority(): void {
     this.mod.raiseAuthority = true;
@@ -152,7 +170,7 @@ export default class ChangeInfo extends Vue {
     this.mod.submitNewInfo = false;
     this.modalOpen = true;
   }
-  checkPwd(): void {
+  checkCurPwd(): void {
     //TODO: check Pwd then alert
     // axios 통신으로 받은 값 => returnVal
     // returnVal == 1 : pwd is correct
@@ -160,6 +178,8 @@ export default class ChangeInfo extends Vue {
     this.mod.raiseAuthority = false;
     this.mod.submitNewInfo = false;
     this.mod.checkPrevPwd = true;
+    this.passed.pwd = false;
+
     if (returnVal) {
       this.passed.pwd = true;
       this.modalOpen = true;
@@ -172,23 +192,22 @@ export default class ChangeInfo extends Vue {
   modalClose(): void {
     this.modalOpen = false;
   }
-  onPwdCheck(data: string): void {
-    this.changeInfo.newPassword = data;
+  onIdChanged(data: string): void {
+    this.changeInfo.id = data;
   }
   onByeChanged(date: string): void {
     this.changeInfo.bye = date;
   }
+  onPwdCheck(data: string): void {
+    this.Pwd.password = data;
+  }
   onPwdChanged(data: string): void {
-    this.changeInfo.newPassword = data;
-    if (this.changeInfo.passwordCheck !== data) {
-      this.passed.pwd = false;
-      this.isPwdSuccessString = "";
-    }
+    this.Pwd.newPassword = data;
   }
   onPwdCheckChanged(data: string): void {
-    this.changeInfo.passwordCheck = data;
-    this.passed.pwd = this.changeInfo.newPassword === data ? true : false;
-    this.isPwdSuccessString = this.passed.pwd ? "Passed" : "Fail";
+    this.Pwd.passwordCheck = data;
+    this.passed.newPwd = this.Pwd.newPassword === data ? true : false;
+    this.isPwdSuccessString = this.passed.newPwd ? "Passed" : "Fail";
   }
 
   //#endregion Item Event

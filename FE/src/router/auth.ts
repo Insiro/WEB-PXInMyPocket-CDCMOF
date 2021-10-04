@@ -27,9 +27,10 @@ export const authUrl: Array<pageObj> = [
   },
   {
     icon: null,
-    name: "개인 정보 수정",
+    name: "changeInfo",
     url: "/changeInfo",
     component: ChangeInfo,
+    meta: { noLayout: true },
   },
 ];
 export default authUrl;
