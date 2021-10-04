@@ -7,7 +7,7 @@ import store from "./store";
 import "reset.css";
 import "normalize.css";
 import "./assets/main.css";
-
+import "./class-component-hooks";
 import { IconComponentList } from "./components/Icons";
 
 const app = createApp(App);

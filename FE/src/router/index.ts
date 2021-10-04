@@ -37,6 +37,7 @@ export const pageList: Array<pageObj> = [
 
 function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
   return pagelist.map((item) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const obj: any = {};
     obj.path = item.url;
     obj.name = item.name;
