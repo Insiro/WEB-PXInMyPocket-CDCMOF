@@ -44,7 +44,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
     this.cate.add(dumyCate);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Action getCategories(cateString: string): Array<string> {
+  @Action getCategories(_cateString: string): Array<string> {
     //TODO: get categories from Server
     return ["dumy"];
   }

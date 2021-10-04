@@ -35,9 +35,11 @@
       <div class="flex items-center justify-center mt-8">
         <div class="flex items-center">
           <img class="w-12 h-12" art="logo" />
-          <span class="mx-2 text-2xl font-semibold text-white">
-            {{ title }}
-          </span>
+          <router-link to="/" tag="h1">
+            <span class="mx-2 text-2xl font-semibold text-white">
+              {{ title }}
+            </span>
+          </router-link>
         </div>
       </div>
 

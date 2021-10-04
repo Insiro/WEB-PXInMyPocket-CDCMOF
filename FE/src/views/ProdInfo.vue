@@ -27,6 +27,7 @@ import { Vue, Options } from "vue-class-component";
 import { RouteLocationNormalized } from "vue-router";
 import Card, { WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
+import globalState from "@/store/global";
 interface ItemInfo {
   name: string;
   price: string;
@@ -67,8 +68,10 @@ export default class Name extends Vue {
     next: any
   ): void {
     this.id = to.params.id as string;
-    //TODO: get is vaild prod Id from Restful api
+    let name = "";
+    //TODO: get is vaild prod Id from Restful api and Update Name
     if (false) next("/404");
+    globalState.setPageName(name);
     next();
   }
   //#endregion

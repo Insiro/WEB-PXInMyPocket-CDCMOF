@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  RouteLocationNormalized,
+  RouteRecordRaw,
+} from "vue-router";
 
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
@@ -6,6 +11,7 @@ import Components from "../views/Components.vue";
 import authUrl from "./auth";
 import Prodlist from "../views/Prodlist.vue";
 import * as hidden from "./hidden";
+import globalState from "@/store/global";
 
 export interface Meta {
   authRequired?: boolean;
@@ -51,10 +57,9 @@ function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
   });
 }
 
-export const routes: Array<RouteRecordRaw> = PageConvert(pageList).concat(
+const routes: Array<RouteRecordRaw> = PageConvert(pageList).concat(
   PageConvert(authUrl).concat(PageConvert(hidden.pageList))
 );
-
 // const routes: Array<RouteRecordRaw> = [
 //   {
 //     path: "/",
@@ -77,6 +82,13 @@ export const routes: Array<RouteRecordRaw> = PageConvert(pageList).concat(
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to: RouteLocationNormalized, _from, next: any) => {
+  if (to.name === null || to.name === undefined) {
+    globalState.setPageName("");
+  } else globalState.setPageName(to.name.toString());
+  next();
 });
 
 export default router;
