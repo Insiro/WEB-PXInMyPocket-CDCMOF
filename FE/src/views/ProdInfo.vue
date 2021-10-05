@@ -9,9 +9,15 @@
       />
       <!-- <div></div> -->
       <Card class="mx-5 md:flex-grow itemArea ccard" :title="itemInfo.name">
-        {{ itemInfo.price }}
+        <div>{{ itemInfo.price }}</div>
+        <div>잔여 {{ itemInfo.remaining }}</div>
         <div>총 {{ selected.amount }} 개</div>
         <div>{{ selected.price }} 원</div>
+        <div class="flex">
+          <Button @click="moveAmount(false)">-</Button>
+          <input v-model="amount" type="number" @change="amountChamged" />
+          <Button @click="moveAmount(true)">+</Button>
+        </div>
         <div class="flex justify-between justify-items-stretch">
           <Button :class="purchaseClass">장바구니</Button>
           <Button :class="purchaseClass">구매하기</Button>
@@ -24,9 +30,10 @@
 <script lang="ts">
 import { ref } from "vue";
 import { Vue, Options } from "vue-class-component";
-import { RouteLocationNormalized } from "vue-router";
+import { RouteLocationNormalized, useRouter } from "vue-router";
 import Card, { WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
+import { TextInput } from "@/components/Inputs";
 import globalState from "@/store/global";
 interface ItemInfo {
   name: string;
@@ -40,7 +47,7 @@ interface Selected {
   amount: number;
   price: number;
 }
-@Options({ components: { Card, WideFrame, Button } })
+@Options({ components: { Card, WideFrame, Button, TextInput } })
 export default class Name extends Vue {
   //#region init state
   id = "";
@@ -56,22 +63,43 @@ export default class Name extends Vue {
     limit_item: false,
     imgUrl: "",
   };
+  set pageI(id: string) {
+    let name = " ";
+    //TODO: get is vaild prod Id from Restful api and Update Name
+    if (false) useRouter().push("/404");
+    globalState.setPageName(name);
+  }
   //#endregion
   //#region styleClass
   purchaseClass = ref("w-full flex-grow px-4 text-sm text-center mx-3");
   //#endregion
+  //#region onclick methods
+  amountChamged(e: Event): void {
+    console.log((e.target as HTMLInputElement).value);
+    this.amount = parseInt((e.target as HTMLInputElement).value);
+    console.log(this.amount);
+  }
+  set amount(amount: number) {
+    if (amount > this.itemInfo.remaining) amount = this.itemInfo.remaining;
+    else if (amount < 0) amount = 0;
+    this.selected.amount = amount;
+  }
+  get amount(): number {
+    return this.selected.amount;
+  }
+  moveAmount(more: boolean): void {
+    this.amount += more ? 1 : -1;
+  }
+  //#endregion
+
   //#region router hooks
   beforeRouteUpdate(
     to: RouteLocationNormalized,
-    from: RouteLocationNormalized,
+    _from: RouteLocationNormalized,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
     next: any
   ): void {
-    this.id = to.params.id as string;
-    let name = "";
-    //TODO: get is vaild prod Id from Restful api and Update Name
-    if (false) next("/404");
-    globalState.setPageName(name);
+    this.pageI = to.params.id as string;
     next();
   }
   //#endregion

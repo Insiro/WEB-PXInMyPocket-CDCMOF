@@ -12,6 +12,7 @@ import authUrl from "./auth";
 import Prodlist from "../views/Prodlist.vue";
 import * as hidden from "./hidden";
 import globalState from "@/store/global";
+import curItemState from "@/store/Prod/ItemModule";
 
 export interface Meta {
   authRequired?: boolean;
@@ -84,10 +85,15 @@ const router = createRouter({
   routes,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 router.beforeEach((to: RouteLocationNormalized, _from, next: any) => {
   if (to.name === null || to.name === undefined) {
     globalState.setPageName("");
+  } else if (to.name.toString() === "제품") {
+    globalState.setPageName(to.params.id.toString());
+    curItemState.updateItemID(to.params.id.toString());
   } else globalState.setPageName(to.name.toString());
+
   next();
 });
 
