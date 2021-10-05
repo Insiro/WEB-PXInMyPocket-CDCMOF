@@ -24,7 +24,7 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     indent: [
-      "error",
+      "warn",
       2,
       {
         MemberExpression: 0,
@@ -35,6 +35,7 @@ module.exports = {
     "no-inferrable-types": "off",
     "no-await-in-loop": "error",
     "no-return-await": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "no-array-constructor": "error",
     failOnWarning: "off",
     eqeqeq: "error",

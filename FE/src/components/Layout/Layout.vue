@@ -1,10 +1,10 @@
 <template>
   <div class="flex h-screen bg-gray-200 font-roboto">
     <SideBar />
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-hidden h-screen">
       <Header />
-      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-        <div class="container mx-auto px-6 py-8">
+      <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 h-full">
+        <div class="container mx-auto px-6 py-8 h-full">
           <slot />
         </div>
       </main>

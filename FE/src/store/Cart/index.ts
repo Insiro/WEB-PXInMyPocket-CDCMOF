@@ -1,3 +1,3 @@
-import CartState, { CartModule } from "./Module";
+import cartState, { CartModule } from "./Module";
 export { CartModule };
-export default CartState;
+export default cartState;

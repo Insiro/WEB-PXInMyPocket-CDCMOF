@@ -8,9 +8,17 @@
 import { Vue, Options } from "vue-class-component";
 import { useRoute } from "vue-router";
 import { Layout, EmptyLayout } from "@/components/Layout";
-
+import cartState from "./store/Cart";
+import prodState from "./store/Prod";
 @Options({ components: { Layout, EmptyLayout } })
 export default class App extends Vue {
+  created(): void {
+    this.dumy();
+  }
+  dumy(): void {
+    cartState.dumy(10);
+    prodState.dumy(20);
+  }
   get layout(): string {
     return useRoute().meta.noLayout === true ? "EmptyLayout" : "Layout";
   }
