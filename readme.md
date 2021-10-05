@@ -1,10 +1,6 @@
-### 본 페이지는 샘플입니다. 아래의 *[샘플 양식에 포함되어 있는 항목은 필수 기재사항]*   입니다.
-해당 내용은 모두 예시이며 설명이 부족하거나 추가하고싶은 부분이 있으면 개발자님이 추가해서 작성하셔도 무관합니다. (동영상, 이미지, 텍스트 적용 전부 자유)
 
 
-# Project name or Logo
-프로젝트명: 내손안에 PX
-
+# 내 손안에 PX
 
 ## 프로잭트 소개
 - Node.js 와 Vue를 이용하여 제작한 px어플리케이션
@@ -61,12 +57,7 @@ $ yarn start or npm run start
 ## 프로젝트 사용법 (Getting Started)
 **마크다운 문법을 이용하여 자유롭게 기재**
 
-잘 모를 경우
-구글 검색 - 마크다운 문법
-[https://post.naver.com/viewer/postView.nhn?volumeNo=24627214&memberNo=42458017](https://post.naver.com/viewer/postView.nhn?volumeNo=24627214&memberNo=42458017)
 
- 편한 마크다운 에디터를 찾아서 사용
- 샘플 에디터 [https://stackedit.io/app#](https://stackedit.io/app#)
  
 ## 팀 정보 (Team Information)
 - jung jin wook (rlwlsdnr@naver.com), Github Id: jwj3400
