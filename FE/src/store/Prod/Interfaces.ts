@@ -13,3 +13,6 @@ export interface ProductFormat {
   weekly_sale: number;
   src: string | null;
 }
+export interface CurProdIpnterface {
+  data: ProductFormat;
+}
