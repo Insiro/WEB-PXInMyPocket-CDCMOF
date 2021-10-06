@@ -52,7 +52,6 @@ export class UserModule extends VuexModule implements UserInterface {
       return true;
     }
   }
-
   //mutation하고 같은 범위라 이름 안겹치게.
   @Action signIn(email: string, pwd: string): boolean {
     //TODO: signIn from server;

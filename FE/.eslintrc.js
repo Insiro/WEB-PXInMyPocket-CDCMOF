@@ -35,6 +35,7 @@ module.exports = {
     "no-inferrable-types": "off",
     "no-await-in-loop": "error",
     "no-return-await": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "no-array-constructor": "error",
     failOnWarning: "off",
     eqeqeq: "error",

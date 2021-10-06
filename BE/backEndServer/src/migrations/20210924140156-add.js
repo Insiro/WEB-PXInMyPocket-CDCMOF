@@ -2,9 +2,6 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-	  return await queryInterface.addColumn("User", "salt", {
-		  type: Sequelize.STRING,
-    })
     /**
      * Add altering commands here.
      *
