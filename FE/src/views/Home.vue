@@ -1,6 +1,4 @@
-<template>
-
-</template>
+<template><div></div></template>
 
 <script lang="ts">
 import { ref } from "vue";
