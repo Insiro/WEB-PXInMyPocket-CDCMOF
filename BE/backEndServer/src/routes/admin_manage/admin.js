@@ -14,11 +14,11 @@ router.all("/", (req, res, next) => {
   //session 내용의 유저를 User 변수로 하고, authority가 0이면 기본페이지로 이동 시킵니다.
   else {
     db.User.findOne({
-      where: { id: req.session.user.id },
+      where: { email: req.session.user.email },
     })
       .then((selectedUser) => {
         var loginUser = selectedUser;
-        console.log("로그인 성공  선택된 유저는:", loginUser.id);
+        console.log("로그인 성공  선택된 유저는:", loginUser.email);
         if (!loginUser.authority) {
           res.redirect("/home/user");
         } else {
@@ -42,7 +42,7 @@ router.post("/add-product", function (req, res) {
   var limit_item = req.body.limit_item;
   var category = req.body.category;
 
-  console.log(req.session.user.id);
+  console.log(req.session.user.email);
   db.Product.create({
     product_name: product_name,
     remaining: remaining,

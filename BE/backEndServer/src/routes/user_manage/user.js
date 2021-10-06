@@ -14,14 +14,14 @@ router.all("/", (req, res, next) => {
   } else {
     //session 내용의 유저를 User 변수로 함
     db.User.findOne({
-      where: { id: req.session.user.id },
+      where: { email: req.session.user.email },
     }).then((selectedUser) => {
       loginUser = selectedUser;
       console.log(
         "로그인 성공 후 user 페이지에 들어갔습니다 선택된 유저는:",
-        loginUser.id
+        loginUser.email
       );
-      res.send(loginUser.id);
+      res.send(loginUser.email);
     });
     next();
   }

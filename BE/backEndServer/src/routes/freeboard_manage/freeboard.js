@@ -13,13 +13,13 @@ router.all("/", (req, res, next) => {
   } else {
     //session 내용의 유저를 User 변수로 함
     db.User.findOne({
-      where: { id: req.session.user.id },
+      where: { email: req.session.user.email },
     })
       .then((selectedUser) => {
         loginUser = selectedUser;
         console.log(
           "로그인 성공 후 freeboard 페이지에 들어갔습니다 선택된 유저는:",
-          loginUser.id
+          loginUser.email
         );
         next();
       })
@@ -36,9 +36,9 @@ router.post("/", function (req, res) {
   var title = req.body.title;
   var content = req.body.content;
 
-  console.log(req.session.user.id);
+  console.log(req.session.user.email);
   db.Post.create({
-    writer: req.session.user.id,
+    writer: req.session.user.email,
     title: title,
     content: content,
   })

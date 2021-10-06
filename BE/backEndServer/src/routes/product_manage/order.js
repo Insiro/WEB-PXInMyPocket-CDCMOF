@@ -8,9 +8,9 @@ router.post("/", function (req, res) {
   var quantity = req.body.quantity;
   var price = req.query.price;
 
-  console.log(req.session.user.id);
+  console.log(req.session.user.email);
   db.Order.create({
-    orderer_id: req.session.user.id,
+    orderer_id: req.session.user.email,
     product_name: product_name,
     quantity: quantity,
     price: price,

@@ -22,13 +22,13 @@ router.get("/", (req, res, next) => {
     res.status(403).send();
   }
   //session 내용의 유저를 User 변수로 함
-  console.log(req.session.user.id);
+  console.log(req.session.user.email);
   db.User.findOne({
-    where: { id: req.session.user.id },
+    where: { email: req.session.user.email },
   })
     .then((selectedUser) => {
       var loginUser = selectedUser;
-      console.log("로그인 성공 후 선택된 유저는:", loginUser.id);
+      console.log("로그인 성공 후 선택된 유저는:", loginUser.email);
 
       console.log("전체 상품을 가져옴");
       db.Product.findAll()
