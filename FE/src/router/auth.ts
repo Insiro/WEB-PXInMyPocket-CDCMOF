@@ -1,4 +1,5 @@
 import SignIn from "@/views/SignIn.vue";
+import ChangeInfo from "@/views/ChangeInfo.vue";
 import Regist from "@/views/Regist.vue";
 import FindAccount from "@/views/FindAccount.vue";
 import { pageObj } from ".";
@@ -22,6 +23,13 @@ export const authUrl: Array<pageObj> = [
     name: "reset",
     url: "/reset",
     component: FindAccount,
+    meta: { noLayout: true },
+  },
+  {
+    icon: null,
+    name: "changeInfo",
+    url: "/changeInfo",
+    component: ChangeInfo,
     meta: { noLayout: true },
   },
 ];

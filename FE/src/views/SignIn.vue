@@ -59,10 +59,17 @@
             >regist
           </Button>
         </div>
+        <div class="mt-6">
+          <Button
+            class="w-full px-4 text-sm text-center"
+            @onClick="router.push('finduser')"
+            >ID/비밀번호 찾기
+          </Button>
+        </div>
       </form>
     </div>
   </div>
-</template>
+ </template>
 <script lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
