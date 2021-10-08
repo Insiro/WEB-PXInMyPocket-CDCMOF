@@ -25,9 +25,9 @@ jobs:
                   script: |
                       cd dist
                       git pull
-                      yarn install
                       yarn install:fe
                       yarn install:be
+                      yarn install
                       yarn fe build
                       pkill screen
                       screen -dmS backendServer bash -c 'cd /home/osam10/dist/BE/backEndServer; yarn start'
