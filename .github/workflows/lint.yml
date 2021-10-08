@@ -1,42 +1,41 @@
 name: pacage lint check
-    
+
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  deploy:
-    name: Lint project
-    runs-on: [ubuntu-latest]
-    
-    strategy:
-      matrix:
-        node-version: [14.x]
-    
-    steps:
-      - uses: actions/checkout@v2
-    
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-              
-      - name: install yarn
-        run: npm install -g yarn
-            
-      - name: yarn install BE
-        run: yarn install
-        working-directory: BE/backEndServer
-            
-      - name: yarn lint BE
-        run: yarn lint
-        working-directory: BE/backEndServer
-            
-      - name: change yarn to v-2
-        run: yarn set version berry
-            
-      - name: yarn install FE
-        run: yarn install
-        working-directory: FE
-            
-      - name: yarn lint FE
-        run: yarn lint
-        working-directory: FE
+    deploy:
+        name: Lint project
+        runs-on: [ubuntu-latest]
+
+        strategy:
+            matrix:
+                node-version: [14.x]
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: change yarn to v-2
+              run: yarn set version berry
+
+            - name: install yarn
+              run: npm install -g yarn
+
+            - name: yarn install global dependacies
+              run: yarn install
+
+            - name: yarn install fe dependancies
+              run: yarn fe install
+
+            - name: yarn install be dependancies
+              run: yarn be install
+
+            - name: yarn lint BE
+              run: yarn be lint
+
+            - name: yarn lint FE
+              run: yarn fe lint

@@ -20,7 +20,6 @@
     },
     "scripts": {
         "fe": "yarn workspace my-px-front",
-        "be": "yarn workspace back-end-server",
-        "install:all": "yarn fe install & yarn be install & yarn install"
+        "be": "yarn workspace back-end-server"
     }
 }

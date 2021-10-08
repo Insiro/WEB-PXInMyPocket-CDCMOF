@@ -1,30 +1,33 @@
-name: Deploy_and_check
-    
-on: [push, workflow_dispatch]
+name: Deploy_and build
+
+on:
+    push:
+        branches: [master]
+    workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy then build
-    runs-on: [ubuntu-latest]
-    
-    strategy:
-      matrix:
-        node-version: [14.x]
-    
-    steps:
-      - name: SSH Remote Commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.REMOTE_IP }}
-          username: ${{ secrets.REMOTE_SSH_ID }}
-          password: ${{ secrets.PASSWORD }}
-          port: 22
-          script: |
-            cd dist
-            git pull
-            cd FE
-            yarn install & yarn vite build
-            cd ../BE/backEndServer
-            yarn install
-            pkill screen
-            screen -dmS backendServer bash -c 'cd /home/osam10/dist/BE/backEndServer; yarn start'
+    deploy:
+        name: Deploy then build
+        runs-on: [ubuntu-latest]
+
+        strategy:
+            matrix:
+                node-version: [14.x]
+
+        steps:
+            - name: SSH Remote Commands
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.REMOTE_IP }}
+                  username: ${{ secrets.REMOTE_SSH_ID }}
+                  password: ${{ secrets.PASSWORD }}
+                  port: 22
+                  script: |
+                      cd dist
+                      git pull
+                      yarn install
+                      yarn install:fe
+                      yarn install:be
+                      yarn fe build
+                      pkill screen
+                      screen -dmS backendServer bash -c 'cd /home/osam10/dist/BE/backEndServer; yarn start'
