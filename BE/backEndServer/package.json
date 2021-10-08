@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon --experimental-json-modules --exec babel-node src/server.js",
+    "start": "babel-node --experimental-json-modules src/server.js",
+    "start:dev": "nodemon --experimental-json-modules --exec babel-node src/server.js",
     "lint": "eslint \"src/**/*.js\""
   },
   "type": "module",
@@ -24,6 +25,7 @@
     "sequelize": "^6.6.5"
   },
   "devDependencies": {
+    "@babel/cli": "^7.15.7",
     "@babel/core": "^7.15.5",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.15.4",
