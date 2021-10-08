@@ -25,7 +25,7 @@ const postData = (sequelize, DataTypes) => {
     models.User.hasMany(post, {
       onDelete: "cascade",
       foreignKey: "writer",
-      sourceKEy: "id",
+      sourceKEy: "email",
     });
   };
   return post;

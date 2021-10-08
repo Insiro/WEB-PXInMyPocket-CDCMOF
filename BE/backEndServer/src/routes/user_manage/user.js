@@ -15,7 +15,7 @@ router.all("/", badRequest);
 //GET home/user/orderlist 해당유저가 주문한 목록을 보여줍니다.
 router.get("/orderlist", async (req, res) => {
   try {
-    let loginUser = await getUser(req.session.user.id);
+    let loginUser = await getUser(req.session.user.email);
     let items = loginUser.getOrders();
     res.status(200).json({ data: items });
     console.log("주문목록페이지");
@@ -30,7 +30,7 @@ router.post("/change-userinfo", async (req, res) => {
   var check_password = req.body.checkpassword;
   try {
     if (new_password !== check_password) throw "not matched";
-    let loginUser = await getUser(req.session.user.id);
+    let loginUser = await getUser(req.session.user.email);
     var salt = loginUser.salt;
     var hashPassword = crypto
       .createHash("sha512")
@@ -56,7 +56,7 @@ router.post("/change-userinfo", async (req, res) => {
 // 해당유저가 작성한 게시물들 정보를 보내줌
 router.get("/mypost", async (req, res) => {
   try {
-    let loginUser = await getUser(req.session.user.id);
+    let loginUser = await getUser(req.session.user.email);
     loginUser.getPosts().then((posts) => {
       res.status(200).json({ data: posts });
     });

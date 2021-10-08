@@ -15,14 +15,13 @@ router.post("/", (req, res) => {
     .createHash("sha512")
     .update(inputPassword + salt)
     .digest("hex");
-  console.log(req.body.id, req.body.password);
+  console.log(req.body.email, req.body.password);
 
   db.User.create({
-    id: req.body.id,
+    email: req.body.email,
     password: hashPassword,
     salt: salt,
     name: req.body.name,
-    email: req.body.email,
     serial_number: req.body.serial_number,
     expire_date: req.body.expire_date,
     rank: req.body.rank,

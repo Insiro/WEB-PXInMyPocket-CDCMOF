@@ -1,7 +1,7 @@
 import db from "../models/Index.js";
 
-export const getUser = async (id) => {
+export const getUser = async (email) => {
   return await db.User.findOne({
-    where: { id: id },
+    where: { email: email },
   });
 };

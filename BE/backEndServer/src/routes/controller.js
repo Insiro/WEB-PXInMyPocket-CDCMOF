@@ -16,7 +16,7 @@ router.use(
     saveUninitialized: true,
   })
 );
-
+console.log("check controller");
 //home으로 이동
 router.get("/", HttpError.badRequest);
 router.use("/home", home);

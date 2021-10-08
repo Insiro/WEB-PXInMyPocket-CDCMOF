@@ -14,10 +14,10 @@ router.post("/find-id", (req, res) => {
   })
     .then((user) => {
       console.log("check");
-      var id = user.id;
+      var email = user.email;
       return res.status(200).json({
         findIdSuccess: true,
-        message: `귀하의 아이디는 ${id} 입니다.`,
+        message: `귀하의 아이디는 ${email} 입니다.`,
       });
     })
     .catch((err) => {
@@ -34,8 +34,8 @@ router.post("/find-id", (req, res) => {
 router.post("/change-pw", (req, res) => {
   db.User.findOne({
     where: {
-      id: req.body.id,
       email: req.body.email,
+      serial_number: req.body.serial_number,
     },
   })
     .then((user) => {

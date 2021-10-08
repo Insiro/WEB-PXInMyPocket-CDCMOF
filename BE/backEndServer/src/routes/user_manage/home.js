@@ -25,7 +25,7 @@ router.all("/authority-check", (req, res) => {
 router.post("/login", (req, res) => {
   console.log("login check");
   db.User.findOne({
-    where: { id: req.body.id },
+    where: { email: req.body.email },
   })
     .then((user) => {
       var inputPassword = req.body.password;
@@ -41,7 +41,7 @@ router.post("/login", (req, res) => {
       } else {
         console.log("로그인 성공!");
         req.session.user = {
-          id: req.body.id,
+          email: user.email,
           name: user.name,
           authority: user.authority,
           authorized: true,

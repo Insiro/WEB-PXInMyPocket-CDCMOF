@@ -17,7 +17,7 @@ router.post("/add-product", function (req, res) {
   var limit_item = req.body.limit_item;
   var category = req.body.category;
 
-  console.log(req.session.user.id);
+  console.log(req.session.user.email);
   db.Product.create({
     product_name: product_name,
     remaining: remaining,

@@ -9,7 +9,7 @@ export const checkSigned = (req, res, next) => {
 export const checkAdmin = async (req, res, next) => {
   try {
     const loginUser = await db.User.findOne({
-      where: { id: req.session.user.id },
+      where: { email: req.session.user.email },
     });
     if (!loginUser.authority) forbidden(req, res);
     else next();
