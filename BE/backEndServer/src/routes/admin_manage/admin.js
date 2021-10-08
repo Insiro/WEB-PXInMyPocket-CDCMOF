@@ -2,36 +2,10 @@
 import express from "express";
 var router = express.Router();
 import db from "../../models/Index.js";
+import { checkAdmin } from "../middleWare.js";
 
 //admin이 아니라면 user 페이지로 이동 시킵니다.
-router.all("/", (req, res, next) => {
-  console.log("admin page에 들어감");
-  console.log(req.session.user);
-  if (!req.session.user) {
-    console.log("로그인이 유효하지 않습니다.");
-    res.status(403).send();
-  }
-  //session 내용의 유저를 User 변수로 하고, authority가 0이면 기본페이지로 이동 시킵니다.
-  else {
-    db.User.findOne({
-      where: { id: req.session.user.id },
-    })
-      .then((selectedUser) => {
-        var loginUser = selectedUser;
-        console.log("로그인 성공  선택된 유저는:", loginUser.id);
-        if (!loginUser.authority) {
-          res.redirect("/home/user");
-        } else {
-          console.log("관리자 권한 페이지 접속");
-          next();
-        }
-      })
-      .catch((err) => {
-        res.redirect("/home");
-        console.log(err);
-      });
-  }
-});
+router.use("/", checkAdmin);
 
 // POST /admin/add-product
 // 새로운 재고를 추가합니다.
@@ -51,10 +25,11 @@ router.post("/add-product", function (req, res) {
     category: category,
   })
     .then((item) => {
-      res.json(item);
+      res.status(202).send("success");
       console.log("add product success", item);
     })
     .catch((err) => {
+      res.status(400).send("failed");
       console.log("add product fail");
       console.log(err);
     });
@@ -82,10 +57,11 @@ router.post("/modify-product", function (req, res) {
         category: category,
       })
       .then((item) => {
-        res.json(item);
+        res.status(202).json({ result: "success" });
         console.log("modify product success", item);
       })
       .catch((err) => {
+        res.status(400).send("failed");
         console.log("modify product fail");
         console.log(err);
       });
@@ -94,10 +70,11 @@ router.post("/modify-product", function (req, res) {
 
 // POST /admin/delete-product
 // 해당물품을 삭제합니다.
-router.post("/delete-product", (req) => {
+router.post("/delete-product", (req, res) => {
   console.log("해당물품을 제거합니다.");
   var product_name = req.body.product_name;
   db.Product.destroy({ where: product_name == product_name });
+  res.status(202).send("success");
 });
 
 // GET /admin/sell?product_name=초코파이
@@ -118,7 +95,7 @@ router.get("/sell", (req, res) => {
       weekly_sale: weekly_sale,
       monthly_sale: monthly_sale,
     });
-    res.send(foundProduct);
+    res.status(200).send(foundProduct);
   });
 });
 

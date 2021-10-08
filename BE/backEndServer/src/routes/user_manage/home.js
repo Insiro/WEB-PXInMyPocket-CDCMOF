@@ -63,7 +63,7 @@ router.get("/logout", async (req, res) => {
     console.log("로그아웃");
     await req.session.destroy();
   }
-  res.status(204);
+  res.status(204).send();
 });
 
 // register와 finduser, user는 페이지가 따로 존재합니다.

@@ -8,7 +8,7 @@ router.get("/", function (req, res) {
   console.log("선호도 페이지입니다.");
   var duration = req.query.duration;
   db.Product.findAll({ order: [[duration, "DESC"]] }).then((foundItems) => {
-    res.send(foundItems);
+    res.status(200).send(foundItems);
   });
 });
 
