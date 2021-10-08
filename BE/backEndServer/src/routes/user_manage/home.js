@@ -46,7 +46,7 @@ router.post("/login", (req, res) => {
           authority: user.authority,
           authorized: true,
         };
-        res.status(202).json({ result: "success", name: "user.name" });
+        res.status(202).json({ result: "success", name: user.name });
       }
     })
     .catch((err) => {
