@@ -15,14 +15,14 @@ router.post("/find-id", (req, res) => {
     .then((user) => {
       console.log("check");
       var id = user.id;
-      return res.json({
+      return res.status(200).json({
         findIdSuccess: true,
         message: `귀하의 아이디는 ${id} 입니다.`,
       });
     })
     .catch((err) => {
       console.log(err);
-      return res.json({
+      return res.status(404).json({
         findIdSuccess: false,
         message: "해당하는 유저가 없습니다.",
       });
@@ -76,14 +76,14 @@ router.post("/change-pw", (req, res) => {
           console.log("Email sent: " + info.response);
         }
       });
-      return res.json({
+      return res.status(202).json({
         findIdSuccess: true,
         message: `메일을 전송하였습니다`,
       });
     })
     .catch((err) => {
       console.log(err);
-      return res.json({
+      return res.status(404).json({
         findIdSuccess: false,
         message: "해당하는 유저가 없습니다.",
       });
