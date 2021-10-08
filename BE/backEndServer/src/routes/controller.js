@@ -18,10 +18,10 @@ router.use(
 );
 
 //home으로 이동
-router.get("/", HttpError.notFound);
+router.get("/", HttpError.badRequest);
 router.use("/home", home);
 router.use("/product", product);
 router.use("/admin", admin);
 router.use("/freeboard", freeboard);
-router.use("/*", HttpError.notFound);
+router.use("/*", HttpError.badRequest);
 export default router;
