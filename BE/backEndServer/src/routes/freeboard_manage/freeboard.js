@@ -14,6 +14,7 @@ router.post("/", function (req, res) {
   var content = req.body.content;
 
   console.log(req.session.user.id);
+  //TODO: check why not work as String len is over 50char when under 50chars
   db.Post.create({
     writer: req.session.user.id,
     title: title,

@@ -2,9 +2,10 @@
 import express from "express";
 var router = express.Router();
 import db from "../../models/Index.js";
-import { checkAdmin } from "../middleWare.js";
+import { checkAdmin, checkSigned } from "../middleWare.js";
 
 //admin이 아니라면 user 페이지로 이동 시킵니다.
+router.use("/", checkSigned);
 router.use("/", checkAdmin);
 
 // POST /admin/add-product
