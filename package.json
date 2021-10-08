@@ -1,0 +1,26 @@
+{
+    "name": "web-px-in-my-pocket",
+    "version": "0.1.0",
+    "private": true,
+    "repository": "https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF",
+    "author": "Insiro <leeon@insiro.me>",
+    "license": "MIT",
+    "workspaces": [
+        "FE",
+        "BE/backEndServer"
+    ],
+    "gitHooks": {
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,vue,ts,tsx}": [
+            "eslint \"src/**/*.{tsx,ts,vue} --fix",
+            "git add"
+        ]
+    },
+    "scripts": {
+        "fe": "yarn workspace my-px-front",
+        "be": "yarn workspace back-end-server",
+        "install:all": "yarn fe install & yarn be install & yarn install"
+    }
+}
