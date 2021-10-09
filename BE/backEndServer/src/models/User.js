@@ -1,9 +1,12 @@
 const userData = (sequelize, DataTypes) => {
   return sequelize.define("User", {
-    id: {
-      type: DataTypes.STRING(20),
+    email: {
+      type: DataTypes.STRING(30),
       allowNull: false,
-      unique: true,
+      unique: {
+        name: "user_email",
+        msg: "A user with this email already exists.",
+      },
       primaryKey: true,
     },
     password: {
@@ -17,14 +20,6 @@ const userData = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING(10),
       allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: {
-        name: "user_email",
-        msg: "A user with this email already exists.",
-      },
     },
     serial_number: {
       type: DataTypes.STRING(11),

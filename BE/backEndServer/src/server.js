@@ -1,4 +1,3 @@
-import createError from "http-errors";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -6,6 +5,16 @@ import logger from "morgan";
 import schedule from "node-schedule";
 import router from "./routes/controller.js";
 import db from "./models/Index.js";
+import cors from "cors";
+
+//cors settings value
+const corsOptions = {
+  credentials: true,
+  origin: true,
+  methods: "GET,HEAD,POST,DELETE",
+  optionsSuccessStatus: 200,
+  maxAge: 3600,
+};
 
 //매주 일요일마다 weelkly sale 초기화
 schedule.scheduleJob("* * * * 0", function () {
@@ -33,16 +42,17 @@ schedule.scheduleJob("* * * 1 *", function () {
 });
 
 const app = express();
-//sequelize를 db와 연결시키는 부분
-
+//#region connet sequelize with db
 const sequelize = db.sequelize;
 
 sequelize.sync().then(() => {
   console.log(db.User);
 });
-//데이터베이스 초기화
-//sequelize.drop();
-
+/*
+sequelize.drop();
+*/
+//#endregion 데이터베이스 초기화
+app.use(cors(corsOptions));
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -55,13 +65,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 //router 파일의 컨트롤러로 넘김
-app.use(router);
+app.use("/api", router);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
 
+app.use(function (req, res) {
+  res.status(404).send({ error: "404 not found" });
+});
 // error handler
 app.use(function (err, req, res) {
   // set locals, only providing error in development
@@ -72,6 +82,8 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+
 
 app.set("port", process.env.PORT || 8000);
 

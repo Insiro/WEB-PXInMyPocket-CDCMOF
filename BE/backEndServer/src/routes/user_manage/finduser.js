@@ -3,7 +3,9 @@
 import express from "express";
 import db from "../../models/Index.js";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
+import nodemailer from "nodemailer
+import { badRequest } from "../error_handler.js";
+
 
 var router = express.Router();
 
@@ -14,15 +16,15 @@ router.post("/find-id", (req, res) => {
   })
     .then((user) => {
       console.log("check");
-      var id = user.id;
-      return res.json({
+      var email = user.email;
+      return res.status(200).json({
         findIdSuccess: true,
-        message: `귀하의 아이디는 ${id} 입니다.`,
+        message: `귀하의 아이디는 ${email} 입니다.`,
       });
     })
     .catch((err) => {
       console.log(err);
-      return res.json({
+      return res.status(404).json({
         findIdSuccess: false,
         message: "해당하는 유저가 없습니다.",
       });
@@ -34,8 +36,8 @@ router.post("/find-id", (req, res) => {
 router.post("/change-pw", (req, res) => {
   db.User.findOne({
     where: {
-      id: req.body.id,
       email: req.body.email,
+      serial_number: req.body.serial_number,
     },
   })
     .then((user) => {
@@ -76,18 +78,18 @@ router.post("/change-pw", (req, res) => {
           console.log("Email sent: " + info.response);
         }
       });
-      return res.json({
+      return res.status(202).json({
         findIdSuccess: true,
         message: `메일을 전송하였습니다`,
       });
     })
     .catch((err) => {
       console.log(err);
-      return res.json({
+      return res.status(404).json({
         findIdSuccess: false,
         message: "해당하는 유저가 없습니다.",
       });
     });
 });
-
+router.all("/*", badRequest);
 export default router;
