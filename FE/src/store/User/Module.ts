@@ -14,6 +14,10 @@ export class UserModule extends VuexModule implements UserInterface {
   info: UserInfoInterface = {
     email: null,
     profileImg: null,
+    id: null,
+    bye: null,
+    rank: false,
+    authority: false,
   };
   signed: boolean = false;
   //class안에서는 인자 1개
@@ -46,18 +50,23 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async signIn(info: any): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      console.log("check");
-      console.log(info.email, info.password);
-      const response = await axios.post(
-        "https://rkskekfk.run.goorm.io/api/home/login",
-        { email: info.email, password: info.password }
-      );
-      const data: UserInfoInterface = { email: info.email, profileImg: null };
+      await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
+        email: info.email,
+        password: info.password,
+      });
+      const data: UserInfoInterface = {
+        email: info.email,
+        profileImg: null,
+        id: null,
+        bye: null,
+        rank: false,
+        authority: false,
+      };
       this.setSign(true);
       this.setData(data);
       console.log("check login");
       return true;
-    } catch (err: Error) {
+    } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;
     }
@@ -65,6 +74,38 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action signOut(): void {
     this.setSign(false);
     this.setData({} as UserInfoInterface);
+  }
+
+  @Action async regist(info: any): Promise<boolean> {
+    //TODO: signIn from server;
+    try {
+      const response = await axios.post(
+        "https://rkskekfk.run.goorm.io/api/home/register",
+        {
+          email: info.email,
+          password: info.password,
+          serial_number: info.id,
+          name: info.name,
+          expire_date: info.bye,
+          rank: info.category,
+        }
+      );
+      const data: UserInfoInterface = {
+        email: info.email,
+        profileImg: null,
+        id: null,
+        bye: null,
+        rank: false,
+        authority: false,
+      };
+      this.setSign(true);
+      this.setData(data);
+      console.log("check register");
+      return true;
+    } catch (err: unknown) {
+      console.warn("ERROR!!!!! : ", err);
+      return false;
+    }
   }
   get bSigned(): boolean {
     return this.signed;
