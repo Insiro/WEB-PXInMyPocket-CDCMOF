@@ -106,7 +106,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      const result = await axios.post("/api/home/register", {
+      await axios.post("/api/home/register", {
         email: info.email,
         password: info.password,
         serial_number: info.id,
@@ -118,6 +118,38 @@ export class UserModule extends VuexModule implements UserInterface {
       this.setData(info);
       console.log("check register");
       return true;
+    } catch (err: unknown) {
+      console.warn("ERROR!!!!! : ", err);
+      return false;
+    }
+  }
+  @Action async findID(serial_number: string): Promise<string | null> {
+    try {
+      const result: { findIdSuccess: boolean; foundID: string } =
+        await axios.post("/api/home/finduser/find-id", {
+          serial_number: serial_number,
+        });
+      return result.findIdSuccess ? result.foundID : null;
+    } catch (err) {
+      console.warn("ERROR!!!!! : ", err);
+      return null;
+    }
+  }
+  @Action async resetPwd(info: {
+    email: string;
+    id: string;
+  }): Promise<boolean> {
+    try {
+      console.log(info);
+      const result: { changePwdSuccess: boolean } = await axios.post(
+        "/api/home/finduser/change-pw",
+        {
+          email: info.email,
+          serial_number: info.id,
+        }
+      );
+      console.log(result);
+      return result.changePwdSuccess;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;
