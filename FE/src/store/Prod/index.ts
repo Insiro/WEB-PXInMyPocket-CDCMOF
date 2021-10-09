@@ -7,7 +7,7 @@ import {
 } from "vuex-module-decorators";
 import ProdInterface, { ProductFormat } from "./Interfaces";
 import store from "..";
-
+import axios from "axios";
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
   items: Array<ProductFormat> = [];
@@ -26,6 +26,9 @@ export class ProductModule extends VuexModule implements ProdInterface {
   @Action updateItems(): boolean {
     //TODO: get Items from RestFul Api
     return false;
+  }
+  @Mutation updateCate(data: Array<string>): void {
+    this.cate = new Set(data);
   }
   @Mutation dumy(mount: number): void {
     const dumyItem = {
@@ -48,8 +51,47 @@ export class ProductModule extends VuexModule implements ProdInterface {
     //TODO: get categories from Server
     return ["dumy"];
   }
-  @Action updateCategories(): void {
+  @Action async updateCategories(): Promise<void> {
+    try {
+      const data = await axios.get("/api/category");
+      this.cate.clear();
+      (data.data as Array<{ category: string }>).map((item) =>
+        this.cate.add(item.category)
+      );
+    } catch (e) {
+      console.log(e);
+    }
     //TODO: update categories from API;
+  }
+  @Action async refresh(): Promise<void> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const list = await axios.get<any>("/api/product");
+      console.log(list);
+      const lit = [];
+      for (const item of list.data.data) {
+        const it: ProductFormat = {
+          id: item.product_id,
+          name: item.product_name,
+          remain: item.remaining,
+          price: item.price,
+          limit_item: item.limit_item,
+          category: item.category,
+          monthly_sale: item.monthly_sale,
+          weekly_sale: item.weekly_sale,
+          src: item.img,
+        };
+        lit.push(it);
+      }
+      this.update(lit);
+      const data = await axios.get("/api/product/all-category");
+      this.updateCate(
+        (data.data as Array<{ category: string }>).map((item) => item.category)
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    //TODO : do refrash list
   }
   itemCate(id: string): Array<string> {
     const index = this.items.findIndex((item) => (item.id = id));

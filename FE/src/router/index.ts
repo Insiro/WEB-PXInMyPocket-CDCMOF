@@ -7,12 +7,12 @@ import {
 
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
-import Components from "../views/Components.vue";
 import authUrl from "./auth";
 import Prodlist from "../views/Prodlist.vue";
 import * as hidden from "./hidden";
 import globalState from "@/store/global";
 import curItemState from "@/store/Prod/ItemModule";
+import prodState from "@/store/Prod";
 
 export interface Meta {
   authRequired?: boolean;
@@ -31,15 +31,8 @@ export interface pageObj {
 
 export const pageList: Array<pageObj> = [
   { icon: null, name: "Home", url: "/", component: Home },
-  {
-    icon: "circle-graph-icon",
-    name: "Component",
-    url: "/components",
-    component: Components,
-  },
-
-  { icon: null, name: "프로젝트 정보", url: "/about", component: About },
   { icon: null, name: "제품 목록", url: "/prodList", component: Prodlist },
+  { icon: null, name: "프로젝트 정보", url: "/about", component: About },
 ];
 
 function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
@@ -89,11 +82,14 @@ const router = createRouter({
 router.beforeEach((to: RouteLocationNormalized, _from, next: any) => {
   if (to.name === null || to.name === undefined) {
     globalState.setPageName("");
-  } else if (to.name.toString() === "제품") {
-    globalState.setPageName(to.params.id.toString());
-    curItemState.updateItemID(to.params.id.toString());
-  } else globalState.setPageName(to.name.toString());
-
+  } else {
+    const name = to.name.toString();
+    if (name === "제품") {
+      globalState.setPageName(to.params.id.toString());
+      curItemState.updateItemID(to.params.id.toString());
+    } else if (name === "제품 목록") prodState.refresh();
+    else globalState.setPageName(to.name.toString());
+  }
   next();
 });
 

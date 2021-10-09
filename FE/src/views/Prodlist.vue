@@ -1,5 +1,6 @@
 <template>
   <WideFrame>
+    <Button @onClick="refresh">목록 새로고침</Button>
     <CardHash
       v-for="cate in Array.from(cates)"
       :key="cate"
@@ -14,6 +15,7 @@
       v-show="index <= viewRange.max && index >= viewRange.min"
       :key="item.id"
       :title="item.name"
+      :src="item.src"
       :hash_tags="get_cate(item.category)"
       @click="onProdCliced(item.id)"
     >
@@ -37,6 +39,7 @@
 import { Options, Vue } from "vue-class-component";
 import { PageNation } from "@/components/PageNation";
 import Card, { WideFrame, CardHash } from "@/components/CardFrame";
+import Button from "@/components/Button";
 import prodState from "@/store/Prod";
 import { ProductFormat } from "@/store/Prod/Interfaces";
 import { useRouter } from "vue-router";
@@ -52,6 +55,7 @@ interface min_max {
     Card,
     WideFrame,
     CardHash,
+    Button,
   },
   watch: {},
 })
@@ -63,6 +67,9 @@ export default class Products extends Vue {
     cur: 1,
     max: Math.round((this.prods.length - 1) / this.pageSize),
   };
+  refresh(): void {
+    prodState.refresh();
+  }
   get filterName(): string {
     return this.fNmae;
   }

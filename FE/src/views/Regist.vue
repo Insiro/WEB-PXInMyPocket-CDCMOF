@@ -182,6 +182,20 @@ export default class Regist extends Vue {
     //Change Contents following result
     this.modalOpen = true;
   }
+<<<<<<< HEAD
+=======
+  async check_id(): Promise<void> {
+    this.mod.email = true;
+    this.mod.regist = false;
+    //TODO: check ID then alert
+    if (false) {
+      this.passed.id = false;
+    }
+    //Change Contents following result
+    //TODO: Bug: mod.email not changed to true
+    this.modalOpen = true;
+  }
+>>>>>>> 29cd76582a3dda56fca557f797c944ca18921e2f
   //#region Item Event
   modalClose(): void {
     this.modalOpen = false;
