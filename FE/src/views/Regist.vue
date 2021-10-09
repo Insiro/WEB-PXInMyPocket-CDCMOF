@@ -22,6 +22,7 @@
         <label class="block">
           <span class="text-sm text-gray-700">
             Email
+
             <Button class="ml-7" @click.self.prevent="" @onClick="check_id"
               >확인</Button
             >
@@ -174,6 +175,16 @@ export default class Regist extends Vue {
   async check_id(): Promise<void> {
     this.mod.email = true;
     this.mod.regist = false;
+
+    var result = await UserState.isExist(this.register);
+    if (result.data.exist) this.passed.email = false;
+    else this.passed.email = true;
+    //Change Contents following result
+    this.modalOpen = true;
+  }
+  async check_id(): Promise<void> {
+    this.mod.email = true;
+    this.mod.regist = false;
     //TODO: check ID then alert
     if (false) {
       this.passed.id = false;
@@ -215,7 +226,8 @@ export default class Regist extends Vue {
     this.isPwdSuccessString = this.passed.pwd ? "Passed" : "Fail";
   }
   onCategoryUpdate(data: string): void {
-    this.register.category = data === "normal";
+    if (data === "normal") this.register.category = false;
+    else this.register.category = true;
   }
 
   //#endregion Item Event

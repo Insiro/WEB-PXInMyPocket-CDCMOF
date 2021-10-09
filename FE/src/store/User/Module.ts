@@ -50,7 +50,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async signIn(info: any): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("/api/home/login", {
+      await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
         email: info.email,
         password: info.password,
       });
@@ -75,7 +75,17 @@ export class UserModule extends VuexModule implements UserInterface {
     this.setSign(false);
     this.setData({} as UserInfoInterface);
   }
-
+  @Action async isExist(info: any): Promise<boolean> {
+	  try {
+		console.log(info.email);
+		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/register/checkId",{email:info.email});
+		console.log(result);
+	  return result;
+	  } catch (err: unknown) {
+      console.warn("ERROR!!!!! : ", err);
+      return false;
+    }
+  }
   @Action async regist(info: any): Promise<boolean> {
     //TODO: signIn from server;
     try {

@@ -10,7 +10,7 @@ import cors from "cors";
 //cors settings value
 const corsOptions = {
   credentials: true,
-  origin: true,
+  origin: "*",
   methods: "GET,HEAD,POST,DELETE",
   optionsSuccessStatus: 200,
   maxAge: 3600,
