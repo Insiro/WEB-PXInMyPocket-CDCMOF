@@ -3,7 +3,9 @@
 import express from "express";
 import db from "../../models/Index.js";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
+import nodemailer from "nodemailer
+import { badRequest } from "../error_handler.js";
+
 
 var router = express.Router();
 
@@ -89,5 +91,5 @@ router.post("/change-pw", (req, res) => {
       });
     });
 });
-
+router.all("/*", badRequest);
 export default router;

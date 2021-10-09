@@ -3,6 +3,7 @@ import express from "express";
 var router = express.Router();
 import db from "../../models/Index.js";
 import { checkAdmin, checkSigned } from "../middleWare.js";
+import { badRequest } from "../error_handler.js";
 
 //admin이 아니라면 user 페이지로 이동 시킵니다.
 router.use("/", checkSigned);
@@ -100,4 +101,5 @@ router.get("/sell", (req, res) => {
   });
 });
 
+router.all("/*", badRequest);
 export default router;

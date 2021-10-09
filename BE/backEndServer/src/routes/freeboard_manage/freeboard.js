@@ -2,7 +2,7 @@
 import express from "express";
 var router = express.Router();
 import db from "../../models/Index.js";
-import { notFound } from "../error_handler.js";
+import { notFound, badRequest } from "../error_handler.js";
 import { checkSigned } from "../middleWare.js";
 
 router.use("/*", checkSigned);
@@ -79,5 +79,5 @@ router.post("/edit/detailview", (req, res) => {
   console.log("게시글 수정 완료");
   res.status(202).send("success");
 });
-
+router.all("/*", badRequest);
 export default router;

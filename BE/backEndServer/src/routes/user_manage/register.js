@@ -3,7 +3,7 @@
 import express from "express";
 import db from "../../models/Index.js";
 import crypto from "crypto";
-import { notAcceptable } from "../error_handler.js";
+import { notAcceptable, badRequest } from "../error_handler.js";
 
 var router = express.Router();
 
@@ -39,5 +39,5 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", notAcceptable);
-
+router.all("/*", badRequest);
 export default router;

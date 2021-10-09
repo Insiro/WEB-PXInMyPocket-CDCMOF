@@ -2,6 +2,7 @@ import express from "express";
 var router = express.Router();
 import db from "../../models/Index.js";
 import { checkSigned } from "../middleWare.js";
+import { badRequest } from "../error_handler.js";
 
 router.use("/", checkSigned);
 //물품을 주문예약 시킴 /product/order?kind=snack&name=초코파이&price=1000
@@ -27,5 +28,5 @@ router.post("/", function (req, res) {
       console.log(err);
     });
 });
-
+router.all("/*", badRequest);
 export default router;

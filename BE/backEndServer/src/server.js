@@ -48,6 +48,9 @@ const sequelize = db.sequelize;
 sequelize.sync().then(() => {
   console.log(db.User);
 });
+/*
+sequelize.drop();
+*/
 //#endregion 데이터베이스 초기화
 app.use(cors(corsOptions));
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -65,10 +68,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api", router);
 
 // catch 404 and forward to error handler
+
 app.use(function (req, res) {
   res.status(404).send({ error: "404 not found" });
 });
-
 // error handler
 app.use(function (err, req, res) {
   // set locals, only providing error in development
@@ -79,6 +82,8 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+
 
 app.set("port", process.env.PORT || 8000);
 

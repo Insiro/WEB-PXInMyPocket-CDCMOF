@@ -5,6 +5,7 @@ import Sequelize from "sequelize";
 import db from "../../models/Index.js";
 import order from "./order.js";
 import preference from "./preference.js";
+import { badRequest } from "../error_handler.js";
 
 //주문에 대한 내용은 order.js에서 처리
 router.use("/order", order);
@@ -69,5 +70,5 @@ router.get("/detailview", function (req, res) {
       res.status(400).json({ error: "not found Item" });
     });
 });
-
+router.all("/*", badRequest);
 export default router;
