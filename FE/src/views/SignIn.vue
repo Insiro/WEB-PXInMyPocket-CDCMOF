@@ -1,5 +1,8 @@
 <template>
   <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
+    <BaseModal :open="modalOpen" @close="modalClose">
+      <div v-show="mod.signin">아이디 또는 비밀번호를 확인해 주세요.</div>
+    </BaseModal>
     <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
       <div class="flex items-center justify-center">
         <webIcon />
@@ -48,28 +51,22 @@
           </div>
         </div>
         <div class="mt-6">
-          <Button class="w-full px-4 text-sm text-center" @onClick="login"
-            >Sign In
+          <Button class="w-full px-4 text-sm text-center" @onClick="login">
+            Sign In
           </Button>
         </div>
         <div class="mt-6">
           <Button
             class="w-full px-4 text-sm text-center"
-            @onClick="router.push('regist')"
-            >regist
-          </Button>
-        </div>
-        <div class="mt-6">
-          <Button
-            class="w-full px-4 text-sm text-center"
-            @onClick="router.push('finduser')"
-            >ID/비밀번호 찾기
+            @onClick="router.push('/regist')"
+          >
+            regist
           </Button>
         </div>
       </form>
     </div>
   </div>
- </template>
+</template>
 <script lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -78,8 +75,10 @@ import { TextInput, CheckBox, CheckBoxEmit } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import UserState from "@/store/User";
+import BaseModal from "@/components/Modal";
+
 @Options({
-  components: { TextInput, webIcon, CheckBox, Button },
+  components: { TextInput, webIcon, CheckBox, Button, BaseModal },
 })
 export default class SignIn extends Vue {
   router = useRouter();
@@ -88,6 +87,11 @@ export default class SignIn extends Vue {
     password: "",
   };
   save: boolean = false;
+  //모달 트리거
+  mod = {
+    signin: false,
+  };
+  modalOpen: boolean = false;
   inputStyle = ref("block rounded-md w-full ");
   created(): void {
     this.save = localStorage.getItem("save_sign_data") === "true";
@@ -96,13 +100,19 @@ export default class SignIn extends Vue {
       this.sign.password = localStorage.getItem("saved_pwd") ?? "";
     }
   }
-  login(): void {
-    const result = UserState.signIn(this.sign.email, this.sign.password);
+  async login(): Promise<void> {
+    this.mod.signin = false;
+    var result = await UserState.signIn(this.sign);
     if (result) {
       this.router.push("/");
     } else {
       //TODO: alert wrong passwod
+      this.mod.signin = true;
+      this.modalOpen = true;
     }
+  }
+  modalClose(): void {
+    this.modalOpen = false;
   }
   //#region Item Event
   onEmailChanged(data: string): void {
