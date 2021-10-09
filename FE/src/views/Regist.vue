@@ -1,13 +1,13 @@
 <template>
 	<div class="flex items-center justify-center h-screen px-6 bg-gray-200">
 		<BaseModal :open="modalOpen" @close="modalClose">
-			<div v-show="mod.regist === true">
+			<div v-show="mod.regist == true">
 				<div v-show="passed.id == false">군번을 확인 해주세요</div>
 				<div v-show="passed.email == false">이메일을 확인 해주세요</div>
 				<div v-show="passed.pwd == false">비밀번호를 확인 해주세요</div>
 				등록을 기다려 주세요
 			</div>
-			<div v-show="mod.email === true">
+			<div v-show="mod.email == true">
 				<div v-show="passed.email == true">사용 가능한 메일 입니다</div>
 				<div v-show="passed.email == false">이미 가입된 메일 입니다</div>
 			</div>
