@@ -82,7 +82,7 @@
         </Button>
 
         <Button :class="footerBtnStyle" @click="toggleClose()">
-          <span>Action</span>
+          <span>{{ action }}</span>
         </Button>
       </div>
     </div>
@@ -98,6 +98,7 @@ import { Button } from "@/components/Button";
 class Props {
   open = prop<boolean>({ default: true });
   title = prop<string>({ default: "Modal Title" });
+  action = prop<string>({ default: "Action" });
 }
 @Options({ components: { Button, Xicon } })
 export default class BaseModal extends Vue.with(Props) {

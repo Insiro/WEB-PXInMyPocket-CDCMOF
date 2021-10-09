@@ -7,7 +7,7 @@ import { Table, TableItem, TableHead } from "@/components/Table";
 import { CheckBox, CheckBoxEmit } from "@/components/Inputs";
 import CartState from "@/store/Cart";
 import { Button } from "@/components/Button";
-import  ComponentsFrame  from "@/components/CardFrame";
+import ComponentsFrame from "@/components/CardFrame";
 @Options({
   components: {
     Table,
