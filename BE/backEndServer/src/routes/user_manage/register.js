@@ -7,17 +7,14 @@ import { notAcceptable, badRequest } from "../error_handler.js";
 
 var router = express.Router();
 // POST home/register/checkId
-router.post("/checkId", (req,res) => {
-	db.User.findOne({
+router.post("/checkId", (req, res) => {
+  db.User.findOne({
     where: { email: req.body.email },
-  }) 
-	.then((result) => {
-		if(result)
-		  res.status(202).json({ exist: 1 });
-		else
-		  res.status(202).json({ exist: 0 });
-	});
-})
+  }).then((result) => {
+    if (result) res.status(202).json({ exist: 1 });
+    else res.status(202).json({ exist: 0 });
+  });
+});
 //POST home/register: 회원가입 기능입니다
 router.post("/", (req, res) => {
   var inputPassword = req.body.password;

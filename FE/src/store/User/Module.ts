@@ -75,11 +75,9 @@ export class UserModule extends VuexModule implements UserInterface {
     this.setSign(false);
     this.setData({} as UserInfoInterface);
   }
-  @Action async isExist(info: any): Promise<boolean> {
+  @Action async isExist(info: any): Promise<string> {
 	  try {
-		console.log(info.email);
 		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/register/checkId",{email:info.email});
-		console.log(result);
 	  return result;
 	  } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -114,6 +112,26 @@ export class UserModule extends VuexModule implements UserInterface {
       return false;
     }
   }
+	@Action async findID(serial_number : string): Promise<string> {
+	  try {
+		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/find-id",{serial_number: serial_number});
+	  return result;
+	  } catch (err: unknown) {
+      console.warn("ERROR!!!!! : ", err);
+      return false;
+    }
+  }
+	@Action async resetPwd(info: any) : Promise<string>{
+	try {
+		console.log(info);
+		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/change-pw",{email: info.email, serial_number: info.id});
+		console.log(result);
+		return result;
+		} catch (err: unknown) {
+		console.warn("ERROR!!!!! : ", err);
+      	return false;
+		}
+	}
   get bSigned(): boolean {
     return this.signed;
   }
