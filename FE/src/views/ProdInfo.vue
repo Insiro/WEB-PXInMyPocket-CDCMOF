@@ -13,10 +13,16 @@
         <div>잔여 {{ itemInfo.remaining }}</div>
         <div>총 {{ selected.amount }} 개</div>
         <div>{{ selected.price }} 원</div>
-        <div class="flex">
-          <Button @click="moveAmount(false)">-</Button>
-          <input v-model="amount" type="number" @change="amountChamged" />
-          <Button @click="moveAmount(true)">+</Button>
+        <div class="flex flex-grow">
+          <Button class="flex-grow" @click="moveAmount(false)">-</Button>
+          <input
+            v-model="amount"
+            style="width: 5rem"
+            type="number"
+            class="flex-shrink"
+            @change="amountChamged"
+          />
+          <Button class="flex-grow" @click="moveAmount(true)">+</Button>
         </div>
         <div class="flex justify-between justify-items-stretch">
           <Button :class="purchaseClass">장바구니</Button>
