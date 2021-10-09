@@ -214,9 +214,8 @@ export default class Regist extends Vue {
     this.passed.pwd = this.register.password === data ? true : false;
     this.isPwdSuccessString = this.passed.pwd ? "Passed" : "Fail";
   }
-  onCategoryUpdate(data: boolean): void {
-    if (data === "normal") this.register.category = 0;
-    else this.register.category = 1;
+  onCategoryUpdate(data: string): void {
+    this.register.category = data === "normal";
   }
 
   //#endregion Item Event
