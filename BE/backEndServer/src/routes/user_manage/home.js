@@ -11,8 +11,6 @@ var router = express.Router();
 //not allowd api
 router.get("/", HttpError.badRequest);
 
-
-
 //FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
 router.all("/signed", (req, res) => {
   res.status(200).json({ value: req.session.user.authorized === true });
