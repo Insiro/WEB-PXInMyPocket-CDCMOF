@@ -5,7 +5,10 @@ import {
   Action,
   getModule,
 } from "vuex-module-decorators";
-import UserInterface, { UserInfoInterface } from "./Interfaces";
+import UserInterface, {
+  RegistInterface,
+  UserInfoInterface,
+} from "./Interfaces";
 import store from "..";
 import axios from "axios";
 
@@ -18,6 +21,7 @@ export class UserModule extends VuexModule implements UserInterface {
     bye: null,
     rank: false,
     authority: false,
+    name: "",
   };
   signed: boolean = false;
   //class안에서는 인자 1개
@@ -47,20 +51,28 @@ export class UserModule extends VuexModule implements UserInterface {
     }
     return true;
   }
-  @Action async signIn(info: any): Promise<boolean> {
+  @Action async signIn(info: {
+    email: string;
+    password: string;
+  }): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
-        email: info.email,
-        password: info.password,
-      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result: { result: string; user: any } = await axios.post(
+        "/api/home/login",
+        {
+          email: info.email,
+          password: info.password,
+        }
+      );
       const data: UserInfoInterface = {
         email: info.email,
-        profileImg: null,
-        id: null,
-        bye: null,
-        rank: false,
-        authority: false,
+        profileImg: result.user.profileImg,
+        id: result.user.serial_number,
+        bye: result.user.expire_date,
+        rank: result.user.rank,
+        authority: result.user.authority,
+        name: result.user.name,
       };
       this.setSign(true);
       this.setData(data);
@@ -75,38 +87,35 @@ export class UserModule extends VuexModule implements UserInterface {
     this.setSign(false);
     this.setData({} as UserInfoInterface);
   }
-  @Action async isExist(info: any): Promise<boolean> {
-	  try {
-		console.log(info.email);
-		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/register/checkId",{email:info.email});
-		console.log(result);
-	  return result;
-	  } catch (err: unknown) {
+  @Action async isExist(email: string): Promise<boolean> {
+    try {
+      console.log(email);
+      const result: { exist: boolean } = await axios.post(
+        "/api/home/register/checkId",
+        {
+          email: email,
+        }
+      );
+      console.log(result);
+      return result.exist;
+    } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;
     }
   }
-  @Action async regist(info: any): Promise<boolean> {
+  @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("/api/home/register", {
+      const result = await axios.post("/api/home/register", {
         email: info.email,
         password: info.password,
         serial_number: info.id,
         name: info.name,
         expire_date: info.bye,
-        rank: info.category,
+        rank: info.rank,
       });
-      const data: UserInfoInterface = {
-        email: info.email,
-        profileImg: null,
-        id: null,
-        bye: null,
-        rank: false,
-        authority: false,
-      };
       this.setSign(true);
-      this.setData(data);
+      this.setData(info);
       console.log("check register");
       return true;
     } catch (err: unknown) {

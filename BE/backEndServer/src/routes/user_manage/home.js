@@ -46,7 +46,15 @@ router.post("/login", (req, res) => {
           authority: user.authority,
           authorized: true,
         };
-        res.status(202).json({ result: "success", name: user.name });
+        let retUser = Object.assign(user.dataValues);
+        delete retUser.password;
+        delete retUser.salt;
+        delete retUser.createdAt;
+        delete retUser.updatedAt;
+        res.status(202).json({
+          result: "success",
+          user: retUser,
+        });
       }
     })
     .catch((err) => {
