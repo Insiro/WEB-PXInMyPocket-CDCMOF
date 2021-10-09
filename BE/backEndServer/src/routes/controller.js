@@ -4,6 +4,7 @@ import home from "./user_manage/home.js";
 import product from "./product_manage/product.js";
 import admin from "./admin_manage/admin.js";
 import freeboard from "./freeboard_manage/freeboard.js";
+import * as HttpError from "./error_handler.js";
 
 var router = express.Router();
 
@@ -15,15 +16,10 @@ router.use(
     saveUninitialized: true,
   })
 );
-
 //home으로 이동
-router.get("/", (req, res) => {
-  res.redirect("/home");
-});
-
 router.use("/home", home);
 router.use("/product", product);
 router.use("/admin", admin);
 router.use("/freeboard", freeboard);
-
+router.use("/*", HttpError.badRequest);
 export default router;

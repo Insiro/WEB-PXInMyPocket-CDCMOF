@@ -3,6 +3,7 @@
 import express from "express";
 import db from "../../models/Index.js";
 import crypto from "crypto";
+import { notAcceptable, badRequest } from "../error_handler.js";
 
 var router = express.Router();
 
@@ -14,30 +15,29 @@ router.post("/", (req, res) => {
     .createHash("sha512")
     .update(inputPassword + salt)
     .digest("hex");
-  console.log(req.body.id, req.body.password);
+  console.log(req.body.email, req.body.password);
 
   db.User.create({
-    id: req.body.id,
+    email: req.body.email,
     password: hashPassword,
     salt: salt,
     name: req.body.name,
-    email: req.body.email,
     serial_number: req.body.serial_number,
     expire_date: req.body.expire_date,
     rank: req.body.rank,
   })
     .then(() => {
-      res.send("회원가입이 완료되었습니다");
+      res.status(202).json({ result: "success" });
       console.log("user create success");
     })
     .catch((err) => {
       console.log("user create fail");
       console.log(err);
+      //TODO: set masage to show why failed to create account
+      res.status(406).json({ result: "failed", message: "" });
     });
 });
 
-router.get("/", function (req, res) {
-  res.send("This is registerPage");
-});
-
+router.get("/", notAcceptable);
+router.all("/*", badRequest);
 export default router;
