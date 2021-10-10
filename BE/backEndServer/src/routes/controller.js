@@ -6,7 +6,6 @@ import admin from "./admin_manage/admin.js";
 import freeboard from "./freeboard_manage/freeboard.js";
 import * as HttpError from "./error_handler.js";
 
-
 var router = express.Router();
 
 //expressSession 미들웨어 추가

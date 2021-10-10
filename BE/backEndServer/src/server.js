@@ -16,7 +16,7 @@ const corsOptions = {
 };
 
 //매주 일요일마다 weelkly sale 초기화 14:30분에 초기화 됨
-schedule.scheduleJob({hour: 14, minute: 30, dayOfWeek: 0}, function () {
+schedule.scheduleJob({ hour: 14, minute: 30, dayOfWeek: 0 }, function () {
   console.log("reset sales");
   db.Product.update(
     {

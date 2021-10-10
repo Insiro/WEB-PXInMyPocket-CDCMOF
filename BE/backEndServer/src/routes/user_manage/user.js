@@ -39,11 +39,11 @@ router.post("/change-userinfo", async (req, res) => {
     loginUser.update({
       password: hashPassword,
       serial_number: req.body.new_serial_number,
-      expire_date: req.body.new_expire_date
+      expire_date: req.body.new_expire_date,
     });
     res.status(200).json({ changeInfoSuccess: true });
   } catch (error) {
-	console.log(error);
+    console.log(error);
     res.status(400).json({ changeInfoSuccess: false });
   }
 });

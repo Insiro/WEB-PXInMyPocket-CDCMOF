@@ -58,7 +58,7 @@ export class UserModule extends VuexModule implements UserInterface {
     //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result:any = await axios.post("/api/home/login", {
+      const result: any = await axios.post("/api/home/login", {
         email: info.email,
         password: info.password,
       });
@@ -119,13 +119,6 @@ export class UserModule extends VuexModule implements UserInterface {
       return false;
     }
   }
-<<<<<<< HEAD
-	@Action async findID(serial_number : string): Promise<string> {
-	  try {
-		  const result = await axios.post("/api/home/finduser/find-id",{serial_number: serial_number});
-	  return result;
-	  } catch (err: unknown) {
-=======
   @Action async findID(serial_number: string): Promise<string | null> {
     try {
       const result: { findIdSuccess: boolean; foundID: string } =
@@ -141,7 +134,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async resetPwd(info: {
     email: string;
     id: string;
-  }): Promise<boolean> {
+  }): Promise<boolean | null> {
     try {
       console.log(info);
       const result: { changePwdSuccess: boolean } = await axios.post(
@@ -154,34 +147,28 @@ export class UserModule extends VuexModule implements UserInterface {
       console.log(result);
       return result.changePwdSuccess;
     } catch (err: unknown) {
->>>>>>> bba6e9da3494f33647aca728b545cce2ccef3f72
+      console.warn("ERROR!!!!! : ", err);
+      return null;
+    }
+  }
+  @Action async changeUserInfo(info: any): Promise<string> {
+    try {
+      console.log(info);
+      const result = await axios.post(
+        "/api/home/user/finduser/change-userinfo",
+        {
+          new_password: info.new_password,
+          new_serial_number: info.new_serial_number,
+          new_expire_date: info.new_expire_date,
+        }
+      );
+      console.log(result);
+      return result;
+    } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;
     }
   }
-<<<<<<< HEAD
-	@Action async resetPwd(info: any) : Promise<string>{
-	try {
-		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/change-pw",{email: info.email, serial_number: info.id});
-		return result;
-		} catch (err: unknown) {
-		console.warn("ERROR!!!!! : ", err);
-      	return false;
-		}
-	}
-	@Action async changeUserInfo(info: any) : Promise<string>{
-	try {
-		console.log(info);
-		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/user/finduser/change-userinfo",{new_password: info.new_password, new_serial_number: info.new_serial_number, new_expire_date: info.new_expire_date,});
-		console.log(result);
-		return result;
-		} catch (err: unknown) {
-		console.warn("ERROR!!!!! : ", err);
-      	return false;
-		}
-	}
-=======
->>>>>>> bba6e9da3494f33647aca728b545cce2ccef3f72
   get bSigned(): boolean {
     return this.signed;
   }

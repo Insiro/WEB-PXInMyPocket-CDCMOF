@@ -1,12 +1,12 @@
 <template>
-        <div class="mt-6">
-          <Button
-            class="w-full px-4 text-sm text-center"
-            @onClick="router.push('/changeInfo')"
-          >
-            개인 정보 수정
-          </Button>
-        </div>
+  <div class="mt-6">
+    <Button
+      class="w-full px-4 text-sm text-center"
+      @onClick="router.push('/changeInfo')"
+    >
+      개인 정보 수정
+    </Button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -29,7 +29,6 @@ import ComponentsFrame from "@/components/CardFrame";
   },
 })
 export default class Carts extends Vue {
-	router = useRouter();
+  router = useRouter();
 }
-
 </script>

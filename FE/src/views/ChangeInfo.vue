@@ -6,16 +6,16 @@
         <div v-show="passed.newPwd == false">
           새로운 비밀번호가 확인 비밀번호와 동일하지 않습니다.
         </div>
-		 <div v-show="!changeInfo.id">군번을 입력하세요</div>
-		 <div v-show="!changeInfo.bye">전역날을 입력하세요</div>
+        <div v-show="!changeInfo.id">군번을 입력하세요</div>
+        <div v-show="!changeInfo.bye">전역날을 입력하세요</div>
         <div v-show="passed.all == true">수정이 완료되었습니다</div>
       </div>
-		
+
       <div v-show="mod.checkPrevPwd">
         <div v-show="passed.pwd">비밀번호를 확인했습니다.</div>
         <div v-show="passed.pwd == false">비밀번호가 틀렸습니다.</div>
       </div>
-		
+
       <div v-show="mod.raiseAuthority">
         <div>
           관리자 권한 신청이 접수되었습니다. <br />
@@ -30,20 +30,6 @@
       </div>
 
       <form class="mt-4" @submit.prevent="changeUserInfo">
-        <label class="block">
-          <span class="text-sm text-gray-700">
-            비밀번호 확인
-            <Button class="ml-7" @click.self.prevent="" @onClick="checkCurPwd"> 확인</Button>
-          </span>
-          <TextInput
-            v-model="Pwd.password"
-            placeholder="*****"
-            input_type="password"
-            :value="Pwd.password"
-            :class="inputStyle"
-            @updates="onPwdCheck"
-          />
-        </label>
         <label class="block mt-3">
           <span class="text-sm text-gray-700">New Password</span>
           <TextInput
@@ -151,42 +137,26 @@ export default class ChangeInfo extends Vue {
     this.mod.raiseAuthority = false;
     this.mod.checkPrevPwd = false;
     this.mod.submitNewInfo = true;
-	
-	var newInfo = {
-	  new_password: this.Pwd.newPassword,
-	  new_serial_number: this.changeInfo.id,
-	  new_expire_date: this.changeInfo.bye
-  	}
-	var result = await UserState.changeUserInfo(newInfo);
-    this.passed.all = this.passed.pwd && this.passed.newPwd && (!this.changeInfo.id) && (!this.changeInfo.bye) && result.data.changeInfoSuccess;
-	this.modalOpen = true;
 
-
+    var newInfo = {
+      new_password: this.Pwd.newPassword,
+      new_serial_number: this.changeInfo.id,
+      new_expire_date: this.changeInfo.bye,
+    };
+    var result = await UserState.changeUserInfo(newInfo);
+    this.passed.all =
+      this.passed.pwd &&
+      this.passed.newPwd &&
+      !this.changeInfo.id &&
+      !this.changeInfo.bye &&
+      result.data.changeInfoSuccess;
+    this.modalOpen = true;
   }
   giveAuthority(): void {
     this.mod.raiseAuthority = true;
     this.mod.checkPrevPwd = false;
     this.mod.submitNewInfo = false;
     this.modalOpen = true;
-  }
-  async checkCurPwd(): Promise <void> {
-    //TODO: check Pwd then alert
-    // axios 통신으로 받은 값 => returnVal
-    // returnVal == 1 : pwd is correct
-    this.mod.raiseAuthority = false;
-    this.mod.submitNewInfo = false;
-    this.mod.checkPrevPwd = true;
-    this.passed.pwd = false;
-
-    var result = await UserState.checkPwd(this.Pwd.password);
-
-    if (result) {
-      this.passed.pwd = true;
-      this.modalOpen = true;
-    } else {
-      this.modalOpen = true;
-    }
-    this.passed.pwd = true;
   }
   //#region Item Event
   modalClose(): void {
