@@ -6,6 +6,7 @@ import schedule from "node-schedule";
 import router from "./routes/controller.js";
 import db from "./models/Index.js";
 import cors from "cors";
+import session from "express-session";
 //cors settings value
 const corsOptions = {
   credentials: true,
@@ -51,6 +52,7 @@ sequelize.sync().then(() => {
 sequelize.drop();
 */
 //#endregion 데이터베이스 초기화
+app.use(cors(corsOptions));
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -58,6 +60,13 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(
+  session({
+    secret: "!@#my-px-app!@#",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
