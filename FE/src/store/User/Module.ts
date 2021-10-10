@@ -151,10 +151,11 @@ export class UserModule extends VuexModule implements UserInterface {
       return null;
     }
   }
-  @Action async changeUserInfo(info: any): Promise<string> {
+  @Action async changeUserInfo(info: any): Promise<boolean> {
     try {
       console.log(info);
-      const result = await axios.post(
+
+      const result: any = await axios.post(
         "/api/home/user/finduser/change-userinfo",
         {
           new_password: info.new_password,
@@ -162,8 +163,7 @@ export class UserModule extends VuexModule implements UserInterface {
           new_expire_date: info.new_expire_date,
         }
       );
-      console.log(result);
-      return result;
+      return result.data.changeInfoSuccess;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;

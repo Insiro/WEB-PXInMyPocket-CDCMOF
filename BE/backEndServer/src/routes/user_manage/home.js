@@ -13,7 +13,7 @@ router.get("/", HttpError.badRequest);
 
 //FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
 router.all("/signed", (req, res) => {
-  res.status(200).json({ value: req.session.user.authorized === true });
+  res.status(200).send(req.session.user.authorized === true);
 });
 router.all("/authority-check", (req, res) => {
   res.status(200).send(req.session.user.authority);
