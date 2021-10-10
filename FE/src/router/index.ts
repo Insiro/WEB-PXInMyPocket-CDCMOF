@@ -79,14 +79,15 @@ const router = createRouter({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-router.beforeEach((to: RouteLocationNormalized, _from, next: any) => {
+router.beforeEach(async (to: RouteLocationNormalized, _from, next: any) => {
   if (to.name === null || to.name === undefined) {
     globalState.setPageName("");
   } else {
     const name = to.name.toString();
+    console.log(name);
     if (name === "제품") {
-      globalState.setPageName(to.params.id.toString());
-      curItemState.updateItemID(to.params.id.toString());
+      await curItemState.changeCurItem(to.params.id.toString());
+      globalState.setPageName(curItemState.name);
     } else if (name === "제품 목록") prodState.refresh();
     else globalState.setPageName(to.name.toString());
   }

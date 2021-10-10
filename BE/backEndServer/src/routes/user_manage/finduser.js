@@ -72,7 +72,7 @@ router.post("/change-pw", (req, res) => {
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error);
-            return res.status(200).json({ findPwdSuccess: false });
+            return res.status(400).json({ findPwdSuccess: false });
           } else {
             console.log("Email sent: " + info.response);
           }
@@ -81,7 +81,7 @@ router.post("/change-pw", (req, res) => {
           changePwdSuccess: true,
         });
       } else {
-        return res.status(200).json({
+        return res.status(406).json({
           changePwdSuccess: false,
         });
       }

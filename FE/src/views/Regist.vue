@@ -95,14 +95,14 @@
             <Radio
               :class="[cateClass]"
               value="normal"
-              :picked="register.category"
+              :picked="register.rank"
               @pickUpdate="onCategoryUpdate"
               >병사</Radio
             >
             <Radio
               :class="[cateClass]"
               value="cadre"
-              :picked="register.category"
+              :picked="register.rank"
               @pickUpdate="onCategoryUpdate"
               >간부</Radio
             >
@@ -126,6 +126,7 @@ import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import UserState from "@/store/User";
+import { RegistInterface } from "@/store/User/Interfaces";
 
 @Options({
   components: { TextInput, webIcon, CheckBox, Button, Radio, BaseModal },
@@ -138,14 +139,16 @@ export default class Regist extends Vue {
     pwd: false,
     all: false,
   };
-  register = {
+  register: RegistInterface = {
     email: "",
     password: "",
     passwordCheck: "",
     id: "", //군번
     name: "",
     bye: "", //전역일
-    category: false, //병사 | 간부
+    rank: false, //병사 | 간부
+    profileImg: null,
+    authority: false,
   };
   //모달 트리거
   mod = {
@@ -176,8 +179,8 @@ export default class Regist extends Vue {
     this.mod.email = true;
     this.mod.regist = false;
 
-    var result = await UserState.isExist(this.register);
-    if (result.data.exist) this.passed.email = false;
+    var result = await UserState.isExist(this.register.email ?? "");
+    if (result) this.passed.email = false;
     else this.passed.email = true;
     //Change Contents following result
     this.modalOpen = true;
@@ -215,8 +218,7 @@ export default class Regist extends Vue {
     this.isPwdSuccessString = this.passed.pwd ? "Passed" : "Fail";
   }
   onCategoryUpdate(data: string): void {
-    if (data === "normal") this.register.category = false;
-    else this.register.category = true;
+    this.register.rank = data === "normal";
   }
 
   //#endregion Item Event

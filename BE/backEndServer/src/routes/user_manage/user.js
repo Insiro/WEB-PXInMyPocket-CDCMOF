@@ -8,12 +8,7 @@ var router = express.Router();
 
 //로그인을 하지 않은 상태로 /user로 접속하면 403 error를 보냅니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
 //로그인 한 후 접근 가능 하도록 middle ware 을 설정합니다.
-router.all("/*", (req, res, next) => {
-	console.log(req.session);
-  if (!req.session.user) {
-    console.log("로그인이 유효하지 않습니다");
-  } else next();
-});
+router.all("/*", checkSigned);
 
 router.all("/", badRequest);
 
@@ -35,14 +30,12 @@ router.get("/orderlist", async (req, res) => {
 router.post("/change-userinfo", async (req, res) => {
   var new_password = req.body.newpassword;
   try {
-	  console.log("check1");
     let loginUser = await getUser(req.session.user.email);
     var salt = loginUser.salt;
     var hashPassword = crypto
       .createHash("sha512")
       .update(new_password + salt)
       .digest("hex");
-	  console.log("check2");
     loginUser.update({
       password: hashPassword,
       serial_number: req.body.new_serial_number,

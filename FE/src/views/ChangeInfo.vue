@@ -169,17 +169,18 @@ export default class ChangeInfo extends Vue {
     this.mod.submitNewInfo = false;
     this.modalOpen = true;
   }
-  checkCurPwd(): void {
+  async checkCurPwd(): Promise <void> {
     //TODO: check Pwd then alert
     // axios 통신으로 받은 값 => returnVal
     // returnVal == 1 : pwd is correct
-    var returnVal = true;
     this.mod.raiseAuthority = false;
     this.mod.submitNewInfo = false;
     this.mod.checkPrevPwd = true;
     this.passed.pwd = false;
 
-    if (returnVal) {
+    var result = await UserState.checkPwd(this.Pwd.password);
+
+    if (result) {
       this.passed.pwd = true;
       this.modalOpen = true;
     } else {

@@ -11,8 +11,8 @@ router.post("/checkId", (req, res) => {
   db.User.findOne({
     where: { email: req.body.email },
   }).then((result) => {
-    if (result) res.status(202).json({ exist: 1 });
-    else res.status(202).json({ exist: 0 });
+    if (result) res.status(200).json({ exist: true });
+    else res.status(200).json({ exist: false });
   });
 });
 //POST home/register: 회원가입 기능입니다

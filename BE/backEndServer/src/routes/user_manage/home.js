@@ -23,7 +23,6 @@ router.all("/authority-check", (req, res) => {
 // 로그인 기능입니다. login은 home페이지를 통해 가능합니다. 로그인이 성공하면 /home/user로 이동합니다.
 
 router.post("/login", (req, res) => {
-  console.log("login check");
   db.User.findOne({
     where: { email: req.body.email },
   })
@@ -46,9 +45,15 @@ router.post("/login", (req, res) => {
           authority: user.authority,
           authorized: true,
         };
-		req.session.save();
-		console.log(req.session);
-        res.status(202).json({ result: "success", name: user.name });
+        let retUser = Object.assign(user.dataValues);
+        delete retUser.password;
+        delete retUser.salt;
+        delete retUser.createdAt;
+        delete retUser.updatedAt;
+        res.status(202).json({
+          result: "success",
+          user: retUser,
+        });
       }
     })
     .catch((err) => {

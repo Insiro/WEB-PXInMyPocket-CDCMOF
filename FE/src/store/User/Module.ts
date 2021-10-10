@@ -5,7 +5,10 @@ import {
   Action,
   getModule,
 } from "vuex-module-decorators";
-import UserInterface, { UserInfoInterface } from "./Interfaces";
+import UserInterface, {
+  RegistInterface,
+  UserInfoInterface,
+} from "./Interfaces";
 import store from "..";
 import axios from "axios";
 
@@ -18,6 +21,7 @@ export class UserModule extends VuexModule implements UserInterface {
     bye: null,
     rank: false,
     authority: false,
+    name: "",
   };
   signed: boolean = false;
   //class안에서는 인자 1개
@@ -47,20 +51,26 @@ export class UserModule extends VuexModule implements UserInterface {
     }
     return true;
   }
-  @Action async signIn(info: any): Promise<boolean> {
+  @Action async signIn(info: {
+    email: string;
+    password: string;
+  }): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result:any = await axios.post("/api/home/login", {
         email: info.email,
         password: info.password,
       });
+      const userData = result.data.user;
       const data: UserInfoInterface = {
         email: info.email,
-        profileImg: null,
-        id: null,
-        bye: null,
-        rank: false,
-        authority: false,
+        profileImg: "prodileImg" in result ? userData.profileImg : null,
+        id: userData.serial_number,
+        bye: userData.expire_date,
+        rank: userData.rank,
+        authority: userData.authority,
+        name: userData.name,
       };
       this.setSign(true);
       this.setData(data);
@@ -75,16 +85,21 @@ export class UserModule extends VuexModule implements UserInterface {
     this.setSign(false);
     this.setData({} as UserInfoInterface);
   }
-  @Action async isExist(info: any): Promise<string> {
-	  try {
-		  const result = await axios.post("/api/home/register/checkId",{email:info.email});
-	  return result;
-	  } catch (err: unknown) {
+  @Action async isExist(email: string): Promise<boolean> {
+    try {
+      const result: { exist: boolean } = await axios.post(
+        "/api/home/register/checkId",
+        {
+          email: email,
+        }
+      );
+      return result.exist;
+    } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;
     }
   }
-  @Action async regist(info: any): Promise<boolean> {
+  @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
       await axios.post("/api/home/register", {
@@ -93,18 +108,10 @@ export class UserModule extends VuexModule implements UserInterface {
         serial_number: info.id,
         name: info.name,
         expire_date: info.bye,
-        rank: info.category,
+        rank: info.rank,
       });
-      const data: UserInfoInterface = {
-        email: info.email,
-        profileImg: null,
-        id: null,
-        bye: null,
-        rank: false,
-        authority: false,
-      };
       this.setSign(true);
-      this.setData(data);
+      this.setData(info);
       console.log("check register");
       return true;
     } catch (err: unknown) {
@@ -112,15 +119,47 @@ export class UserModule extends VuexModule implements UserInterface {
       return false;
     }
   }
+<<<<<<< HEAD
 	@Action async findID(serial_number : string): Promise<string> {
 	  try {
 		  const result = await axios.post("/api/home/finduser/find-id",{serial_number: serial_number});
 	  return result;
 	  } catch (err: unknown) {
+=======
+  @Action async findID(serial_number: string): Promise<string | null> {
+    try {
+      const result: { findIdSuccess: boolean; foundID: string } =
+        await axios.post("/api/home/finduser/find-id", {
+          serial_number: serial_number,
+        });
+      return result.findIdSuccess ? result.foundID : null;
+    } catch (err) {
+      console.warn("ERROR!!!!! : ", err);
+      return null;
+    }
+  }
+  @Action async resetPwd(info: {
+    email: string;
+    id: string;
+  }): Promise<boolean> {
+    try {
+      console.log(info);
+      const result: { changePwdSuccess: boolean } = await axios.post(
+        "/api/home/finduser/change-pw",
+        {
+          email: info.email,
+          serial_number: info.id,
+        }
+      );
+      console.log(result);
+      return result.changePwdSuccess;
+    } catch (err: unknown) {
+>>>>>>> bba6e9da3494f33647aca728b545cce2ccef3f72
       console.warn("ERROR!!!!! : ", err);
       return false;
     }
   }
+<<<<<<< HEAD
 	@Action async resetPwd(info: any) : Promise<string>{
 	try {
 		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/change-pw",{email: info.email, serial_number: info.id});
@@ -141,6 +180,8 @@ export class UserModule extends VuexModule implements UserInterface {
       	return false;
 		}
 	}
+=======
+>>>>>>> bba6e9da3494f33647aca728b545cce2ccef3f72
   get bSigned(): boolean {
     return this.signed;
   }
