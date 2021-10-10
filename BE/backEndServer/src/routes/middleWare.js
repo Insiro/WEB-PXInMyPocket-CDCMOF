@@ -1,6 +1,7 @@
 import db from "../models/Index.js";
 import { forbidden, notAthorized } from "./error_handler.js";
 export const checkSigned = (req, res, next) => {
+	console.log(req.session);
   if (!req.session.user) {
     console.log("로그인이 유효하지 않습니다");
     notAthorized(req, res);

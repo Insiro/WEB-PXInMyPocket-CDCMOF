@@ -46,6 +46,8 @@ router.post("/login", (req, res) => {
           authority: user.authority,
           authorized: true,
         };
+		req.session.save();
+		console.log(req.session);
         res.status(202).json({ result: "success", name: user.name });
       }
     })

@@ -77,7 +77,7 @@ export class UserModule extends VuexModule implements UserInterface {
   }
   @Action async isExist(info: any): Promise<string> {
 	  try {
-		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/register/checkId",{email:info.email});
+		  const result = await axios.post("/api/home/register/checkId",{email:info.email});
 	  return result;
 	  } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -114,7 +114,7 @@ export class UserModule extends VuexModule implements UserInterface {
   }
 	@Action async findID(serial_number : string): Promise<string> {
 	  try {
-		  const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/find-id",{serial_number: serial_number});
+		  const result = await axios.post("/api/home/finduser/find-id",{serial_number: serial_number});
 	  return result;
 	  } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -123,8 +123,17 @@ export class UserModule extends VuexModule implements UserInterface {
   }
 	@Action async resetPwd(info: any) : Promise<string>{
 	try {
-		console.log(info);
 		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/finduser/change-pw",{email: info.email, serial_number: info.id});
+		return result;
+		} catch (err: unknown) {
+		console.warn("ERROR!!!!! : ", err);
+      	return false;
+		}
+	}
+	@Action async changeUserInfo(info: any) : Promise<string>{
+	try {
+		console.log(info);
+		const result = await axios.post("https://rkskekfk.run.goorm.io/api/home/user/finduser/change-userinfo",{new_password: info.new_password, new_serial_number: info.new_serial_number, new_expire_date: info.new_expire_date,});
 		console.log(result);
 		return result;
 		} catch (err: unknown) {

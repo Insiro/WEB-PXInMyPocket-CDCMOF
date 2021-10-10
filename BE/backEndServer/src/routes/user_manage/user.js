@@ -8,7 +8,12 @@ var router = express.Router();
 
 //로그인을 하지 않은 상태로 /user로 접속하면 403 error를 보냅니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
 //로그인 한 후 접근 가능 하도록 middle ware 을 설정합니다.
-router.use("/*", checkSigned);
+router.all("/*", (req, res, next) => {
+	console.log(req.session);
+  if (!req.session.user) {
+    console.log("로그인이 유효하지 않습니다");
+  } else next();
+});
 
 router.all("/", badRequest);
 
@@ -24,31 +29,29 @@ router.get("/orderlist", async (req, res) => {
   }
 });
 
+//POST home/
+
 //POST home/user/change-userinfo: 개인 정보 수정내역을 보냅니다
 router.post("/change-userinfo", async (req, res) => {
   var new_password = req.body.newpassword;
-  var check_password = req.body.checkpassword;
   try {
-    if (new_password !== check_password) throw "not matched";
+	  console.log("check1");
     let loginUser = await getUser(req.session.user.email);
     var salt = loginUser.salt;
     var hashPassword = crypto
       .createHash("sha512")
       .update(new_password + salt)
       .digest("hex");
+	  console.log("check2");
     loginUser.update({
       password: hashPassword,
+      serial_number: req.body.new_serial_number,
+      expire_date: req.body.new_expire_date
     });
-    if (!req.body.new_serial_number)
-      loginUser.update({
-        serial_number: req.body.new_serial_number,
-      });
-    if (!req.body.new_expire_date)
-      loginUser.update({
-        expire_date: req.body.new_expire_date,
-      });
+    res.status(200).json({ changeInfoSuccess: true });
   } catch (error) {
-    res.status(400).json({ msg: "비밀번호가 일치하지 않습니다." });
+	console.log(error);
+    res.status(400).json({ changeInfoSuccess: false });
   }
 });
 
