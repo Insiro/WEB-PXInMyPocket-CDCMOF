@@ -1,0 +1,5 @@
+{
+  "prettier.eslintIntegration": true,
+  "prettier.tabWidth": 2,
+  "tabWidth": 2
+}

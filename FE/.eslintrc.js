@@ -27,7 +27,7 @@ module.exports = {
       "warn",
       2,
       {
-        MemberExpression: 0,
+        MemberExpression: 1,
       },
     ],
     "@typescript-eslint/no-inferrable-types": "off",

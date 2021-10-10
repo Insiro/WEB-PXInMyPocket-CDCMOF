@@ -2,10 +2,11 @@
   <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
     <BaseModal :open="modalOpen" @close="modalClose">
       <div v-show="mod.pwd">
-        비밀번호 초기화Input
-        <!--TODO: 비밀번호 초기화 Input and Action-->
+        <div v-show="mod.pwdSuccess">
+          수정된 비밀번호가 메일로 전송되었습니다.
+        </div>
+        <div v-show="!mod.pwdSuccess">해당하는 유저가 존재하지 않습니다.</div>
       </div>
-
       <div v-show="mod.id">
         <div v-show="mod.idSuccess">당신의 아이디는 <br />{{ lookedID }}</div>
         <div v-show="!mod.idSuccess">정보를 찾지 못 하였습니다</div>
@@ -64,7 +65,7 @@ import { TextInput, CheckBox, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
-
+import UserState from "@/store/User";
 @Options({
   components: { TextInput, webIcon, CheckBox, Button, Radio, BaseModal },
 })
@@ -75,6 +76,7 @@ export default class Regist extends Vue {
     pwd: false,
     id: false,
     idSuccess: false,
+    pwdSuccess: false,
   };
   lookedID = "";
   lostPWD = {
@@ -88,14 +90,28 @@ export default class Regist extends Vue {
   modalOpen: boolean = false;
 
   //#region Item Event
-  findID(): void {
+  async findID(): Promise<void> {
     //TODO: find ID and Modal
+    var result = await UserState.findID(this.lostID);
+    if (result.data.findIdSuccess) {
+      this.mod.idSuccess = true;
+      this.lookedID = result.data.foundID;
+    } else {
+      this.mod.idSuccess = false;
+    }
     this.mod.id = true;
     this.mod.pwd = false;
     this.modalOpen = true;
   }
-  resetPwd(): void {
-    //TODO: check Info and resetPWD from Modal
+  
+  async resetPwd(): Promise<void> {
+    var result = await UserState.resetPwd(this.lostPWD);
+	console.log(result);
+    if (result.data.changePwdSuccess) {
+      this.mod.pwdSuccess = true;
+    } else {
+      this.mod.pwdSuccess = false;
+    }
     this.mod.id = false;
     this.mod.pwd = true;
     this.modalOpen = true;

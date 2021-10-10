@@ -5,8 +5,7 @@ import Sequelize from "sequelize";
 import db from "../../models/Index.js";
 import order from "./order.js";
 import preference from "./preference.js";
-import { badRequest } from "../error_handler.js";
-
+import * as HttpError from "../error_handler.js";
 //주문에 대한 내용은 order.js에서 처리
 router.use("/order", order);
 
@@ -70,5 +69,18 @@ router.get("/detailview", function (req, res) {
       res.status(400).json({ error: "not found Item" });
     });
 });
-router.all("/*", badRequest);
+router.get("/info", async (req, res) => {
+  try {
+    const item = await db.Product.findOne({
+      where: {
+        product_id: req.query.id,
+      },
+    });
+    if (item) res.status(200).json({ data: item });
+    else HttpError.notFound(req, res);
+  } catch (e) {
+    res.status(400).json({ error: "failed" });
+  }
+});
+router.all("/*", HttpError.badRequest);
 export default router;

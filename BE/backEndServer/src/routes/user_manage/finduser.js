@@ -3,9 +3,8 @@
 import express from "express";
 import db from "../../models/Index.js";
 import crypto from "crypto";
-import nodemailer from "nodemailer
+import nodemailer from "nodemailer";
 import { badRequest } from "../error_handler.js";
-
 
 var router = express.Router();
 
@@ -13,22 +12,20 @@ var router = express.Router();
 router.post("/find-id", (req, res) => {
   db.User.findOne({
     where: { serial_number: req.body.serial_number },
-  })
-    .then((user) => {
-      console.log("check");
-      var email = user.email;
+  }).then((user) => {
+    console.log("check");
+    if (user) {
       return res.status(200).json({
         findIdSuccess: true,
-        message: `귀하의 아이디는 ${email} 입니다.`,
+        foundID: user.email,
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      return res.status(404).json({
+    } else {
+      return res.status(200).json({
         findIdSuccess: false,
-        message: "해당하는 유저가 없습니다.",
+        foundID: null,
       });
-    });
+    }
+  });
 });
 
 //POST /home/finduser/change-pw
@@ -41,54 +38,56 @@ router.post("/change-pw", (req, res) => {
     },
   })
     .then((user) => {
-      var newPassword = Math.round(new Date().valueOf() * Math.random()) + "";
-      var email = user.email;
-      var salt = user.salt;
-      var hashPassword = crypto
-        .createHash("sha512")
-        .update(newPassword + salt)
-        .digest("hex");
+      if (user) {
+        var newPassword = Math.round(new Date().valueOf() * Math.random()) + "";
+        var email = user.email;
+        var salt = user.salt;
+        var hashPassword = crypto
+          .createHash("sha512")
+          .update(newPassword + salt)
+          .digest("hex");
 
-      user.update({
-        password: hashPassword,
-      });
+        user.update({
+          password: hashPassword,
+        });
 
-      var transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        secure: false,
-        requireTLS: true,
-        auth: {
-          user: "wiovle2@gmail.com",
-          pass: "rlwls!1733",
-        },
-      });
+        var transporter = nodemailer.createTransport({
+          service: "Naver",
+          host: "smtp.naver.com",
+          secure: false,
+          requireTLS: true,
+          auth: {
+            user: "jwj0340",
+            pass: "cdcmof123!",
+          },
+        });
 
-      var mailOptions = {
-        from: "jwj0340@naver.com",
-        to: `${email}`,
-        subject: "px어플리케이션 새로운 비밀번호",
-        text: `새로운 비밀번호는 ${newPassword} 입니다. 로그인 후 비밀번호를 변경해 주세요`,
-      };
+        var mailOptions = {
+          from: "jwj0340@naver.com",
+          to: `${email}`,
+          subject: "px어플리케이션 새로운 비밀번호",
+          text: `새로운 비밀번호는 ${newPassword} 입니다. 로그인 후 비밀번호를 변경해 주세요`,
+        };
 
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email sent: " + info.response);
-        }
-      });
-      return res.status(202).json({
-        findIdSuccess: true,
-        message: `메일을 전송하였습니다`,
-      });
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error);
+            return res.status(400).json({ findPwdSuccess: false });
+          } else {
+            console.log("Email sent: " + info.response);
+          }
+        });
+        return res.status(202).json({
+          changePwdSuccess: true,
+        });
+      } else {
+        return res.status(406).json({
+          changePwdSuccess: false,
+        });
+      }
     })
     .catch((err) => {
       console.log(err);
-      return res.status(404).json({
-        findIdSuccess: false,
-        message: "해당하는 유저가 없습니다.",
-      });
     });
 });
 router.all("/*", badRequest);

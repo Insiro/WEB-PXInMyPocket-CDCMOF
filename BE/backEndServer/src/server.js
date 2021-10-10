@@ -10,7 +10,7 @@ import cors from "cors";
 //cors settings value
 const corsOptions = {
   credentials: true,
-  origin: true,
+  origin: "*",
   methods: "GET,HEAD,POST,DELETE",
   optionsSuccessStatus: 200,
   maxAge: 3600,
@@ -82,8 +82,6 @@ app.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-
 
 app.set("port", process.env.PORT || 8000);
 

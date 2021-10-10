@@ -1,4 +1,14 @@
 <template>
+  <BaseModal
+    class="md:hidden"
+    :open="show_search_modal"
+    action="검색"
+    @close="searchModalClose"
+  >
+    <TextInput type="text" placeholder="Search">
+      <IconSearch />
+    </TextInput>
+  </BaseModal>
   <header
     class="
       flex
@@ -38,14 +48,18 @@
     </div>
 
     <div class="flex items-center">
-      <TextInput type="text" placeholder="Search">
-        <IconSearch />
-      </TextInput>
-      <router-link to="/cart"><CartIcon /></router-link>
-      <button class="flex mx-4 text-gray-600 focus:outline-none">
-        <RingIcon />
-      </button>
-
+      <div class="headBar flex items-center">
+        <TextInput type="text" placeholder="Search">
+          <IconSearch />
+        </TextInput>
+        <router-link to="/cart">
+          <CartIcon />
+        </router-link>
+        <button class="flex mx-4 text-gray-600 focus:outline-none">
+          <RingIcon />
+        </button>
+      </div>
+      <IconSearch class="mx-4" :class="[menuItemClass]" @click="openSearch" />
       <div class="relative">
         <button
           class="
@@ -97,7 +111,14 @@
               shadow-xl
             "
           >
-            <MenuItem text="menu item" />
+            <MenuItem :class="[menuItemClass]">
+              <router-link to="/cart">
+                <CartIcon :class="[menuiconClass]" /> 장바구니
+              </router-link>
+            </MenuItem>
+            <MenuItem :class="[menuItemClass]">
+              <RingIcon :class="[menuiconClass]" /> Notics
+            </MenuItem>
             <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
             <MenuItem v-show="is_signed === false" to="/signIn">
               Log In
@@ -115,18 +136,29 @@ import { ref } from "vue";
 import MenuItem from "./MenuItem.vue";
 import { TextInput } from "@/components/Inputs";
 import { IconSearch, RingIcon, CartIcon } from "@/components/Icons";
+import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
 
 @Options({
-  components: { MenuItem, TextInput, IconSearch, RingIcon, CartIcon },
+  components: {
+    MenuItem,
+    TextInput,
+    IconSearch,
+    RingIcon,
+    CartIcon,
+    BaseModal,
+  },
 })
 export default class Header extends Vue {
+  show_search_modal = false;
+  user = userState.UserData;
+  dropdownOpen = ref(false);
+  menuItemClass = ref("lg:hidden");
+  menuiconClass = ref("inline-block");
   get PageName(): string {
     return globalState.pageName;
   }
-  user = userState.UserData;
-  dropdownOpen = ref(false);
   get is_open(): boolean {
     return globalState.isSideBarOpend;
   }
@@ -139,5 +171,21 @@ export default class Header extends Vue {
   signOut(): void {
     userState.signOut();
   }
+  openSearch(): void {
+    this.show_search_modal = true;
+  }
+  searchModalClose(): void {
+    this.show_search_modal = false;
+  }
 }
 </script>
+<style scoped>
+@media (max-width: 1024px) {
+  .headBar {
+    display: none;
+  }
+}
+.headBar {
+  vertical-align: middle;
+}
+</style>

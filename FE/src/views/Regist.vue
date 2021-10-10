@@ -1,14 +1,14 @@
 <template>
   <div class="flex items-center justify-center h-screen px-6 bg-gray-200">
     <BaseModal :open="modalOpen" @close="modalClose">
-      <div v-show="mod.regist">
+      <div v-show="mod.regist == true">
         <div v-show="passed.id == false">군번을 확인 해주세요</div>
         <div v-show="passed.email == false">이메일을 확인 해주세요</div>
         <div v-show="passed.pwd == false">비밀번호를 확인 해주세요</div>
         등록을 기다려 주세요
       </div>
-      <div v-show="mod.email">
-        <div v-show="passed.email">사용 가능한 메일 입니다</div>
+      <div v-show="mod.email == true">
+        <div v-show="passed.email == true">사용 가능한 메일 입니다</div>
         <div v-show="passed.email == false">이미 가입된 메일 입니다</div>
       </div>
     </BaseModal>
@@ -22,7 +22,10 @@
         <label class="block">
           <span class="text-sm text-gray-700">
             Email
-            <Button class="ml-7" @onClick="checkID"> 확인</Button>
+
+            <Button class="ml-7" @click.self.prevent="" @onClick="check_id"
+              >확인</Button
+            >
           </span>
           <TextInput
             v-model="register.email"
@@ -92,14 +95,14 @@
             <Radio
               :class="[cateClass]"
               value="normal"
-              :picked="register.category"
+              :picked="register.rank"
               @pickUpdate="onCategoryUpdate"
               >병사</Radio
             >
             <Radio
               :class="[cateClass]"
               value="cadre"
-              :picked="register.category"
+              :picked="register.rank"
               @pickUpdate="onCategoryUpdate"
               >간부</Radio
             >
@@ -113,7 +116,6 @@
       </form>
     </div>
   </div>
-  {{ mod }}
 </template>
 <script lang="ts">
 import { ref } from "vue";
@@ -123,6 +125,8 @@ import { TextInput, CheckBox, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import { webIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
+import UserState from "@/store/User";
+import { RegistInterface } from "@/store/User/Interfaces";
 
 @Options({
   components: { TextInput, webIcon, CheckBox, Button, Radio, BaseModal },
@@ -135,14 +139,16 @@ export default class Regist extends Vue {
     pwd: false,
     all: false,
   };
-  register = {
+  register: RegistInterface = {
     email: "",
     password: "",
     passwordCheck: "",
     id: "", //군번
     name: "",
     bye: "", //전역일
-    category: "", //병사 | 간부
+    rank: false, //병사 | 간부
+    profileImg: null,
+    authority: false,
   };
   //모달 트리거
   mod = {
@@ -155,34 +161,35 @@ export default class Regist extends Vue {
   inputStyle = ref("block rounded-md w-full ");
   cateClass = ref("mx-5");
   //#endregion Style
-  regist(): void {
+  async regist(): Promise<void> {
+    this.mod.regist = true;
     //TODO: check regist value is availble
-    if (this.passed.id && this.passed.email && this.passed.pwd) {
-      //TODO: run regist api
-      this.passed.all = true;
+    this.passed.all = true;
+    var result = await UserState.regist(this.register);
+    if (result) {
       this.router.push("/");
     } else {
       //TODO: alert wrong Input
       this.passed.all = false;
-      this.mod.email = false;
-      this.mod.regist = true;
       this.modalOpen = true;
     }
   }
-  checkID(): void {
-    //TODO: check ID then alert
-    if (true) {
-      this.passed.id = false;
-    }
-    //Change Contents following result
-    //TODO: Bug: mod.email not changed to true
+
+  async check_id(): Promise<void> {
     this.mod.email = true;
     this.mod.regist = false;
+
+    var result = await UserState.isExist(this.register.email ?? "");
+    if (result) this.passed.email = false;
+    else this.passed.email = true;
+    //Change Contents following result
     this.modalOpen = true;
   }
   //#region Item Event
   modalClose(): void {
     this.modalOpen = false;
+    this.mod.email = false;
+    this.mod.regist = false;
   }
   onByeChanged(date: string): void {
     this.register.bye = date;
@@ -192,11 +199,11 @@ export default class Regist extends Vue {
   }
   onEmailChanged(data: string): void {
     this.register.email = data;
-    this.passed.email = false;
+    this.passed.email = true;
   }
   onIdChanged(data: string): void {
     this.register.id = data;
-    this.passed.id = false;
+    this.passed.id = true;
   }
   onPwdChanged(data: string): void {
     this.register.password = data;
@@ -211,7 +218,7 @@ export default class Regist extends Vue {
     this.isPwdSuccessString = this.passed.pwd ? "Passed" : "Fail";
   }
   onCategoryUpdate(data: string): void {
-    this.register.category = data;
+    this.register.rank = data === "normal";
   }
 
   //#endregion Item Event

@@ -5,18 +5,34 @@
     <div class="md:flex md:flex-row mx-5 md:flex-grow">
       <img
         class="mx-5 mt-6 md:flex-grow itemArea rounded shadow-lg"
-        :src="itemInfo.imgUrl"
+        :src="itemInfo.src"
       />
       <!-- <div></div> -->
       <Card class="mx-5 md:flex-grow itemArea ccard" :title="itemInfo.name">
-        <div>{{ itemInfo.price }}</div>
-        <div>잔여 {{ itemInfo.remaining }}</div>
-        <div>총 {{ selected.amount }} 개</div>
-        <div>{{ selected.price }} 원</div>
-        <div class="flex">
-          <Button @click="moveAmount(false)">-</Button>
-          <input v-model="amount" type="number" @change="amountChamged" />
-          <Button @click="moveAmount(true)">+</Button>
+        <div :class="infoLineClass">{{ itemInfo.price }}</div>
+        <div :class="infoLineClass">잔여 {{ itemInfo.remain }}</div>
+        <div :class="infoLineClass">
+          <div class="inline">총 {{ selected.amount }} 개</div>
+          <div class="inline">{{ selected.price }} 원</div>
+        </div>
+        <div class="flex flex-grow mb-3 mt-3">
+          <Button
+            class="flex-grow px-4 text-sm text-center mx-3"
+            @click="moveAmount(false)"
+            >-</Button
+          >
+          <input
+            v-model="amount"
+            style="min-width: 5rem; max-width: 10rem; text-align: center"
+            type="number"
+            class="flex-grow"
+            @change="amountChamged"
+          />
+          <Button
+            class="flex-grow px-4 text-sm text-center mx-3"
+            @click="moveAmount(true)"
+            >+</Button
+          >
         </div>
         <div class="flex justify-between justify-items-stretch">
           <Button :class="purchaseClass">장바구니</Button>
@@ -35,14 +51,8 @@ import Card, { WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Inputs";
 import globalState from "@/store/global";
-interface ItemInfo {
-  name: string;
-  price: string;
-  category: string;
-  remaining: number;
-  limit_item: boolean;
-  imgUrl?: string;
-}
+import { ProductFormat } from "@/store/Prod/Interfaces";
+import curItemState from "@/store/Prod/ItemModule";
 interface Selected {
   amount: number;
   price: number;
@@ -55,14 +65,14 @@ export default class Name extends Vue {
     amount: 0,
     price: 0,
   };
-  itemInfo: ItemInfo = {
-    name: "Title",
-    price: "",
-    remaining: 0,
-    category: "",
-    limit_item: false,
-    imgUrl: "",
-  };
+  // itemInfo: ItemInfo = {
+  //   name: "Title",
+  //   price: "",
+  //   remaining: 0,
+  //   category: "",
+  //   limit_item: false,
+  //   imgUrl: "",
+  // };
   set pageI(id: string) {
     let name = " ";
     //TODO: get is vaild prod Id from Restful api and Update Name
@@ -72,6 +82,7 @@ export default class Name extends Vue {
   //#endregion
   //#region styleClass
   purchaseClass = ref("w-full flex-grow px-4 text-sm text-center mx-3");
+  infoLineClass = ref("text-base flex-frow px-4");
   //#endregion
   //#region onclick methods
   amountChamged(e: Event): void {
@@ -79,8 +90,11 @@ export default class Name extends Vue {
     this.amount = parseInt((e.target as HTMLInputElement).value);
     console.log(this.amount);
   }
+  get itemInfo(): ProductFormat {
+    return curItemState.info;
+  }
   set amount(amount: number) {
-    if (amount > this.itemInfo.remaining) amount = this.itemInfo.remaining;
+    if (amount > this.itemInfo.remain) amount = this.itemInfo.remain;
     else if (amount < 0) amount = 0;
     this.selected.amount = amount;
   }
