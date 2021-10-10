@@ -75,7 +75,11 @@ router.post("/modify-product", function (req, res) {
 router.post("/delete-product", (req, res) => {
   console.log("해당물품을 제거합니다.");
   var product_name = req.body.product_name;
-  db.Product.destroy({ where: product_name == product_name });
+  db.Product.destroy({ 
+	  where: {
+	  product_name : product_name, 
+  	}
+  });
   res.status(202).send("success");
 });
 
