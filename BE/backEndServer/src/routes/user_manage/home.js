@@ -23,7 +23,6 @@ router.all("/authority-check", (req, res) => {
 // 로그인 기능입니다. login은 home페이지를 통해 가능합니다. 로그인이 성공하면 /home/user로 이동합니다.
 
 router.post("/login", (req, res) => {
-  console.log("login check");
   db.User.findOne({
     where: { email: req.body.email },
   })

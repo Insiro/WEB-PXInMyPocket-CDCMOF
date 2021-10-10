@@ -58,21 +58,19 @@ export class UserModule extends VuexModule implements UserInterface {
     //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result: { result: string; user: any } = await axios.post(
-        "/api/home/login",
-        {
-          email: info.email,
-          password: info.password,
-        }
-      );
+      const result:any = await axios.post("/api/home/login", {
+        email: info.email,
+        password: info.password,
+      });
+      const userData = result.data.user;
       const data: UserInfoInterface = {
         email: info.email,
-        profileImg: result.user.profileImg,
-        id: result.user.serial_number,
-        bye: result.user.expire_date,
-        rank: result.user.rank,
-        authority: result.user.authority,
-        name: result.user.name,
+        profileImg: "prodileImg" in result ? userData.profileImg : null,
+        id: userData.serial_number,
+        bye: userData.expire_date,
+        rank: userData.rank,
+        authority: userData.authority,
+        name: userData.name,
       };
       this.setSign(true);
       this.setData(data);
