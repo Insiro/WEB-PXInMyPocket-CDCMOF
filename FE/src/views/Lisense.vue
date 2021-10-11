@@ -24,9 +24,10 @@ export default class License extends Vue {
   created(): void {
     this.mark();
   }
+
   async mark(): Promise<void> {
     marked.setOptions(markedOpten);
-    const rawMark = await axios.get("/md/License.md");
+    const rawMark = await axios.get("/md/public/osLicense.md");
     this.markedtext = marked(rawMark.data);
     // this.markedtext = marked(rawMark);
   }

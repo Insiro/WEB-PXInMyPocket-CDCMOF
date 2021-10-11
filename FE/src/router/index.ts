@@ -33,7 +33,7 @@ export const pageList: Array<pageObj> = [
   { icon: null, name: "Home", url: "/", component: Home },
   { icon: null, name: "제품 목록", url: "/prodList", component: Prodlist },
   { icon: null, name: "프로젝트 정보", url: "/about", component: About },
-  { name: "Lisense", url: "/lisense", component: Lisense },
+  { name: "oss license", url: "/lisense", component: Lisense },
 ];
 
 function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
