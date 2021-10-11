@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,3 +18,59 @@
 ::-webkit-scrollbar-thumb:hover{
   background: #718096;
 }
+
+/*#region marked css */
+#marked h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+#marked h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+#marked h3 {
+  display: block;
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+#marked h4 {
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+#marked a:link,
+#marked a:visited {
+  color: (internal value);
+  text-decoration: underline;
+  cursor: auto;
+}
+
+#marked a:link:active,
+#marked a:visited:active {
+  color: (internal value);
+}
+#marked pre {
+  display: block;
+  font-family: monospace;
+  white-space: pre;
+  margin: 1em 0;
+}
+/* endregion */
