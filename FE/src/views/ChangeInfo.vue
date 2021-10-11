@@ -111,7 +111,7 @@ import { UserInfoInterface } from "../store/User/Interfaces";
 export default class ChangeInfo extends Vue {
   router = useRouter();
   passed = {
-    pwd: false,
+    pwd: true,
     newPwd: false,
     all: false,
   };
@@ -145,7 +145,6 @@ export default class ChangeInfo extends Vue {
     };
     var result = await UserState.changeUserInfo(newInfo);
     this.passed.all =
-      this.passed.pwd &&
       this.passed.newPwd &&
       !this.changeInfo.id &&
       !this.changeInfo.bye &&

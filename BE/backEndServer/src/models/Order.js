@@ -25,6 +25,10 @@ const orderData = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+	arrived: {
+      type: DataTypes.BOOLEAN,
+	  defaultValue: false,
+    },
   });
 
   order.associate = function (models) {
