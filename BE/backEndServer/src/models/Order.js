@@ -25,9 +25,9 @@ const orderData = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-	arrived: {
+    arrived: {
       type: DataTypes.BOOLEAN,
-	  defaultValue: false,
+      defaultValue: false,
     },
   });
 
