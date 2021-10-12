@@ -3,7 +3,7 @@ import UserInterface, { UserInfoInterface } from "./User/Interfaces";
 import CartInterface from "./Cart/Interfaces";
 import GlobalInterface from "./global/Interfaces";
 import ProdInterface, { CurProdIpnterface } from "./Prod/Interfaces";
-import postDataInterface from "./Post/interfaces";
+import postDataInterface, { postListInterface } from "./Post/interfaces";
 export interface RootState {
   user: UserInterface;
   cart: CartInterface;
@@ -11,6 +11,7 @@ export interface RootState {
   curItem: CurProdIpnterface;
   prodList: ProdInterface;
   curPost: postDataInterface;
+  postList: postListInterface;
 }
 const store = new Store<RootState>({
   state: {
@@ -40,6 +41,9 @@ const store = new Store<RootState>({
         comment: [],
         title: "",
       },
+    },
+    postList: {
+      data: [],
     },
   },
   plugins: [createLogger()],

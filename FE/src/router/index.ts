@@ -14,7 +14,9 @@ import globalState from "@/store/global";
 import curItemState from "@/store/Prod/ItemModule";
 import prodState from "@/store/Prod";
 import Lisense from "../views/Lisense.vue";
+import PostList from "../views/PostList.vue";
 import postState from "@/store/Post";
+import postListState from "@/store/Post/postList";
 export interface Meta {
   authRequired?: boolean;
   noLayout?: boolean;
@@ -33,6 +35,7 @@ export interface pageObj {
 export const pageList: Array<pageObj> = [
   { name: "Home", url: "/", component: Home },
   { name: "제품 목록", url: "/prodList", component: Prodlist },
+  { name: "게시글 목록", url: "/posts", component: PostList },
   { name: "프로젝트 정보", url: "/about", component: About },
   { name: "oss license", url: "/lisense", component: Lisense },
 ];
@@ -81,6 +84,9 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next: any) => {
       case "제품 목록":
         prodState.refresh();
         break;
+      case "게시글 목록":
+        globalState.setPageName("게시글 목록");
+        postListState.update();
       default:
         globalState.setPageName(to.name.toString());
     }

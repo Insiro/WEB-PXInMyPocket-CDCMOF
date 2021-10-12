@@ -14,6 +14,9 @@ export interface CommentInterface {
   author: string;
   content: string;
 }
+export interface postListInterface {
+  data: Array<postListItem>;
+}
 export interface postListItem {
   id: string;
   author: string;
