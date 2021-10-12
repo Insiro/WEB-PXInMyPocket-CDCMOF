@@ -28,6 +28,7 @@ module.exports = {
       2,
       {
         MemberExpression: 1,
+        SwitchCase: 1,
       },
     ],
     "@typescript-eslint/no-inferrable-types": "off",

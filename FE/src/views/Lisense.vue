@@ -4,18 +4,9 @@
 </template>
 <script lang="ts">
 import { Vue } from "vue-class-component";
-import marked, { MarkedOptions } from "marked";
+import marked from "marked";
 import axios from "axios";
-const markedOpten: MarkedOptions = {
-  renderer: new marked.Renderer(),
-  gfm: true,
-  headerIds: false,
-  breaks: true,
-  pedantic: false,
-  sanitize: true,
-  smartLists: true,
-  smartypants: false,
-};
+import { markedOption } from "@/utils";
 
 export default class License extends Vue {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,9 +17,13 @@ export default class License extends Vue {
   }
 
   async mark(): Promise<void> {
-    marked.setOptions(markedOpten);
-    const rawMark = await axios.get("/md/public/osLicense.md");
-    this.markedtext = marked(rawMark.data);
+    marked.setOptions(markedOption);
+    try {
+      const rawMark = await axios.get("/md/public/osLicense.md");
+      this.markedtext = marked(rawMark.data);
+    } catch (error) {
+      this.markedtext = "";
+    }
     // this.markedtext = marked(rawMark);
   }
 }

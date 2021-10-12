@@ -14,6 +14,7 @@ import globalState from "@/store/global";
 import curItemState from "@/store/Prod/ItemModule";
 import prodState from "@/store/Prod";
 import Lisense from "../views/Lisense.vue";
+import postState from "@/store/Post";
 export interface Meta {
   authRequired?: boolean;
   noLayout?: boolean;
@@ -30,9 +31,9 @@ export interface pageObj {
 }
 
 export const pageList: Array<pageObj> = [
-  { icon: null, name: "Home", url: "/", component: Home },
-  { icon: null, name: "제품 목록", url: "/prodList", component: Prodlist },
-  { icon: null, name: "프로젝트 정보", url: "/about", component: About },
+  { name: "Home", url: "/", component: Home },
+  { name: "제품 목록", url: "/prodList", component: Prodlist },
+  { name: "프로젝트 정보", url: "/about", component: About },
   { name: "oss license", url: "/lisense", component: Lisense },
 ];
 
@@ -55,24 +56,6 @@ function PageConvert(pagelist: Array<pageObj>): Array<RouteRecordRaw> {
 const routes: Array<RouteRecordRaw> = PageConvert(pageList).concat(
   PageConvert(authUrl).concat(PageConvert(hidden.pageList))
 );
-// const routes: Array<RouteRecordRaw> = [
-//   {
-//     path: "/",
-//     name: "Home",
-//     component: Home,
-//   },
-//   {
-//     path: "/about",
-//     name: "About",
-//     component: About,
-
-//     // route level code-splitting
-//     // this generates a separate chunk (about.[hash].js) for this route
-//     // which is lazy-loaded when the route is visited.
-//     // component: () =>
-//     //   import(/* webpackChunkName: "about" */ "../views/About.vue"),
-//   },
-// ];
 
 const router = createRouter({
   history: createWebHistory(),
@@ -84,13 +67,23 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next: any) => {
   if (to.name === null || to.name === undefined) {
     globalState.setPageName("");
   } else {
-    const name = to.name.toString();
-    console.log(name);
-    if (name === "제품") {
-      await curItemState.changeCurItem(to.params.id.toString());
-      globalState.setPageName(curItemState.name);
-    } else if (name === "제품 목록") prodState.refresh();
-    else globalState.setPageName(to.name.toString());
+    switch (to.name.toString()) {
+      case "제품":
+        await curItemState.changeCurItem(to.params.id.toString());
+        globalState.setPageName(curItemState.name);
+        break;
+      case "게시글":
+        await postState.setId(to.params.id.toString());
+        globalState.setPageName(
+          postState.title === "" ? "게시글" : postState.title
+        );
+        break;
+      case "제품 목록":
+        prodState.refresh();
+        break;
+      default:
+        globalState.setPageName(to.name.toString());
+    }
   }
   next();
 });
