@@ -5,6 +5,25 @@ import { checkSigned } from "../middleWare.js";
 import { badRequest } from "../error_handler.js";
 
 router.use("/", checkSigned);
+
+//POST /product/order/info
+//주문자 아이디와 주문번호를 보내주면 해당하는 상품에 대한 정보를 보내줍니다.
+router.post("/info", function (req, res) {
+  console.log(req.session.user.email);
+  db.Order.findOne({
+    orderer_id: req.session.user.email,
+    order_id: req.body.order_id,
+  })
+    .then((item) => {
+      res.status(202).json({ data: item });
+      console.log("sending order info success", item);
+    })
+    .catch((err) => {
+      res.status(406).json({ error: "failed to send order info" });
+      console.log(err);
+    });
+});
+
 //물품을 주문예약 시킴 /product/order?kind=snack&name=초코파이&price=1000
 router.post("/", function (req, res) {
   var product_name = req.query.name;
