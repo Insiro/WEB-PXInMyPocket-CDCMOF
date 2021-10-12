@@ -5,10 +5,9 @@ import db from "../../models/Index.js";
 import { notFound, badRequest } from "../error_handler.js";
 import { checkSigned } from "../middleWare.js";
 
-router.use("/*", checkSigned);
-router.use("/", checkSigned);
 // POST /freeboard/
 // 게시글을 생성합니다.
+router.post("/", checkSigned);
 router.post("/", function (req, res) {
   var title = req.body.title;
   var content = req.body.content;
@@ -31,11 +30,21 @@ router.post("/", function (req, res) {
     });
 });
 
-// GET /freeboard/detailview?post_id=32423423
+// GET /freeboard?post_id=32423423
 // 해당 게시글 페이지를 보내줍니다.
-router.get("/detailview", (req, res) => {
+router.get("/list", (req, res) => {
+  db.Post.findAll()
+    .then((post) => {
+      res.status(200).json(post);
+    })
+    .catch((err) => {
+      console.error(err);
+      notFound(req, res);
+    });
+});
+router.use("/", (req, res) => {
   var post_id = req.query.post_id;
-  db.Post.findAll({
+  db.Post.findOne({
     where: {
       post_id: post_id,
     },
@@ -48,10 +57,10 @@ router.get("/detailview", (req, res) => {
       notFound(req, res);
     });
 });
-
 // GET freeboard/delete/detailview?post_id=23423
 // 게시글을 삭제합니다.
-router.get("/delete/detailview", (req, res) => {
+router.delete("/", checkSigned);
+router.delete("/", (req, res) => {
   console.log("작성글을 제거합니다.");
   db.Post.destroy({
     where: { post_id: req.query.post_id },
@@ -61,7 +70,8 @@ router.get("/delete/detailview", (req, res) => {
 
 // POST freeboard/edit/detailview?post_id=
 // 게시글을 수정합니다.
-router.post("/edit/detailview", (req, res) => {
+router.use("/edit_post", checkSigned);
+router.post("/edit_post", (req, res) => {
   var post_id = req.query.post_id;
   var title = req.body.title;
   var content = req.body.content;

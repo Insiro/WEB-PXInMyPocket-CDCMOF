@@ -103,10 +103,10 @@ export default class Regist extends Vue {
     this.mod.pwd = false;
     this.modalOpen = true;
   }
-  
+
   async resetPwd(): Promise<void> {
     var result = await UserState.resetPwd(this.lostPWD);
-	console.log(result);
+    console.log(result);
     if (result.data.changePwdSuccess) {
       this.mod.pwdSuccess = true;
     } else {

@@ -13,7 +13,7 @@ router.get("/", HttpError.badRequest);
 
 //FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
 router.all("/signed", (req, res) => {
-  res.status(200).json({ value: req.session.user.authorized === true });
+  res.status(200).send(req.session.user.authorized === true);
 });
 router.all("/authority-check", (req, res) => {
   res.status(200).send(req.session.user.authority);
@@ -23,7 +23,6 @@ router.all("/authority-check", (req, res) => {
 // 로그인 기능입니다. login은 home페이지를 통해 가능합니다. 로그인이 성공하면 /home/user로 이동합니다.
 
 router.post("/login", (req, res) => {
-  console.log("login check");
   db.User.findOne({
     where: { email: req.body.email },
   })

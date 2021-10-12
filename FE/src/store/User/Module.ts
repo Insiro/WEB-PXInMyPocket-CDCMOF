@@ -58,21 +58,19 @@ export class UserModule extends VuexModule implements UserInterface {
     //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result: { result: string; user: any } = await axios.post(
-        "/api/home/login",
-        {
-          email: info.email,
-          password: info.password,
-        }
-      );
+      const result: any = await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
+        email: info.email,
+        password: info.password,
+      });
+      const userData = result.data.user;
       const data: UserInfoInterface = {
         email: info.email,
-        profileImg: result.user.profileImg,
-        id: result.user.serial_number,
-        bye: result.user.expire_date,
-        rank: result.user.rank,
-        authority: result.user.authority,
-        name: result.user.name,
+        profileImg: "prodileImg" in result ? userData.profileImg : null,
+        id: userData.serial_number,
+        bye: userData.expire_date,
+        rank: userData.rank,
+        authority: userData.authority,
+        name: userData.name,
       };
       this.setSign(true);
       this.setData(data);
@@ -89,14 +87,12 @@ export class UserModule extends VuexModule implements UserInterface {
   }
   @Action async isExist(email: string): Promise<boolean> {
     try {
-      console.log(email);
       const result: { exist: boolean } = await axios.post(
         "/api/home/register/checkId",
         {
           email: email,
         }
       );
-      console.log(result);
       return result.exist;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -106,7 +102,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("/api/home/register", {
+      await axios.post("https://rkskekfk.run.goorm.io/api/home/register", {
         email: info.email,
         password: info.password,
         serial_number: info.id,
@@ -138,7 +134,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async resetPwd(info: {
     email: string;
     id: string;
-  }): Promise<boolean> {
+  }): Promise<boolean | null> {
     try {
       console.log(info);
       const result: { changePwdSuccess: boolean } = await axios.post(
@@ -150,6 +146,24 @@ export class UserModule extends VuexModule implements UserInterface {
       );
       console.log(result);
       return result.changePwdSuccess;
+    } catch (err: unknown) {
+      console.warn("ERROR!!!!! : ", err);
+      return null;
+    }
+  }
+  @Action async changeUserInfo(info: any): Promise<boolean> {
+    try {
+      console.log(info);
+
+      const result: any = await axios.post(
+        "https://rkskekfk.run.goorm.io/api/home/user/finduser/change-userinfo",
+        {
+          new_password: info.new_password,
+          new_serial_number: info.new_serial_number,
+          new_expire_date: info.new_expire_date,
+        }
+      );
+      return result.data.changeInfoSuccess;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
       return false;

@@ -2,13 +2,16 @@ import { Store, createLogger } from "vuex";
 import UserInterface, { UserInfoInterface } from "./User/Interfaces";
 import CartInterface from "./Cart/Interfaces";
 import GlobalInterface from "./global/Interfaces";
-import ProductModule, { CurProdIpnterface } from "./Prod/Interfaces";
+import ProdInterface, { CurProdIpnterface } from "./Prod/Interfaces";
+import postDataInterface, { postListInterface } from "./Post/interfaces";
 export interface RootState {
   user: UserInterface;
   cart: CartInterface;
   global: GlobalInterface;
   curItem: CurProdIpnterface;
-  prodList: ProductModule;
+  prodList: ProdInterface;
+  curPost: postDataInterface;
+  postList: postListInterface;
 }
 const store = new Store<RootState>({
   state: {
@@ -29,6 +32,19 @@ const store = new Store<RootState>({
       },
     },
     prodList: { items: [], cate: new Set([]) },
+    curPost: {
+      data: {
+        id: "",
+        content: "",
+        author: "",
+        created: "",
+        comment: [],
+        title: "",
+      },
+    },
+    postList: {
+      data: [],
+    },
   },
   plugins: [createLogger()],
 });

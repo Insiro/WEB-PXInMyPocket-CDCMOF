@@ -6,7 +6,7 @@ import schedule from "node-schedule";
 import router from "./routes/controller.js";
 import db from "./models/Index.js";
 import cors from "cors";
-
+import session from "express-session";
 //cors settings value
 const corsOptions = {
   credentials: true,
@@ -16,8 +16,8 @@ const corsOptions = {
   maxAge: 3600,
 };
 
-//매주 일요일마다 weelkly sale 초기화
-schedule.scheduleJob("* * * * 0", function () {
+//매주 일요일마다 weelkly sale 초기화 14:30분에 초기화 됨
+schedule.scheduleJob({ hour: 14, minute: 30, dayOfWeek: 0 }, function () {
   console.log("reset sales");
   db.Product.update(
     {
@@ -29,11 +29,11 @@ schedule.scheduleJob("* * * * 0", function () {
   );
 });
 //매달 1일마다 monthly sale 초기화
-schedule.scheduleJob("* * * 1 *", function () {
+schedule.scheduleJob("0 0 1 * *", function () {
   console.log("reset sales");
   db.Product.update(
     {
-      weekly_sale: 0,
+      monthly_sale: 0,
     },
     {
       where: { category: "snack" },
@@ -60,6 +60,13 @@ app.set("view engine", "pug");
 
 app.use(logger("dev"));
 app.use(express.json());
+app.use(
+  session({
+    secret: "!@#my-px-app!@#",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
