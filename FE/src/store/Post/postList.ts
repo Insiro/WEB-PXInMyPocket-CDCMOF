@@ -8,7 +8,7 @@ import {
 import { postListInterface, postListItem } from "./interfaces";
 import store from "..";
 import axios from "axios";
-import { markedOption } from "@/utils";
+import { apiUrl, markedOption } from "@/utils";
 
 @Module({ namespaced: true, store, name: "postListModule", dynamic: true })
 export class postListModule extends VuexModule implements postListInterface {
@@ -35,7 +35,7 @@ export class postListModule extends VuexModule implements postListInterface {
   }
   @Action async update(): Promise<void> {
     try {
-      const result = await axios.get("/api/freeboard/list");
+      const result = await axios.get(apiUrl + "/freeboard/list");
       const data = result.data;
       this.setData(data);
     } catch (e) {

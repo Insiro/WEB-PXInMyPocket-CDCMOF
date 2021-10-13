@@ -8,6 +8,7 @@ import {
 import { CurProdIpnterface, ProductFormat } from "./Interfaces";
 import store from "..";
 import axios from "axios";
+import { apiUrl } from "@/utils";
 
 @Module({ namespaced: true, store, name: "CurItemModule", dynamic: true })
 export class CurItemModule extends VuexModule implements CurProdIpnterface {
@@ -32,7 +33,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     return this.data.name;
   }
   @Action async changeCurItem(id: string): Promise<void> {
-    const result = await axios.get(`/api/product/info?id=${id}`);
+    const result = await axios.get(apiUrl + `/product/info?id=${id}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rdata = (result as { data: any }).data.data;
     const data: ProductFormat = {

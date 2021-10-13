@@ -8,7 +8,7 @@ import {
 import postDataInterface, { PostInterface } from "./interfaces";
 import store from "..";
 import axios from "axios";
-import { markedOption } from "@/utils";
+import { apiUrl, markedOption } from "@/utils";
 import marked from "marked";
 
 @Module({ namespaced: true, store, name: "PostModule", dynamic: true })
@@ -35,7 +35,7 @@ export class PostModule extends VuexModule implements postDataInterface {
       comment: [],
     };
     try {
-      const response = await axios.get("/api/freeboard", {
+      const response = await axios.get(apiUrl + "/freeboard", {
         params: { post_id: id },
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

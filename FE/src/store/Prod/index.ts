@@ -8,6 +8,7 @@ import {
 import ProdInterface, { ProductFormat } from "./Interfaces";
 import store from "..";
 import axios from "axios";
+import { apiUrl } from "@/utils";
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
   items: Array<ProductFormat> = [];
@@ -53,7 +54,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
   }
   @Action async updateCategories(): Promise<void> {
     try {
-      const data = await axios.get("/api/category");
+      const data = await axios.get(apiUrl + "/category");
       this.cate.clear();
       (data.data as Array<{ category: string }>).map((item) =>
         this.cate.add(item.category)
@@ -66,7 +67,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
   @Action async refresh(): Promise<void> {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const list = await axios.get<any>("/api/product");
+      const list = await axios.get<any>(apiUrl + "/product");
       console.log(list);
       const lit = [];
       for (const item of list.data.data) {
@@ -84,7 +85,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
         lit.push(it);
       }
       this.update(lit);
-      const data = await axios.get("/api/product/all-category");
+      const data = await axios.get(apiUrl + "/product/all-category");
       this.updateCate(
         (data.data as Array<{ category: string }>).map((item) => item.category)
       );

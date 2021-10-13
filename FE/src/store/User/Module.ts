@@ -11,6 +11,7 @@ import UserInterface, {
 } from "./Interfaces";
 import store from "..";
 import axios from "axios";
+import { apiUrl } from "@/utils";
 
 @Module({ namespaced: true, store, name: "UserModule", dynamic: true })
 export class UserModule extends VuexModule implements UserInterface {
@@ -58,7 +59,7 @@ export class UserModule extends VuexModule implements UserInterface {
     //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result: any = await axios.post("/api/home/login", {
+      const result: any = await axios.post(apiUrl + "/home/login", {
         email: info.email,
         password: info.password,
       });
@@ -88,7 +89,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async isExist(email: string): Promise<boolean> {
     try {
       const result: { exist: boolean } = await axios.post(
-        "/api/home/register/checkId",
+        apiUrl + "/home/register/checkId",
         {
           email: email,
         }
@@ -102,7 +103,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("/api/home/register", {
+      await axios.post(apiUrl + "/home/register", {
         email: info.email,
         password: info.password,
         serial_number: info.id,
@@ -122,7 +123,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async findID(serial_number: string): Promise<string | null> {
     try {
       const result: { findIdSuccess: boolean; foundID: string } =
-        await axios.post("/api/home/finduser/find-id", {
+        await axios.post(apiUrl + "/home/finduser/find-id", {
           serial_number: serial_number,
         });
       return result.findIdSuccess ? result.foundID : null;
@@ -138,7 +139,7 @@ export class UserModule extends VuexModule implements UserInterface {
     try {
       console.log(info);
       const result: { changePwdSuccess: boolean } = await axios.post(
-        "/api/home/finduser/change-pw",
+        apiUrl + "/home/finduser/change-pw",
         {
           email: info.email,
           serial_number: info.id,
@@ -157,7 +158,7 @@ export class UserModule extends VuexModule implements UserInterface {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = await axios.post(
-        "/api/home/user/finduser/change-userinfo",
+        apiUrl + "/home/user/finduser/change-userinfo",
         {
           new_password: info.new_password,
           new_serial_number: info.new_serial_number,
