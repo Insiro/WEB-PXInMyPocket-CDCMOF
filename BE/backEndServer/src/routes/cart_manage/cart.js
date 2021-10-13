@@ -9,14 +9,13 @@ import * as HttpError from "../error_handler.js";
 // 현재 로그인 되어있는 유저정보의 장바구니 아이템들을 보냅니다.
 router.get("/", async (req, res) => {
   try {
-	db.Cart.findAll({
-		where: {
-			owner_id: req.session.user.email,
-		}
-	})
-	  .then((items) => {
-		res.status(200).json({data : items});
-	})
+    db.Cart.findAll({
+      where: {
+        owner_id: req.session.user.email,
+      },
+    }).then((items) => {
+      res.status(200).json({ data: items });
+    });
   } catch (error) {
     res.status(500).json({ error: "server error on load data" });
   }
@@ -24,20 +23,19 @@ router.get("/", async (req, res) => {
 
 // POST /cart
 // 장바구니에 물품을 추가합니다.
-router.post("/", async (req,res) => {
-	db.Cart.create({
-		quantity: req.body.quantity,
-		added_product_id: req.body.added_product_id,
-		owner_email: req.session.user.email,
-	})
-	.then(() => {
-		res.status(200).json({createSuccess : true});
-	})
-	.catch(()=> {
-		res.status(200).json({createSuccess : false});
-	})
-})
-
+router.post("/", async (req, res) => {
+  db.Cart.create({
+    quantity: req.body.quantity,
+    added_product_id: req.body.added_product_id,
+    owner_email: req.session.user.email,
+  })
+    .then(() => {
+      res.status(200).json({ createSuccess: true });
+    })
+    .catch(() => {
+      res.status(200).json({ createSuccess: false });
+    });
+});
 
 router.all("/*", HttpError.badRequest);
 export default router;

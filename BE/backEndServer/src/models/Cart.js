@@ -19,7 +19,7 @@ const cartData = (sequelize, DataTypes) => {
       sourceKEy: "email",
     });
 
-	models.Product.belongsTo(cart, {
+    models.Product.belongsTo(cart, {
       foreignKey: {
         name: "added_product_id",
         allowNull: false,
