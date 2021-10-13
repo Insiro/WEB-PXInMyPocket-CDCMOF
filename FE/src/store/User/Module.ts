@@ -58,7 +58,7 @@ export class UserModule extends VuexModule implements UserInterface {
     //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result: any = await axios.post("https://rkskekfk.run.goorm.io/api/home/login", {
+      const result: any = await axios.post("/api/home/login", {
         email: info.email,
         password: info.password,
       });
@@ -102,7 +102,7 @@ export class UserModule extends VuexModule implements UserInterface {
   @Action async regist(info: RegistInterface): Promise<boolean> {
     //TODO: signIn from server;
     try {
-      await axios.post("https://rkskekfk.run.goorm.io/api/home/register", {
+      await axios.post("/api/home/register", {
         email: info.email,
         password: info.password,
         serial_number: info.id,
@@ -156,7 +156,7 @@ export class UserModule extends VuexModule implements UserInterface {
       console.log(info);
 
       const result: any = await axios.post(
-        "https://rkskekfk.run.goorm.io/api/home/user/finduser/change-userinfo",
+        "/api/home/user/finduser/change-userinfo",
         {
           new_password: info.new_password,
           new_serial_number: info.new_serial_number,

@@ -55,11 +55,9 @@
         <router-link to="/cart">
           <CartIcon />
         </router-link>
-        <button class="flex mx-4 text-gray-600 focus:outline-none">
-          <RingIcon />
-        </button>
       </div>
-      <IconSearch class="mx-4" :class="[menuItemClass]" @click="openSearch" />
+      <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
+      <RingIcon class="flex mx-4 text-gray-600 focus:outline-none" />
       <div class="relative">
         <button
           class="
@@ -116,8 +114,8 @@
                 <CartIcon :class="[menuiconClass]" /> 장바구니
               </router-link>
             </MenuItem>
-            <MenuItem :class="[menuItemClass]">
-              <RingIcon :class="[menuiconClass]" /> Notics
+            <MenuItem v-show="is_signed">
+              <router-link to="/changeInfo">개인정보 수정</router-link>
             </MenuItem>
             <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
             <MenuItem v-show="is_signed === false" to="/signIn">
