@@ -58,72 +58,18 @@
       </div>
       <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
       <RingIcon class="flex mx-4 text-gray-600 focus:outline-none" />
-      <div class="relative">
-        <button
-          class="
-            relative
-            z-10
-            block
-            w-8
-            h-8
-            overflow-hidden
-            rounded-full
-            shadow
-            focus:outline-none
-          "
-          @click="dropdownOpen = !dropdownOpen"
-        >
-          <!-- TODO: change to profileImg -->
-          <img
-            class="object-cover w-full h-full"
-            :src="is_signed ? user?.profileImg ?? '' : ''"
-            alt="Your avatar"
-          />
-        </button>
-
-        <div
-          v-show="dropdownOpen"
-          class="fixed inset-0 z-10 w-full h-full"
-          @click="dropdownOpen = false"
-        ></div>
-
-        <transition
-          enter-active-class="transition duration-150 ease-out transform"
-          enter-from-class="scale-95 opacity-0"
-          enter-to-class="scale-100 opacity-100"
-          leave-active-class="transition duration-150 ease-in transform"
-          leave-from-class="scale-100 opacity-100"
-          leave-to-class="scale-95 opacity-0"
-        >
-          <div
-            v-show="dropdownOpen"
-            class="
-              absolute
-              right-0
-              z-20
-              w-48
-              py-2
-              mt-2
-              bg-white
-              rounded-md
-              shadow-xl
-            "
-          >
-            <MenuItem :class="[menuItemClass]">
-              <router-link to="/cart">
-                <CartIcon :class="[menuiconClass]" /> 장바구니
-              </router-link>
-            </MenuItem>
-            <MenuItem v-show="is_signed">
-              <router-link to="/changeInfo">개인정보 수정</router-link>
-            </MenuItem>
-            <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
-            <MenuItem v-show="is_signed === false" to="/signIn">
-              Log In
-            </MenuItem>
-          </div>
-        </transition>
-      </div>
+      <Menu :is_signed="is_signed" :profile_img="user?.profileImg">
+        <MenuItem :class="[menuItemClass]">
+          <router-link to="/cart">
+            <CartIcon :class="[menuiconClass]" /> 장바구니
+          </router-link>
+        </MenuItem>
+        <MenuItem v-show="is_signed">
+          <router-link to="/changeInfo">개인정보 수정</router-link>
+        </MenuItem>
+        <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
+        <MenuItem v-show="is_signed === false" to="/signIn"> Log In </MenuItem>
+      </Menu>
     </div>
   </header>
 </template>
@@ -131,7 +77,7 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
-import MenuItem from "./MenuItem.vue";
+import Menu, { MenuItem } from "./Menu";
 import { TextInput } from "@/components/Inputs";
 import { IconSearch, RingIcon, CartIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
@@ -146,12 +92,12 @@ import userState from "@/store/User/Module";
     RingIcon,
     CartIcon,
     BaseModal,
+    Menu,
   },
 })
 export default class Header extends Vue {
   show_search_modal = false;
   user = userState.UserData;
-  dropdownOpen: boolean = false;
   menuItemClass = ref("lg:hidden");
   menuiconClass = ref("inline-block");
   get PageName(): string {
