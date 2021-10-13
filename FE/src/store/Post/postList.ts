@@ -18,6 +18,7 @@ export class postListModule extends VuexModule implements postListInterface {
       id: "",
       author: "",
       title: "",
+      isNotic: false,
       created: "", //createdAt
     },
   ];
@@ -30,6 +31,7 @@ export class postListModule extends VuexModule implements postListInterface {
         title: item.title,
         author: item.writer,
         created: item.createdAt,
+        isNotic: item.isNotic,
       });
     });
   }

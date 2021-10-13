@@ -1,11 +1,28 @@
 <template>
-  <div class="mx-5">
-    <div class="text-3xl font-medium text-gray-700 my-3">인기 상품</div>
-    <WideFrame>
-      <!--:TODO Item Area -->
-    </WideFrame>
-  </div>
-  <div class="flex flex-row">
+  <WideFrame
+    title="인기 상품"
+    container_class="grid grid-cols-3 justify-items-center"
+    class="mx-5"
+  >
+    <Card
+      v-show="Products.length === 0"
+      title="등록된 상품이 없습니다"
+      bg_color="bg-pink-200"
+      src=""
+    />
+    <Card
+      v-for="item in Products"
+      :key="item.id"
+      :title="item.name"
+      :src="item.src"
+      :hash_tags="get_cate(item.category)"
+      bg_color="bg-pink-200"
+      @click="onProdCliked(item.id)"
+    >
+    </Card>
+    <!--:TODO Item Area -->
+  </WideFrame>
+  <div class="lg:flex lg:flex-row">
     <div class="flex-grow mx-5">
       <div class="text-3xl font-medium text-gray-700 my-3">공지</div>
       <Table>
@@ -65,11 +82,15 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { Options, Vue } from "vue-class-component";
+
 import { Table, TableItem, TableHead } from "@/components/Table";
 import { Button } from "@/components/Button";
-import { WideFrame } from "@/components/CardFrame";
+import Card, { WideFrame } from "@/components/CardFrame";
+
 import { postListItem } from "@/store/Post/interfaces";
 import postListState from "@/store/Post/postList";
+import { ProductFormat } from "@/store/Prod/Interfaces";
+import prodState from "@/store/Prod";
 @Options({
   components: {
     Table,
@@ -77,6 +98,7 @@ import postListState from "@/store/Post/postList";
     TableHead,
     WideFrame,
     Button,
+    Card,
   },
 })
 export default class Home extends Vue {
@@ -87,13 +109,22 @@ export default class Home extends Vue {
   viewPost(id: string): void {
     this.router.push("/post/" + id.toString());
   }
+  get_cate(cate: string): Array<string> {
+    return cate.split(" ");
+  }
+  onProdCliked(id: string): void {
+    this.router.push({ path: "/prod/" + id.toString() });
+  }
   get MiniPosts(): Array<postListItem> {
     //TODO: filter with isNotic?
-    return postListState.posts.slice(4);
+    return postListState.posts.filter((item) => !item.isNotic).slice(4);
   }
   get NoticPosts(): Array<postListItem> {
     //TODO: filter with isNotic?
-    return postListState.posts.slice(4);
+    return postListState.posts.filter((item) => item.isNotic).slice(4);
+  }
+  get Products(): Array<ProductFormat> {
+    return prodState.productList.slice(2);
   }
 }
 </script>

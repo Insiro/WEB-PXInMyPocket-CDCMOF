@@ -21,6 +21,7 @@ export class PostModule extends VuexModule implements postDataInterface {
     created: "",
     comment: [],
     title: "",
+    isNotic: false,
   };
   @Mutation setData(data: PostInterface): void {
     this.data = data;
@@ -33,6 +34,7 @@ export class PostModule extends VuexModule implements postDataInterface {
       title: "",
       created: "",
       comment: [],
+      isNotic: false,
     };
     try {
       const response = await axios.get(apiUrl + "/freeboard", {
@@ -46,6 +48,7 @@ export class PostModule extends VuexModule implements postDataInterface {
       post.author = data.writer;
       post.created = data.createdAt;
       post.content = marked(data.content);
+      // post.isNotic = data.isNotic; //TODO: get Notic from API
       this.setData(post);
     } catch (e) {
       post.content = "Post Can not Roaded";
