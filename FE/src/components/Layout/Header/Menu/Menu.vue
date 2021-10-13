@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="relative mx-3">
     <button
       class="
         relative
@@ -11,6 +11,10 @@
         rounded-full
         shadow
         focus:outline-none
+        text-center
+        justify-center
+        items-center
+        flex
       "
       @click="dropdownOpen = !dropdownOpen"
     >

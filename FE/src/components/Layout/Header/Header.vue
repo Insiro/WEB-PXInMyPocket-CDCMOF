@@ -63,6 +63,12 @@
         </template>
         <template #menu>
           <!--TODO: Add Notify Items Here-->
+          <MunuItem>
+            <div class="flex mx-3 justify-between">
+              <span>Contensts</span>
+              <Xicon @click="removeNotic('id')" />
+            </div>
+          </MunuItem>
           <MenuItem>읽은 알람 삭제</MenuItem>
         </template>
       </Menu>
@@ -106,6 +112,7 @@ import {
   RingIcon,
   CartIcon,
   ProfileIcon,
+  Xicon,
 } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
@@ -121,6 +128,7 @@ import userState from "@/store/User/Module";
     BaseModal,
     Menu,
     ProfileIcon,
+    Xicon,
   },
 })
 export default class Header extends Vue {
@@ -148,6 +156,9 @@ export default class Header extends Vue {
   }
   searchModalClose(): void {
     this.show_search_modal = false;
+  }
+  removeNotic(_id: string): void {
+    //TODO remove Notic with Notic Sotr
   }
 }
 </script>
