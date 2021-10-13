@@ -155,6 +155,7 @@ export class UserModule extends VuexModule implements UserInterface {
     try {
       console.log(info);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = await axios.post(
         "/api/home/user/finduser/change-userinfo",
         {

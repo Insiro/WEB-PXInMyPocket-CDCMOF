@@ -71,6 +71,10 @@ router.beforeEach(async (to: RouteLocationNormalized, _from, next: any) => {
     globalState.setPageName("");
   } else {
     switch (to.name.toString()) {
+      case "Home":
+        globalState.setPageName("Home");
+        postListState.update();
+        break;
       case "제품":
         await curItemState.changeCurItem(to.params.id.toString());
         globalState.setPageName(curItemState.name);
