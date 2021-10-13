@@ -8,19 +8,13 @@ import {
   Mutation,
 } from "vuex-module-decorators";
 
-import Notice from './Interfaces'
+import {NoticInterface, NoticItemInterface} from './Interfaces'
 import store from "..";
 import axios from "axios";
 
 @Module({ namespaced: true, store, name: "NotifyModule", dynamic: true })
-export class NotifyModule extends VuexModule implements Notice {
-  info: Notice = {
-	orderId: null;
-	orderDate: null;
-	productName: null;
-	quantity: null;
-	totalPrice: null;
-  };
+export class NotifyModule extends VuexModule implements NoticInterface {
+  info: Array<NoticItemInterface> = [];
 	toast = useToast();
 	//Mutations
 	@Mutation setOrderId(orderId: string | null): void {
@@ -32,10 +26,10 @@ export class NotifyModule extends VuexModule implements Notice {
 	@Mutation setProductName(name: string | null): void {
     this.info.productName = nema;
   }
-	@Mutation setQuantity(quantity: integer | null): void {
+	@Mutation setQuantity(quantity: number | null): void {
     this.info.quantity = quantity;
   }
-	@Mutation setTotalPrice(price: integer | null): void {
+	@Mutation setTotalPrice(price: number | null): void {
     this.info.totalPrice = price;
   }
 	//Actions
