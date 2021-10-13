@@ -57,13 +57,23 @@
         </router-link>
       </div>
       <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
-      <RingIcon class="flex mx-4 text-gray-600 focus:outline-none" />
+      <Menu>
+        <template #icon>
+          <RingIcon />
+        </template>
+        <template #menu>
+          <!--TODO: Add Notify Items Here-->
+          <MenuItem>읽은 알람 삭제</MenuItem>
+        </template>
+      </Menu>
       <Menu>
         <template #icon>
           <!-- TODO: change to profileImg -->
+          <ProfileIcon v-show="!is_signed" />
           <img
+            v-show="is_signed"
             class="object-cover w-full h-full"
-            :src="is_signed ? user?.profileImg ?? '' : ''"
+            :src="user?.profileImg ?? ''"
             alt="Your avatar"
           />
         </template>
@@ -91,7 +101,12 @@ import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
 import Menu, { MenuItem } from "./Menu";
 import { TextInput } from "@/components/Inputs";
-import { IconSearch, RingIcon, CartIcon } from "@/components/Icons";
+import {
+  IconSearch,
+  RingIcon,
+  CartIcon,
+  ProfileIcon,
+} from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
@@ -105,6 +120,7 @@ import userState from "@/store/User/Module";
     CartIcon,
     BaseModal,
     Menu,
+    ProfileIcon,
   },
 })
 export default class Header extends Vue {
