@@ -16,7 +16,9 @@ import { Options, prop, Vue } from "vue-class-component";
 import { webIcon } from "@/components/Icons";
 import { BtnStyle } from "./index";
 class Props {
-  type = prop<string>({ default: "button" });
+  type = prop<"button" | "reset" | "submit" | undefined>({
+    default: undefined,
+  });
 }
 
 @Options({

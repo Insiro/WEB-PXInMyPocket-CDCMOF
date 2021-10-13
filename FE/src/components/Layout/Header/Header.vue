@@ -151,7 +151,7 @@ import userState from "@/store/User/Module";
 export default class Header extends Vue {
   show_search_modal = false;
   user = userState.UserData;
-  dropdownOpen = ref(false);
+  dropdownOpen: boolean = false;
   menuItemClass = ref("lg:hidden");
   menuiconClass = ref("inline-block");
   get PageName(): string {
