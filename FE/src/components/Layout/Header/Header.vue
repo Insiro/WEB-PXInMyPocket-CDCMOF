@@ -58,17 +58,29 @@
       </div>
       <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
       <RingIcon class="flex mx-4 text-gray-600 focus:outline-none" />
-      <Menu :is_signed="is_signed" :profile_img="user?.profileImg">
-        <MenuItem :class="[menuItemClass]">
-          <router-link to="/cart">
-            <CartIcon :class="[menuiconClass]" /> 장바구니
-          </router-link>
-        </MenuItem>
-        <MenuItem v-show="is_signed">
-          <router-link to="/changeInfo">개인정보 수정</router-link>
-        </MenuItem>
-        <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
-        <MenuItem v-show="is_signed === false" to="/signIn"> Log In </MenuItem>
+      <Menu>
+        <template #icon>
+          <!-- TODO: change to profileImg -->
+          <img
+            class="object-cover w-full h-full"
+            :src="is_signed ? user?.profileImg ?? '' : ''"
+            alt="Your avatar"
+          />
+        </template>
+        <template #menu>
+          <MenuItem :class="[menuItemClass]">
+            <router-link to="/cart">
+              <CartIcon :class="[menuiconClass]" /> 장바구니
+            </router-link>
+          </MenuItem>
+          <MenuItem v-show="is_signed">
+            <router-link to="/changeInfo">개인정보 수정</router-link>
+          </MenuItem>
+          <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
+          <MenuItem v-show="is_signed === false" to="/signIn">
+            Log In
+          </MenuItem>
+        </template>
       </Menu>
     </div>
   </header>

@@ -14,12 +14,7 @@
       "
       @click="dropdownOpen = !dropdownOpen"
     >
-      <!-- TODO: change to profileImg -->
-      <img
-        class="object-cover w-full h-full"
-        :src="is_signed ? profile_img ?? '' : ''"
-        alt="Your avatar"
-      />
+      <slot name="icon"> Icon</slot>
     </button>
     <div
       v-show="dropdownOpen"
@@ -48,18 +43,15 @@
           shadow-xl
         "
       >
-        <slot />
+        <slot name="menu" />
       </div>
     </transition>
   </div>
 </template>
 <script lang="ts">
-import { prop, Vue } from "vue-class-component";
-class Prop {
-  is_signed = prop<boolean>({ default: false });
-  profile_img = prop<string | null>({ default: null });
-}
-export default class Menu extends Vue.with(Prop) {
+import { Vue } from "vue-class-component";
+
+export default class Menu extends Vue {
   dropdownOpen = false;
 }
 </script>
