@@ -20,6 +20,11 @@ const postData = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    //announcement가 1이면 홈화면에 나오는 공지사항
+    announcement: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   });
   post.associate = function (models) {
     models.User.hasMany(post, {

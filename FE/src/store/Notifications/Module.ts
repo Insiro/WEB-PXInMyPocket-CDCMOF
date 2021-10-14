@@ -6,6 +6,7 @@ import {
   Mutation,
 } from "vuex-module-decorators";
 
+import { useToast, TYPE } from "vue-toastification";
 import { NoticInterface, NoticItemInterface } from "./Interfaces";
 import store from "..";
 import axios from "axios";
@@ -43,7 +44,7 @@ export class NotifyModule extends VuexModule implements NoticInterface {
     console.log(arrivedItems);
 
     for (let i = 0; i < arrivedItems.data.data.length; i++) {
-      const element : any = arrivedItems.data.data[i];
+      const element: any = arrivedItems.data.data[i];
       console.log(element);
       this.pushInfo(element);
     }

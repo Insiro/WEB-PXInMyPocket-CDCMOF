@@ -5,10 +5,27 @@ import db from "../../models/Index.js";
 import { notFound, badRequest } from "../error_handler.js";
 import { checkSigned } from "../middleWare.js";
 
+router.post("/", checkSigned);
+
+//GET freeboard/announcemet
+//공지 게시글을 가져옵니다.
+router.get("/announcemet", (req, res) => {
+  db.POST.finaAll({
+    where: {
+      announcemet: true,
+    },
+  })
+    .then((items) => {
+      res.status(200).json(items);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 // POST /freeboard/
 // 게시글을 생성합니다.
-router.post("/", checkSigned);
-router.post("/", function (req, res) {
+router.post("/", (req, res) => {
   var title = req.body.title;
   var content = req.body.content;
 
