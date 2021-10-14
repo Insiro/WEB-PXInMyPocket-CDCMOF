@@ -29,31 +29,28 @@ router.post("/", async (req, res) => {
   var title = req.body.title;
   var content = req.body.content;
   var announcemet = req.body.isNotic;
-  announcemet =
-    announcemet === undefined || announcemet === null ? false : announcemet;
-  if (announcemet) {
-    const loginUser = await db.User.findOne({
-      where: { email: req.session.user.email },
+  try {
+    announcemet =
+      announcemet === undefined || announcemet === null ? false : announcemet;
+    if (announcemet) {
+      const loginUser = await db.User.findOne({
+        where: { email: req.session.user.email },
+      });
+      announcemet = loginUser.authority === true;
+    }
+    //TODO: check why not work as String len is over 50char when under 50chars
+    await db.Post.create({
+      writer: req.session.user.email,
+      title: title,
+      content: content,
+      announcement: announcemet,
     });
-    announcemet = loginUser.authority === true;
+    res.status(202).send("success");
+  } catch (e) {
+    console.log(e);
+    console.log("order fail");
+    res.status(400).json({ error: "failed" });
   }
-  console.log(req.session.user.email);
-  //TODO: check why not work as String len is over 50char when under 50chars
-  db.Post.create({
-    writer: req.session.user.email,
-    title: title,
-    content: content,
-    announcemet: announcemet,
-  })
-    .then((post) => {
-      res.status(202).json(post);
-      console.log("posting success", post);
-    })
-    .catch((err) => {
-      console.log("order fail");
-      console.log(err);
-      res.status(400).json({ error: "failed" });
-    });
 });
 
 router.get("/list", (req, res) => {

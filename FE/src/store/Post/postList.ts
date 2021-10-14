@@ -35,10 +35,11 @@ export class postListModule extends VuexModule implements postListInterface {
       });
     });
   }
-  @Mutation setAnnouncement(post_id : string | null) : void {
-	  this.data.find(item => item.post_id === post_id).isNotic = true;
+  @Mutation setAnnouncement(post_id: string | null): void {
+    const post = this.data.find((item) => item.id === post_id);
+    if (post !== null && post !== undefined) post.isNotic = true;
   }
-//////////////
+  //////////////
   @Action async update(): Promise<void> {
     try {
       const result = await axios.get(apiUrl + "/freeboard/list");
@@ -48,13 +49,13 @@ export class postListModule extends VuexModule implements postListInterface {
       console.log("failed to load PostList");
     }
   }
-  @Action async updateAnnouncement(post_id : string | null): Promise<void> {
-	  try{
-		  const result = await axios.post(apiUrl + "/admin/set-announcement", {post_id: post_id});
-		  if(result.result)
-			this.setAnnouncement(post_id);
-		
-	  }	catch (e) {
+  @Action async updateAnnouncement(post_id: string | null): Promise<void> {
+    try {
+      const result: any = await axios.post(apiUrl + "/admin/set-announcement", {
+        post_id: post_id,
+      });
+      if (result.result.data) this.setAnnouncement(post_id);
+    } catch (e) {
       console.log("failed set Announcement");
     }
   }

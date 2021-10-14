@@ -1,23 +1,16 @@
 <template>
-  <div class="mt-8">
+  <div class="mt-8 flex flex-col">
     <h4
       v-if="title !== undefined"
       class="text-3xl font-medium text-gray-700 my-3"
     >
       {{ title }}
     </h4>
-
-    <div class="mt-4">
-      <div
-        class="flex px-4 py-4 overflow-x-auto rounded-md"
-        :class="[
-          bg_color,
-          container_class,
-          items_center ? 'justify-center' : '',
-        ]"
-      >
-        <slot />
-      </div>
+    <div
+      class="flex mt-4 px-4 py-4 overflow-x-auto rounded-md flex-grow"
+      :class="[bg_color, container_class, items_center ? 'justify-center' : '']"
+    >
+      <slot />
     </div>
   </div>
 </template>

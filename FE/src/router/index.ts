@@ -5,16 +5,18 @@ import {
   RouteRecordRaw,
 } from "vue-router";
 
-import Home from "../views/Home.vue";
-import About from "../views/About.vue";
 import authUrl from "./auth";
-import Prodlist from "../views/Prodlist.vue";
 import * as hidden from "./hidden";
+
+import Home from "../views/Home.vue";
+import Prodlist from "../views/Prodlist.vue";
+import About from "../views/About.vue";
+import Lisense from "../views/Lisense.vue";
+import PostList from "../views/PostList.vue";
+
 import globalState from "@/store/global";
 import curItemState from "@/store/Prod/ItemModule";
 import prodState from "@/store/Prod";
-import Lisense from "../views/Lisense.vue";
-import PostList from "../views/PostList.vue";
 import postState from "@/store/Post";
 import postListState from "@/store/Post/postList";
 export interface Meta {
