@@ -10,4 +10,4 @@ export const markedOption: MarkedOptions = {
   smartLists: true,
   smartypants: false,
 };
-export const apiUrl: string = "/api";
+export const apiUrl: string = "	https://rkskekfk.run.goorm.io/api";

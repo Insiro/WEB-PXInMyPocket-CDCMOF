@@ -5,18 +5,19 @@ import db from "../../models/Index.js";
 import { notFound, badRequest } from "../error_handler.js";
 import { checkSigned } from "../middleWare.js";
 
-router.post("/", checkSigned);
+//router.post("/", checkSigned);
 
 //GET freeboard/announcemet
 //공지 게시글을 가져옵니다.
-router.get("/announcemet", (req, res) => {
-  db.POST.finaAll({
+router.get("/announcement", (req, res) => {
+  db.Post.findAll({
     where: {
-      announcemet: true,
+      announcement: true,
     },
   })
     .then((items) => {
       res.status(200).json(items);
+	  console.log(items);
     })
     .catch((err) => {
       console.error(err);
@@ -74,14 +75,15 @@ router.use("/", (req, res) => {
       notFound(req, res);
     });
 });
-// GET freeboard/delete/detailview?post_id=23423
+
+// GET freeboard/delete/detailview?post_id=23423 
 // 게시글을 삭제합니다.
 router.delete("/", checkSigned);
 router.delete("/", (req, res) => {
   console.log("작성글을 제거합니다.");
   db.Post.destroy({
     where: { post_id: req.query.post_id },
-  });
+  }); 
   res.status(202).json({ result: "success" });
 });
 

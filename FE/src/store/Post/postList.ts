@@ -22,21 +22,37 @@ export class postListModule extends VuexModule implements postListInterface {
       created: "", //createdAt
     },
   ];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   @Mutation setData(data: Array<any>): void {
+	  console.log('check');
     this.data = [];
+	  /*
+	  for(let i = 0; i < data.length; i++)
+		  {
+		       this.data.push({
+        id: data[i].post_id,
+        title: data[i].title,
+        author: data[i].writer,
+        created: data[i].createdAt,
+        isNotic: data[i].announcement,
+      });
+		  }*/
     data.map((item) => {
+		console.log(item);
       this.data.push({
         id: item.post_id,
         title: item.title,
         author: item.writer,
         created: item.createdAt,
-        isNotic: item.isNotic,
+        isNotic: item.announcement,
       });
-    });
+	 });
   }
   @Mutation setAnnouncement(post_id : string | null) : void {
 	  this.data.find(item => item.post_id === post_id).isNotic = true;
+  }
+  @Mutation setDataClear() : void {
+	  this.data = [];
   }
 //////////////
   @Action async update(): Promise<void> {
@@ -56,6 +72,16 @@ export class postListModule extends VuexModule implements postListInterface {
 		
 	  }	catch (e) {
       console.log("failed set Announcement");
+    }
+  }
+  @Action async getAnnouncement(): Promise<Array<postListItem>> {
+	  try {
+		  const result = await axios.get(apiUrl + "/freeboard/announcement");
+		  this.setData(result.data);
+		  return this.data;
+	  } catch (e) {
+      console.log("failed get Announcement");
+		  console.log(e);
     }
   }
   get posts(): Array<postListItem> {
