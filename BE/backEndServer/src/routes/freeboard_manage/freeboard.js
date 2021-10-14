@@ -25,16 +25,25 @@ router.get("/announcemet", (req, res) => {
 
 // POST /freeboard/
 // 게시글을 생성합니다.
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   var title = req.body.title;
   var content = req.body.content;
-
+  var announcemet = req.body.isNotic;
+  announcemet =
+    announcemet === undefined || announcemet === null ? false : announcemet;
+  if (announcemet) {
+    const loginUser = await db.User.findOne({
+      where: { email: req.session.user.email },
+    });
+    announcemet = loginUser.authority === true;
+  }
   console.log(req.session.user.email);
   //TODO: check why not work as String len is over 50char when under 50chars
   db.Post.create({
     writer: req.session.user.email,
     title: title,
     content: content,
+    announcemet: announcemet,
   })
     .then((post) => {
       res.status(202).json(post);
@@ -47,8 +56,6 @@ router.post("/", (req, res) => {
     });
 });
 
-// GET /freeboard?post_id=32423423
-// 해당 게시글 페이지를 보내줍니다.
 router.get("/list", (req, res) => {
   db.Post.findAll()
     .then((post) => {
@@ -59,6 +66,8 @@ router.get("/list", (req, res) => {
       notFound(req, res);
     });
 });
+// GET /freeboard?post_id=32423423
+// 해당 게시글 페이지를 보내줍니다.
 router.use("/", (req, res) => {
   var post_id = req.query.post_id;
   db.Post.findOne({
