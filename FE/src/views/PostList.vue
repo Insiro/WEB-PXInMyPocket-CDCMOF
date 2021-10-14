@@ -1,5 +1,6 @@
 <template>
-  <Table>
+  <Button><router-link to="/new_post">게시글 작성하기</router-link></Button>
+  <Table class="mt-5">
     <template #header>
       <TableHead :clsas="[thClass]">이름</TableHead>
       <TableHead :clsas="[thClass]">작성자</TableHead>
@@ -39,6 +40,7 @@ import { Options, Vue } from "vue-class-component";
 import { Table, TableItem, TableHead } from "@/components/Table";
 import { WideFrame } from "@/components/CardFrame";
 import { PageNation } from "@/components/PageNation";
+import Button from "@/components/Button";
 
 import postListState from "@/store/Post/postList";
 import { postListItem } from "@/store/Post/interfaces";
@@ -48,7 +50,9 @@ interface pageInterface {
   max: number;
 }
 
-@Options({ components: { Table, TableItem, TableHead, WideFrame, PageNation } })
+@Options({
+  components: { Table, TableItem, TableHead, WideFrame, PageNation, Button },
+})
 export default class PostList extends Vue {
   router = useRouter();
   thClass = ref(
