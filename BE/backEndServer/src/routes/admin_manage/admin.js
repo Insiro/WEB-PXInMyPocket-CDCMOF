@@ -5,10 +5,10 @@ import db from "../../models/Index.js";
 import { checkAdmin, checkSigned } from "../middleWare.js";
 import { badRequest } from "../error_handler.js";
 
-//admin이 아니라면 user 페이지로 이동 시킵니다.
 router.use("/", checkSigned);
 router.use("/", checkAdmin);
-
+router.use("/*", checkSigned);
+router.use("/*", checkAdmin);
 // POST /admin/add-product
 // 새로운 재고를 추가합니다.
 router.post("/add-product", function (req, res) {
