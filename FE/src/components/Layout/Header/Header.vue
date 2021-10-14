@@ -63,12 +63,12 @@
         </template>
         <template #menu>
           <!--TODO: Add Notify Items Here-->
-          <MunuItem>
+          <MenuItem>
             <div class="flex mx-3 justify-between">
               <span>Contensts</span>
               <Xicon @click="removeNotic('id')" />
             </div>
-          </MunuItem>
+          </MenuItem>
           <MenuItem>읽은 알람 삭제</MenuItem>
         </template>
       </Menu>

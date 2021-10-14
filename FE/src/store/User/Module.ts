@@ -37,8 +37,7 @@ export class UserModule extends VuexModule implements UserInterface {
   }
   @Mutation setData(data: UserInfoInterface): boolean {
     if (data.email === null) return false;
-    this.info.email = data.email;
-    this.info.profileImg = data.profileImg;
+    this.info = data;
     return true;
   }
   //mutation하고 같은 범위라 이름 안겹치게.
@@ -56,7 +55,6 @@ export class UserModule extends VuexModule implements UserInterface {
     email: string;
     password: string;
   }): Promise<boolean> {
-    //TODO: signIn from server;
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = await axios.post(apiUrl + "/home/login", {
