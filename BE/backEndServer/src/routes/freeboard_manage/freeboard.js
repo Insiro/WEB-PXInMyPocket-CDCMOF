@@ -17,7 +17,7 @@ router.get("/announcement", (req, res) => {
   })
     .then((items) => {
       res.status(200).json(items);
-	  console.log(items);
+      console.log(items);
     })
     .catch((err) => {
       console.error(err);
@@ -82,14 +82,14 @@ router.use("/", (req, res) => {
     });
 });
 
-// GET freeboard/delete/detailview?post_id=23423 
+// GET freeboard/delete/detailview?post_id=23423
 // 게시글을 삭제합니다.
 router.delete("/", checkSigned);
 router.delete("/", (req, res) => {
   console.log("작성글을 제거합니다.");
   db.Post.destroy({
     where: { post_id: req.query.post_id },
-  }); 
+  });
   res.status(202).json({ result: "success" });
 });
 
