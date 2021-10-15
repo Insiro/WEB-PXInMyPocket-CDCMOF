@@ -126,14 +126,11 @@ export default class Home extends Vue {
     this.router.push({ path: "/prod/" + id.toString() });
   }
   get MiniPosts(): Array<postListItem> {
-    console.log(postListState.posts.filter((item) => !item.isNotic));
     return postListState.posts.filter((item) => !item.isNotic).slice(0, 3);
   }
-  async NoticPosts(): Promise<Array<postListItem>> {
+  get NoticPosts(): Array<postListItem> {
     //TODO: filter with isNotic?
-    var result = await postListState.getAnnouncement();
-    console.log(result);
-    return result.slice(0, 3);
+    return postListState.posts.filter((item) => item.isNotic).slice(0, 3);
   }
   get Products(): Array<ProductFormat> {
     return prodState.productList.slice(0, 2);

@@ -48,7 +48,7 @@ export class PostModule extends VuexModule implements postDataInterface {
       post.author = data.writer;
       post.created = data.createdAt;
       post.content = marked(data.content);
-      // post.isNotic = data.isNotic; //TODO: get Notic from API
+      post.isNotic = data.announcement;
       this.setData(post);
     } catch (e) {
       post.content = "Post Can not Roaded";
@@ -61,6 +61,9 @@ export class PostModule extends VuexModule implements postDataInterface {
   }
   get title(): string {
     return this.data.title;
+  }
+  get isNotic(): boolean {
+    return this.data.isNotic;
   }
 }
 const postState = getModule(PostModule);

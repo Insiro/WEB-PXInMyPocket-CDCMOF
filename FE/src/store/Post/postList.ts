@@ -9,6 +9,7 @@ import { postListInterface, postListItem } from "./interfaces";
 import store from "..";
 import axios from "axios";
 import { apiUrl, markedOption } from "@/utils";
+import { useToast } from "vue-toastification";
 
 @Module({ namespaced: true, store, name: "postListModule", dynamic: true })
 export class postListModule extends VuexModule implements postListInterface {
@@ -24,16 +25,9 @@ export class postListModule extends VuexModule implements postListInterface {
   ];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Mutation setData(data: Array<any>): void {
-    data.map((item) => {
-      this.data.push({
-        id: item.post_id,
-        title: item.title,
-        author: item.writer,
-        created: item.createdAt,
-        isNotic: item.announcement,
-      });
-    });
+    this.data = postListfy(data);
   }
   @Mutation setAnnouncement(post_id: string | null): void {
     const post = this.data.find((item) => item.id === post_id);
@@ -49,6 +43,7 @@ export class postListModule extends VuexModule implements postListInterface {
       this.setData(data);
     } catch (e) {
       console.log("failed to load PostList");
+      useToast().error("게시글 목록을 가져오는데 실패하였습니다");
     }
   }
   @Action async updateAnnouncement(post_id: string | null): Promise<void> {
@@ -64,11 +59,9 @@ export class postListModule extends VuexModule implements postListInterface {
   @Action async getAnnouncement(): Promise<Array<postListItem>> {
     try {
       const result = await axios.get(apiUrl + "/freeboard/announcement");
-      this.setData(result.data);
-      return this.data;
+      return postListfy(result.data);
     } catch (e) {
       console.log("failed get Announcement");
-      console.log(e);
       return [];
     }
   }
@@ -78,3 +71,18 @@ export class postListModule extends VuexModule implements postListInterface {
 }
 const postListState = getModule(postListModule);
 export default postListState;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function postListfy(data: Array<any>): Array<postListItem> {
+  const out_data: Array<postListItem> = [];
+  data.map((item) => {
+    out_data.push({
+      id: item.post_id,
+      title: item.title,
+      author: item.writer,
+      created: item.createdAt,
+      isNotic: item.announcement === true,
+    });
+  });
+  return out_data;
+}
