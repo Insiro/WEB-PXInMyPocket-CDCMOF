@@ -91,6 +91,7 @@ import { postListItem } from "@/store/Post/interfaces";
 import postListState from "@/store/Post/postList";
 import { ProductFormat } from "@/store/Prod/Interfaces";
 import prodState from "@/store/Prod";
+
 @Options({
   components: {
     Table,
@@ -106,6 +107,15 @@ export default class Home extends Vue {
   thClass = ref(
     "text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase"
   );
+  announcement: Array<postListItem> = [
+    {
+      id: "",
+      author: "",
+      title: "",
+      isNotic: false,
+      created: "", //createdAt
+    },
+  ];
   viewPost(id: string): void {
     this.router.push("/post/" + id.toString());
   }
@@ -116,16 +126,17 @@ export default class Home extends Vue {
     this.router.push({ path: "/prod/" + id.toString() });
   }
   get MiniPosts(): Array<postListItem> {
-    //TODO: filter with isNotic?
     console.log(postListState.posts.filter((item) => !item.isNotic));
-    return postListState.posts.filter((item) => !item.isNotic).slice(4);
+    return postListState.posts.filter((item) => !item.isNotic).slice(0, 3);
   }
-  get NoticPosts(): Array<postListItem> {
+  async NoticPosts(): Promise<Array<postListItem>> {
     //TODO: filter with isNotic?
-    return postListState.posts.filter((item) => item.isNotic).slice(4);
+    var result = await postListState.getAnnouncement();
+    console.log(result);
+    return result.slice(0, 3);
   }
   get Products(): Array<ProductFormat> {
-    return prodState.productList.slice(2);
+    return prodState.productList.slice(0, 2);
   }
 }
 </script>

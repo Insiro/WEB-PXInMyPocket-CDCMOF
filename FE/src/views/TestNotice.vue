@@ -14,6 +14,9 @@
           <Button class="w-full px-4 text-sm text-center" @onClick="sendNotice">
             update Notices
           </Button>
+			<Button class="w-full px-4 text-sm text-center" @onClick="NoticPosts">
+			announcement
+	</Button>
         </div>
       </form>
     </div>
@@ -28,6 +31,9 @@ import { webIcon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import notifyState from "@/store/Notifications";
 import { NoticInterface } from "@/store/Notifications/Interfaces";
+
+import { postListItem } from "@/store/Post/interfaces";
+import postListState from "@/store/Post/postList";
 
 @Options({
   components: { webIcon, Button, BaseModal },
@@ -54,6 +60,12 @@ export default class NoticTest extends Vue {
       this.modalOpen = true;
       console.log(result);
     }
+  }
+async NoticPosts(): Promise<Array<postListItem>> {
+    //TODO: filter with isNotic?
+	var result = await postListState.getAnnouncement()
+	console.log(result);
+    //return postListState.posts.filter((item) => item.announcement).slice(4);
   }
   //#region Item Event
   modalClose(): void {

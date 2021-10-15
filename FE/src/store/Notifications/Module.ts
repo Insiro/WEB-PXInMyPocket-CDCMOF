@@ -32,7 +32,7 @@ export class NotifyModule extends VuexModule implements NoticInterface {
     this.info[IDX].totalPrice = price;
   }
   @Mutation clearNoticeInfo(): void {
-    this.info.clear();
+    this.info = [];
   }
   @Mutation pushInfo(element: any): void {
     this.info.push(element);

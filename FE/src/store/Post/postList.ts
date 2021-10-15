@@ -22,9 +22,9 @@ export class postListModule extends VuexModule implements postListInterface {
       created: "", //createdAt
     },
   ];
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Mutation setData(data: Array<any>): void {
-    this.data = [];
     data.map((item) => {
       this.data.push({
         id: item.post_id,
@@ -39,7 +39,9 @@ export class postListModule extends VuexModule implements postListInterface {
     const post = this.data.find((item) => item.id === post_id);
     if (post !== null && post !== undefined) post.isNotic = true;
   }
-  //////////////
+  @Mutation setDataClear(): void {
+    this.data = [];
+  }
   @Action async update(): Promise<void> {
     try {
       const result = await axios.get(apiUrl + "/freeboard/list");
@@ -57,6 +59,17 @@ export class postListModule extends VuexModule implements postListInterface {
       if (result.result.data) this.setAnnouncement(post_id);
     } catch (e) {
       console.log("failed set Announcement");
+    }
+  }
+  @Action async getAnnouncement(): Promise<Array<postListItem>> {
+    try {
+      const result = await axios.get(apiUrl + "/freeboard/announcement");
+      this.setData(result.data);
+      return this.data;
+    } catch (e) {
+      console.log("failed get Announcement");
+      console.log(e);
+      return [];
     }
   }
   get posts(): Array<postListItem> {
