@@ -117,6 +117,7 @@ export default class Home extends Vue {
   }
   get MiniPosts(): Array<postListItem> {
     //TODO: filter with isNotic?
+    console.log(postListState.posts.filter((item) => !item.isNotic));
     return postListState.posts.filter((item) => !item.isNotic).slice(4);
   }
   get NoticPosts(): Array<postListItem> {

@@ -31,7 +31,7 @@ export class postListModule extends VuexModule implements postListInterface {
         title: item.title,
         author: item.writer,
         created: item.createdAt,
-        isNotic: item.isNotic,
+        isNotic: item.announcement,
       });
     });
   }
