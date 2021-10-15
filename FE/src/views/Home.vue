@@ -2,7 +2,7 @@
   <WideFrame
     title="인기 상품"
     container_class="grid grid-cols-3 justify-items-center"
-    class="mx-5"
+    class="mx-5 mt-1"
   >
     <Card
       v-show="Products.length === 0"
@@ -22,7 +22,7 @@
     </Card>
     <!--:TODO Item Area -->
   </WideFrame>
-  <div class="lg:flex lg:flex-row">
+  <div class="lg:flex lg:flex-row mt-6">
     <div class="flex-grow mx-5">
       <div class="text-3xl font-medium text-gray-700 my-3">공지</div>
       <Table>
