@@ -24,7 +24,7 @@ const productData = (sequelize, DataTypes) => {
       allowNull: false,
     },
     category: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     monthly_sale: {
@@ -35,6 +35,10 @@ const productData = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+	describe: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+	}
   });
 };
 export default productData;

@@ -14,7 +14,7 @@ const orderData = (sequelize, DataTypes) => {
       defaultValue: new Date(),
     },
     product_name: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     quantity: {
@@ -32,7 +32,7 @@ const orderData = (sequelize, DataTypes) => {
   });
 
   order.associate = function (models) {
-    models.User.hasMany(order, {
+    models.User.hasMany(models.Order, {
       onDelete: "cascade",
       foreignKey: {
         name: "orderer_id",

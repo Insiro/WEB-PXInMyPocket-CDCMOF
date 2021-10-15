@@ -3,8 +3,10 @@ import express from "express";
 var router = express.Router();
 import Sequelize from "sequelize";
 import db from "../../models/Index.js";
-import * as HttpError from "../error_handler.js";
+import { checkSigned } from "../middleWare.js";
+import { badRequest } from "../error_handler.js";
 
+router.use("/", checkSigned);
 // GET /cart
 // 현재 로그인 되어있는 유저정보의 장바구니 아이템들을 보냅니다.
 router.get("/", async (req, res) => {
@@ -28,6 +30,7 @@ router.post("/", async (req, res) => {
     quantity: req.body.quantity,
     added_product_id: req.body.added_product_id,
     owner_email: req.session.user.email,
+	total_price: req.body.total_price,
   })
     .then(() => {
       res.status(200).json({ createSuccess: true });
@@ -37,5 +40,5 @@ router.post("/", async (req, res) => {
     });
 });
 
-router.all("/*", HttpError.badRequest);
+router.all("/*", badRequest);
 export default router;

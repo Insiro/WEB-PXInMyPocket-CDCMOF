@@ -53,10 +53,10 @@ router.get("/all-category", function (req, res) {
   });
 });
 
-// GET /product/detailview?name=초코파이
-// 해당상품을 클릭하였을 때 해당상품에 대한 정보를 가져옵니다.
-router.get("/detailview", function (req, res) {
-  db.Product.findAll({
+// GET /product/info-by-name?name=초코파이
+// 해당상품의 정보를 name을 통해 가져옴
+router.get("/info-by-name", function (req, res) {
+  db.Product.findOne({
     where: {
       product_name: req.query.name,
     },
@@ -69,7 +69,9 @@ router.get("/detailview", function (req, res) {
       res.status(400).json({ error: "not found Item" });
     });
 });
-router.get("/info", async (req, res) => {
+//GET /product/info-by-id?id=234-123-4321
+//해당상품에 대한 정보를 id를 통해 가져옴
+router.get("/info-by-id", async (req, res) => {
   try {
     const item = await db.Product.findOne({
       where: {

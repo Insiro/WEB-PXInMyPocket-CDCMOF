@@ -7,7 +7,7 @@ const postData = (sequelize, DataTypes) => {
       unique: true,
     },
     title: {
-      type: DataTypes.STRING(),
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
         len: {
@@ -27,7 +27,7 @@ const postData = (sequelize, DataTypes) => {
     },
   });
   post.associate = function (models) {
-    models.User.hasMany(post, {
+    models.User.hasMany(models.Post, {
       onDelete: "cascade",
       foreignKey: "writer",
       sourceKEy: "email",

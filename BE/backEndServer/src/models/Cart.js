@@ -2,15 +2,23 @@ import Sequelize from "sequelize";
 
 const cartData = (sequelize, DataTypes) => {
   const cart = sequelize.define("Cart", {
-    //주문번호
+    cart_id: {
+      type: DataTypes.UUID,
+      defaultValue: Sequelize.UUIDV4,
+      unique: true,
+    },
     quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    total_price: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
   });
 
   cart.associate = function (models) {
-    models.User.hasMany(cart, {
+    models.User.hasMany(models.Cart, {
       onDelete: "cascade",
       foreignKey: {
         name: "owner_email",
@@ -19,7 +27,7 @@ const cartData = (sequelize, DataTypes) => {
       sourceKEy: "email",
     });
 
-    models.Product.belongsTo(cart, {
+    models.Cart.hasOne(models.Product, {
       foreignKey: {
         name: "added_product_id",
         allowNull: false,
