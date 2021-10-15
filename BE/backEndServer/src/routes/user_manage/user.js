@@ -10,14 +10,13 @@ var router = express.Router();
 //로그인을 하지 않은 상태로 /user로 접속하면 403 error를 보냅니다. 로그인을 했다면 User는 session 정보에 해당하는 유저가 됩니다.
 //로그인 한 후 접근 가능 하도록 middle ware 을 설정합니다.
 router.all("/*", checkSigned);
-
 router.all("/", badRequest);
 
-//POST home/user/order-arrive 해당유저의 도착한 제품 보내줍니다.
+//POST home/user/order-arrive 해당유저의 도착한 제품정보를 보내줍니다.
 router.get("/order-arrive", async (req, res) => {
-  let loginUser = await getUser(req.session.user.email);
   db.Order.findAll({
     where: {
+      orderer_id: req.session.user.email,
       arrived: true,
     },
   })
@@ -61,7 +60,7 @@ router.get("/orderlist", async (req, res) => {
 
 //POST home/user/change-userinfo: 개인 정보 수정내역을 보냅니다
 router.post("/change-userinfo", async (req, res) => {
-  var new_password = req.body.newpassword;
+  var new_password = req.body.new_password;
   try {
     let loginUser = await getUser(req.session.user.email);
     var salt = loginUser.salt;

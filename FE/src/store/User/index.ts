@@ -1,3 +1,3 @@
-import UserState, { UserModule } from "./Module";
+import userState, { UserModule } from "./Module";
 export { UserModule };
-export default UserState;
+export default userState;

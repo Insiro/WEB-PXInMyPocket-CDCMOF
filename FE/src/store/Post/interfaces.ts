@@ -1,12 +1,9 @@
 export default interface postDataInterface {
   data: PostInterface;
 }
-export interface PostInterface {
-  id: string;
+export interface PostInterface extends postListItem {
   content: string;
-  author: string;
-  title: string;
-  created: string;
+  isNotic: boolean;
   comment: Array<CommentInterface>;
 }
 export interface CommentInterface {
@@ -22,4 +19,5 @@ export interface postListItem {
   author: string;
   title: string;
   created: string;
+  isNotic: boolean;
 }

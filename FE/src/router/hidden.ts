@@ -1,6 +1,7 @@
 import { pageObj } from ".";
 import Cart from "@/views/Carts.vue";
 import ProdInfo from "../views/ProdInfo.vue";
+import NewPost from "@/views/NewPost.vue";
 import PostView from "../views/PostView.vue";
 export const pageList: Array<pageObj> = [
   { icon: null, name: "제품", url: "/prod/:id", component: ProdInfo },
@@ -22,5 +23,10 @@ export const pageList: Array<pageObj> = [
     name: "게시글",
     url: "/post/:id",
     component: PostView,
+  },
+  {
+    name: "새 게시글",
+    url: "/new_post",
+    component: NewPost,
   },
 ];

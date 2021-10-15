@@ -92,7 +92,8 @@ export default class Regist extends Vue {
   //#region Item Event
   async findID(): Promise<void> {
     //TODO: find ID and Modal
-    var result = await UserState.findID(this.lostID);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var result: any = await UserState.findID(this.lostID);
     if (result.data.findIdSuccess) {
       this.mod.idSuccess = true;
       this.lookedID = result.data.foundID;
@@ -105,16 +106,20 @@ export default class Regist extends Vue {
   }
 
   async resetPwd(): Promise<void> {
-    var result = await UserState.resetPwd(this.lostPWD);
-    console.log(result);
-    if (result.data.changePwdSuccess) {
-      this.mod.pwdSuccess = true;
-    } else {
-      this.mod.pwdSuccess = false;
+    try {
+      var result: any = await UserState.resetPwd(this.lostPWD);
+      console.log(result);
+      if (result.data.changePwdSuccess) {
+        this.mod.pwdSuccess = true;
+      } else {
+        this.mod.pwdSuccess = false;
+      }
+      this.mod.id = false;
+      this.mod.pwd = true;
+      this.modalOpen = true;
+    } catch (e) {
+      console.log(e);
     }
-    this.mod.id = false;
-    this.mod.pwd = true;
-    this.modalOpen = true;
   }
   modalClose(): void {
     this.modalOpen = false;

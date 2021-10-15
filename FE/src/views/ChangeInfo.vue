@@ -143,7 +143,8 @@ export default class ChangeInfo extends Vue {
       new_serial_number: this.changeInfo.id,
       new_expire_date: this.changeInfo.bye,
     };
-    var result = await UserState.changeUserInfo(newInfo);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    var result: any = await UserState.changeUserInfo(newInfo);
     this.passed.all =
       this.passed.newPwd &&
       !this.changeInfo.id &&

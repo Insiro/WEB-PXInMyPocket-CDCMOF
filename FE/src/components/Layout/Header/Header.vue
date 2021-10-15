@@ -55,77 +55,49 @@
         <router-link to="/cart">
           <CartIcon />
         </router-link>
-        <button class="flex mx-4 text-gray-600 focus:outline-none">
-          <RingIcon />
-        </button>
       </div>
-      <IconSearch class="mx-4" :class="[menuItemClass]" @click="openSearch" />
-      <div class="relative">
-        <button
-          class="
-            relative
-            z-10
-            block
-            w-8
-            h-8
-            overflow-hidden
-            rounded-full
-            shadow
-            focus:outline-none
-          "
-          @click="dropdownOpen = !dropdownOpen"
-        >
+      <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
+      <Menu>
+        <template #icon>
+          <RingIcon />
+        </template>
+        <template #menu>
+          <!--TODO: Add Notify Items Here-->
+          <MenuItem>
+            <div class="flex mx-3 justify-between">
+              <span>Contensts</span>
+              <Xicon @click="removeNotic('id')" />
+            </div>
+          </MenuItem>
+          <MenuItem>읽은 알람 삭제</MenuItem>
+        </template>
+      </Menu>
+      <Menu>
+        <template #icon>
           <!-- TODO: change to profileImg -->
+          <ProfileIcon v-show="!is_signed" />
           <img
+            v-show="is_signed"
             class="object-cover w-full h-full"
-            :src="is_signed ? user?.profileImg ?? '' : ''"
+            :src="user?.profileImg ?? ''"
             alt="Your avatar"
           />
-        </button>
-
-        <div
-          v-show="dropdownOpen"
-          class="fixed inset-0 z-10 w-full h-full"
-          @click="dropdownOpen = false"
-        ></div>
-
-        <transition
-          enter-active-class="transition duration-150 ease-out transform"
-          enter-from-class="scale-95 opacity-0"
-          enter-to-class="scale-100 opacity-100"
-          leave-active-class="transition duration-150 ease-in transform"
-          leave-from-class="scale-100 opacity-100"
-          leave-to-class="scale-95 opacity-0"
-        >
-          <div
-            v-show="dropdownOpen"
-            class="
-              absolute
-              right-0
-              z-20
-              w-48
-              py-2
-              mt-2
-              bg-white
-              rounded-md
-              shadow-xl
-            "
-          >
-            <MenuItem :class="[menuItemClass]">
-              <router-link to="/cart">
-                <CartIcon :class="[menuiconClass]" /> 장바구니
-              </router-link>
-            </MenuItem>
-            <MenuItem :class="[menuItemClass]">
-              <RingIcon :class="[menuiconClass]" /> Notics
-            </MenuItem>
-            <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
-            <MenuItem v-show="is_signed === false" to="/signIn">
-              Log In
-            </MenuItem>
-          </div>
-        </transition>
-      </div>
+        </template>
+        <template #menu>
+          <MenuItem :class="[menuItemClass]">
+            <router-link to="/cart">
+              <CartIcon :class="[menuiconClass]" /> 장바구니
+            </router-link>
+          </MenuItem>
+          <MenuItem v-show="is_signed">
+            <router-link to="/changeInfo">개인정보 수정</router-link>
+          </MenuItem>
+          <MenuItem v-show="is_signed" @click="signOut()">Log out</MenuItem>
+          <MenuItem v-show="is_signed === false" to="/signIn">
+            Log In
+          </MenuItem>
+        </template>
+      </Menu>
     </div>
   </header>
 </template>
@@ -133,9 +105,15 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
-import MenuItem from "./MenuItem.vue";
+import Menu, { MenuItem } from "./Menu";
 import { TextInput } from "@/components/Inputs";
-import { IconSearch, RingIcon, CartIcon } from "@/components/Icons";
+import {
+  IconSearch,
+  RingIcon,
+  CartIcon,
+  ProfileIcon,
+  Xicon,
+} from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
@@ -148,12 +126,14 @@ import userState from "@/store/User/Module";
     RingIcon,
     CartIcon,
     BaseModal,
+    Menu,
+    ProfileIcon,
+    Xicon,
   },
 })
 export default class Header extends Vue {
   show_search_modal = false;
   user = userState.UserData;
-  dropdownOpen = ref(false);
   menuItemClass = ref("lg:hidden");
   menuiconClass = ref("inline-block");
   get PageName(): string {
@@ -176,6 +156,9 @@ export default class Header extends Vue {
   }
   searchModalClose(): void {
     this.show_search_modal = false;
+  }
+  removeNotic(_id: string): void {
+    //TODO remove Notic with Notic Sotr
   }
 }
 </script>

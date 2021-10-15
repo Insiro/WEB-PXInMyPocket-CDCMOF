@@ -35,9 +35,13 @@
         <div class="flex items-center justify-between mt-4">
           <div>
             <label class="inline-flex items-center">
-              <CheckBox value="save" :checked_value="save" @updates="toggleSave"
-                >Remember Me</CheckBox
-              ><!--TODO: set  remomber sign-in info-->
+              <CheckBox
+                value="save"
+                :checked_value="save"
+                @updates="toggleSave"
+              >
+                Remember Me
+              </CheckBox>
             </label>
           </div>
 
@@ -104,6 +108,15 @@ export default class SignIn extends Vue {
     this.mod.signin = false;
     var result = await UserState.signIn(this.sign);
     if (result) {
+      if (this.save) {
+        localStorage.setItem("save_sign_data", "true");
+        localStorage.setItem("saved_email", this.sign.email);
+        localStorage.setItem("saved_pwd", this.sign.password);
+      } else {
+        localStorage.setItem("save_sign_data", "false");
+        localStorage.removeItem("saved_email");
+        localStorage.removeItem("saved_pwd");
+      }
       this.router.push("/");
     } else {
       //TODO: alert wrong passwod

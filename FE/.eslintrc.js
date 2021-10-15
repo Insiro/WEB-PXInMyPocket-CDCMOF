@@ -9,6 +9,7 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:vue/vue3-recommended",
     "eslint-config-prettier",
+    "@vue/typescript/recommended",
   ],
   parser: "vue-eslint-parser",
   parserOptions: {

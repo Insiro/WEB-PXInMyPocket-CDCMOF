@@ -8,7 +8,7 @@ import {
 import postDataInterface, { PostInterface } from "./interfaces";
 import store from "..";
 import axios from "axios";
-import { markedOption } from "@/utils";
+import { apiUrl, markedOption } from "@/utils";
 import marked from "marked";
 
 @Module({ namespaced: true, store, name: "PostModule", dynamic: true })
@@ -21,6 +21,7 @@ export class PostModule extends VuexModule implements postDataInterface {
     created: "",
     comment: [],
     title: "",
+    isNotic: false,
   };
   @Mutation setData(data: PostInterface): void {
     this.data = data;
@@ -33,9 +34,10 @@ export class PostModule extends VuexModule implements postDataInterface {
       title: "",
       created: "",
       comment: [],
+      isNotic: false,
     };
     try {
-      const response = await axios.get("/api/freeboard", {
+      const response = await axios.get(apiUrl + "/freeboard", {
         params: { post_id: id },
       });
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,6 +48,7 @@ export class PostModule extends VuexModule implements postDataInterface {
       post.author = data.writer;
       post.created = data.createdAt;
       post.content = marked(data.content);
+      post.isNotic = data.announcement;
       this.setData(post);
     } catch (e) {
       post.content = "Post Can not Roaded";
@@ -58,6 +61,9 @@ export class PostModule extends VuexModule implements postDataInterface {
   }
   get title(): string {
     return this.data.title;
+  }
+  get isNotic(): boolean {
+    return this.data.isNotic;
   }
 }
 const postState = getModule(PostModule);

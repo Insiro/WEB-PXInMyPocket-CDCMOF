@@ -5,10 +5,10 @@ import db from "../../models/Index.js";
 import { checkAdmin, checkSigned } from "../middleWare.js";
 import { badRequest } from "../error_handler.js";
 
-//admin이 아니라면 user 페이지로 이동 시킵니다.
 router.use("/", checkSigned);
 router.use("/", checkAdmin);
-
+router.use("/*", checkSigned);
+router.use("/*", checkAdmin);
 // POST /admin/add-product
 // 새로운 재고를 추가합니다.
 router.post("/add-product", function (req, res) {
@@ -105,5 +105,28 @@ router.get("/sell", (req, res) => {
   });
 });
 
+//POST /admin/set-announcement
+// 해당 게시물을 공지 게시글로 설정합니다.
+router.get("/set-announcement", (req, res) => {
+  db.Post.findOne({
+    where: {
+      post_id: req.body.post_id,
+    },
+  }).then((post) => {
+    post
+      .update({
+        announcement: true,
+      })
+      .then((item) => {
+        res.status(202).json({ result: true });
+        console.log("set announcement success", item);
+      })
+      .catch((err) => {
+        res.status(400).send("failed");
+        console.log("set announcement fail");
+        console.log(err);
+      });
+  });
+});
 router.all("/*", badRequest);
 export default router;

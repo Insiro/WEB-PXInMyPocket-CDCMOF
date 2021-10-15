@@ -34,6 +34,7 @@ const store = new Store<RootState>({
     prodList: { items: [], cate: new Set([]) },
     curPost: {
       data: {
+        isNotic: false,
         id: "",
         content: "",
         author: "",

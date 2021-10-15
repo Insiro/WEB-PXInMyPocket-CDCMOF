@@ -5,8 +5,18 @@ import Xicon from "./Xicon.vue";
 import RingIcon from "./Ring.vue";
 import CircleGraph from "./CricleGraph.vue";
 import CartIcon from "./Cart.vue";
+import ProfileIcon from "./Profile.vue";
 import { Component } from "vue";
-export { IconSearch, webIcon, Refresh, Xicon, CircleGraph, RingIcon, CartIcon };
+export {
+  IconSearch,
+  webIcon,
+  Refresh,
+  Xicon,
+  CircleGraph,
+  RingIcon,
+  CartIcon,
+  ProfileIcon,
+};
 interface IconComponent {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,4 +30,5 @@ export const IconComponentList: Array<IconComponent> = [
   { name: "circle-graph-icon", component: CircleGraph },
   { name: "ring-icon", component: RingIcon },
   { name: "cart-icon", component: CartIcon },
+  { name: "profile-icon", component: ProfileIcon },
 ];

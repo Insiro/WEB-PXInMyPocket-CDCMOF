@@ -5,33 +5,55 @@ import db from "../../models/Index.js";
 import { notFound, badRequest } from "../error_handler.js";
 import { checkSigned } from "../middleWare.js";
 
-// POST /freeboard/
-// 게시글을 생성합니다.
-router.post("/", checkSigned);
-router.post("/", function (req, res) {
-  var title = req.body.title;
-  var content = req.body.content;
+//router.post("/", checkSigned);
 
-  console.log(req.session.user.email);
-  //TODO: check why not work as String len is over 50char when under 50chars
-  db.Post.create({
-    writer: req.session.user.email,
-    title: title,
-    content: content,
+//GET freeboard/announcemet
+//공지 게시글을 가져옵니다.
+router.get("/announcement", (req, res) => {
+  db.Post.findAll({
+    where: {
+      announcement: true,
+    },
   })
-    .then((post) => {
-      res.status(202).json(post);
-      console.log("posting success", post);
+    .then((items) => {
+      res.status(200).json(items);
+      console.log(items);
     })
     .catch((err) => {
-      console.log("order fail");
-      console.log(err);
-      res.status(400).json({ error: "failed" });
+      console.error(err);
     });
 });
 
-// GET /freeboard?post_id=32423423
-// 해당 게시글 페이지를 보내줍니다.
+// POST /freeboard/
+// 게시글을 생성합니다.
+router.post("/", async (req, res) => {
+  var title = req.body.title;
+  var content = req.body.content;
+  var announcemet = req.body.isNotic;
+  try {
+    announcemet =
+      announcemet === undefined || announcemet === null ? false : announcemet;
+    if (announcemet) {
+      const loginUser = await db.User.findOne({
+        where: { email: req.session.user.email },
+      });
+      announcemet = loginUser.authority === true;
+    }
+    //TODO: check why not work as String len is over 50char when under 50chars
+    await db.Post.create({
+      writer: req.session.user.email,
+      title: title,
+      content: content,
+      announcement: announcemet,
+    });
+    res.status(202).send("success");
+  } catch (e) {
+    console.log(e);
+    console.log("order fail");
+    res.status(400).json({ error: "failed" });
+  }
+});
+
 router.get("/list", (req, res) => {
   db.Post.findAll()
     .then((post) => {
@@ -42,6 +64,8 @@ router.get("/list", (req, res) => {
       notFound(req, res);
     });
 });
+// GET /freeboard?post_id=32423423
+// 해당 게시글 페이지를 보내줍니다.
 router.use("/", (req, res) => {
   var post_id = req.query.post_id;
   db.Post.findOne({
@@ -57,6 +81,7 @@ router.use("/", (req, res) => {
       notFound(req, res);
     });
 });
+
 // GET freeboard/delete/detailview?post_id=23423
 // 게시글을 삭제합니다.
 router.delete("/", checkSigned);
