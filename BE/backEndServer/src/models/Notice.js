@@ -20,7 +20,7 @@ const noticeData = (sequelize, DataTypes) => {
   });
 
   //주문 번호, 주문자 아이디
-  order.associate = function (models) {
+  notice.associate = function (models) {
     models.User.hasMany(models.Notice, {
       onDelete: "cascade",
       foreignKey: {

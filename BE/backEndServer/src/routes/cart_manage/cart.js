@@ -1,7 +1,6 @@
 // </product/*> 에서는 물품정보를 제공하고 주문기능을 수행합니다.
 import express from "express";
 var router = express.Router();
-import Sequelize from "sequelize";
 import db from "../../models/Index.js";
 import { checkSigned } from "../middleWare.js";
 import { badRequest } from "../error_handler.js";
@@ -30,7 +29,7 @@ router.post("/", async (req, res) => {
     quantity: req.body.quantity,
     added_product_id: req.body.added_product_id,
     owner_email: req.session.user.email,
-	total_price: req.body.total_price,
+    total_price: req.body.total_price,
   })
     .then(() => {
       res.status(200).json({ createSuccess: true });

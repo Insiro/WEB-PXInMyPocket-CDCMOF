@@ -35,10 +35,10 @@ const productData = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-	describe: {
-		type: DataTypes.TEXT,
-		allowNull: true,
-	}
+    describe: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   });
 };
 export default productData;

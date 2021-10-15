@@ -11,10 +11,10 @@ router.use("/", checkSigned);
 router.post("/info", function (req, res) {
   console.log(req.session.user.email);
   db.Order.findOne({
-	  where: {
-    	orderer_id: req.session.user.email,
-    	order_id: req.body.order_id,
-	  }
+    where: {
+      orderer_id: req.session.user.email,
+      order_id: req.body.order_id,
+    },
   })
     .then((item) => {
       res.status(202).json({ data: item });
