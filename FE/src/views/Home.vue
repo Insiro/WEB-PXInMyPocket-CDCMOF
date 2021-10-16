@@ -129,7 +129,6 @@ export default class Home extends Vue {
     return postListState.posts.filter((item) => !item.isNotic).slice(0, 3);
   }
   get NoticPosts(): Array<postListItem> {
-    //TODO: filter with isNotic?
     return postListState.posts.filter((item) => item.isNotic).slice(0, 3);
   }
   get Products(): Array<ProductFormat> {

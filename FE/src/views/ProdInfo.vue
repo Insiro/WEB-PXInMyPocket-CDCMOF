@@ -65,14 +65,6 @@ export default class Name extends Vue {
     amount: 0,
     price: 0,
   };
-  // itemInfo: ItemInfo = {
-  //   name: "Title",
-  //   price: "",
-  //   remaining: 0,
-  //   category: "",
-  //   limit_item: false,
-  //   imgUrl: "",
-  // };
   set pageI(id: string) {
     let name = " ";
     //TODO: get is vaild prod Id from Restful api and Update Name

@@ -26,17 +26,8 @@ export class ProductModule extends VuexModule implements ProdInterface {
     if (index !== -1) this.items[index] = data;
     else this.addItem(data);
   }
-  @Action updateItems(): boolean {
-    //TODO: get Items from RestFul Api
-    return false;
-  }
   @Mutation updateCate(data: Array<string>): void {
     this.cate = new Set(data);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Action getCategories(_cateString: string): Array<string> {
-    //TODO: get categories from Server
-    return ["dumy"];
   }
   @Action async updateCategories(): Promise<void> {
     try {
@@ -48,7 +39,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
     } catch (e) {
       console.log(e);
     }
-    //TODO: update categories from API;
   }
   @Action async refresh(): Promise<void> {
     try {
@@ -78,7 +68,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
     } catch (e) {
       console.log(e);
     }
-    //TODO : do refrash list
   }
   itemCate(id: string): Array<string> {
     const index = this.items.findIndex((item) => (item.id = id));
@@ -90,10 +79,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
   }
   get productList(): Array<ProductFormat> {
     return this.items;
-  }
-  prod(id: string): ProductFormat | null {
-    //TODO : make work with out module (get prod??)
-    return this.items.find((item) => item.id === id) ?? null;
   }
   //#region for Admin
   @Action async deleteProd(id: string): Promise<boolean> {

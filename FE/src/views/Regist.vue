@@ -163,13 +163,11 @@ export default class Regist extends Vue {
   //#endregion Style
   async regist(): Promise<void> {
     this.mod.regist = true;
-    //TODO: check regist value is availble
     this.passed.all = true;
     var result = await UserState.regist(this.register);
     if (result) {
       this.router.push("/");
     } else {
-      //TODO: alert wrong Input
       this.passed.all = false;
       this.modalOpen = true;
     }

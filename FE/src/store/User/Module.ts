@@ -40,17 +40,6 @@ export class UserModule extends VuexModule implements UserInterface {
     this.info = data;
     return true;
   }
-  //mutation하고 같은 범위라 이름 안겹치게.
-  @Action updateData(data: UserInfoInterface): boolean {
-    if (data.email === null) return false;
-    //TODO: update UserInfo with API
-    if (true) {
-      this.setData(data);
-    } else {
-      return false;
-    }
-    return true;
-  }
   @Action async signIn(info: {
     email: string;
     password: string;
@@ -90,7 +79,6 @@ export class UserModule extends VuexModule implements UserInterface {
     }
   }
   @Action async regist(info: RegistInterface): Promise<boolean> {
-    //TODO: signIn from server;
     try {
       await axios.post(apiUrl + "/home/register", {
         email: info.email,
@@ -102,7 +90,7 @@ export class UserModule extends VuexModule implements UserInterface {
       });
       this.setSign(true);
       this.setData(info);
-      console.log("check register");
+      this.signIn(info as { email: string; password: string });
       return true;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -141,6 +129,7 @@ export class UserModule extends VuexModule implements UserInterface {
       return null;
     }
   }
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
   @Action async changeUserInfo(info: any): Promise<boolean> {
     try {
       console.log(info);

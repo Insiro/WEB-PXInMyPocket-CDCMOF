@@ -74,7 +74,6 @@
       </Menu>
       <Menu>
         <template #icon>
-          <!-- TODO: change to profileImg -->
           <ProfileIcon v-show="!is_signed" />
           <img
             v-show="is_signed"
