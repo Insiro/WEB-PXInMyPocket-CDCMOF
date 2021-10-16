@@ -71,7 +71,7 @@ router.get("/info-by-name", function (req, res) {
 });
 //GET /product/info-by-id?id=234-123-4321
 //해당상품에 대한 정보를 id를 통해 가져옴
-router.get("/info-by-id", async (req, res) => {
+router.get("/info", async (req, res) => {
   try {
     const item = await db.Product.findOne({
       where: {

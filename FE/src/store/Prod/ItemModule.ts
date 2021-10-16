@@ -31,6 +31,9 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
   get name(): string {
     return this.data.name;
   }
+  get cate(): Array<string> {
+    return this.data.category.split(" ");
+  }
   @Mutation updateInfo(info: ProductFormat): void {
     this.data = info;
   }
@@ -48,7 +51,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     };
   }
   @Action async changeCurItem(id: string): Promise<void> {
-    const result = await axios.get(apiUrl + `/product?id=${id}`);
+    const result = await axios.get(apiUrl + `/product/info?id=${id}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rdata = (result as { data: any }).data.data;
     const data: ProductFormat = {

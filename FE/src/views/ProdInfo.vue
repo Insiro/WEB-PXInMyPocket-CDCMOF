@@ -9,6 +9,12 @@
       />
       <!-- <div></div> -->
       <Card class="mx-5 md:flex-grow itemArea ccard" :title="itemInfo.name">
+        <div v-if="category !== undefined" class="px-6 pt-4 pb-2">
+          <!--hashTag Area-->
+          <CardHash v-for="hash in category" :key="hash" :tag="hash">
+            {{ hash }}
+          </CardHash>
+        </div>
         <div :class="infoLineClass">{{ itemInfo.price }}</div>
         <div :class="infoLineClass">잔여 {{ itemInfo.remain }}</div>
         <div :class="infoLineClass">
@@ -47,7 +53,7 @@
 import { ref } from "vue";
 import { Vue, Options } from "vue-class-component";
 import { RouteLocationNormalized, useRouter } from "vue-router";
-import Card, { WideFrame } from "@/components/CardFrame";
+import Card, { CardHash, WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Inputs";
 import globalState from "@/store/global";
@@ -57,7 +63,7 @@ interface Selected {
   amount: number;
   price: number;
 }
-@Options({ components: { Card, WideFrame, Button, TextInput } })
+@Options({ components: { Card, WideFrame, Button, TextInput, CardHash } })
 export default class Name extends Vue {
   //#region init state
   id = "";
@@ -92,6 +98,9 @@ export default class Name extends Vue {
   }
   get amount(): number {
     return this.selected.amount;
+  }
+  get category(): Array<string> {
+    return curItemState.cate;
   }
   moveAmount(more: boolean): void {
     this.amount += more ? 1 : -1;
