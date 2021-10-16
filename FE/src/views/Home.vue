@@ -22,8 +22,8 @@
     </Card>
     <!--:TODO Item Area -->
   </WideFrame>
-  <div class="lg:flex lg:flex-row mt-6">
-    <div class="flex-grow mx-5">
+  <div class="lg:flex lg:flex-row mt-6 mx-5">
+    <div class="lg:flex-grow mx-5">
       <div class="text-3xl font-medium text-gray-700 my-3">공지</div>
       <Table>
         <template #header>
@@ -49,7 +49,7 @@
         </template>
       </Table>
     </div>
-    <div class="flex-grow mx-5">
+    <div class="lg:flex-grow mx-5">
       <div class="text-3xl font-medium text-gray-700 my-3">게시글</div>
       <Table>
         <template #header>
@@ -132,7 +132,7 @@ export default class Home extends Vue {
     return postListState.posts.filter((item) => item.isNotic).slice(0, 3);
   }
   get Products(): Array<ProductFormat> {
-    return prodState.productList.slice(0, 2);
+    return prodState.productList.slice(0, 3);
   }
 }
 </script>

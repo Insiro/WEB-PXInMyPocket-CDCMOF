@@ -5,7 +5,7 @@
     </div>
   </WideFrame>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="marked mt-5" v-html="postText"></div>
+  <div id="marked" class="marked mt-5" v-html="postText"></div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
