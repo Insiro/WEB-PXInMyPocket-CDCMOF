@@ -8,9 +8,11 @@ import {
 import ProdInterface, { ProductFormat } from "./Interfaces";
 import store from "..";
 import axios from "axios";
-import { apiUrl } from "@/utils";
+import { apiUrl, AuthorityRequired } from "@/utils";
+import { useToast } from "vue-toastification";
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
+  toast = useToast();
   items: Array<ProductFormat> = [];
   cate: Set<string> = new Set([]);
   @Mutation update(data: Array<ProductFormat>): void {
@@ -30,22 +32,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
   }
   @Mutation updateCate(data: Array<string>): void {
     this.cate = new Set(data);
-  }
-  @Mutation dumy(mount: number): void {
-    const dumyItem = {
-      id: "dumy",
-      name: "dumy",
-      remain: 0,
-      price: 0,
-      limit_item: false,
-      category: "dumy",
-      monthly_sale: 0,
-      weekly_sale: 0,
-      src: null,
-    };
-    const dumyCate = "dumy";
-    for (let i = 0; i < mount; i++) this.items.push(dumyItem);
-    this.cate.add(dumyCate);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Action getCategories(_cateString: string): Array<string> {
@@ -109,6 +95,24 @@ export class ProductModule extends VuexModule implements ProdInterface {
     //TODO : make work with out module (get prod??)
     return this.items.find((item) => item.id === id) ?? null;
   }
+  //#region for Admin
+  @Action async deleteProd(id: string): Promise<boolean> {
+    if (!AuthorityRequired()) {
+      this.toast.error("관리자 로그인이 필요합니다");
+      return false;
+    }
+    try {
+      await axios.post(apiUrl + "/admin/delete-product", {
+        id: id,
+      });
+      this.update(this.items.filter((item) => item.id !== id));
+    } catch (error) {
+      console.log(error);
+    }
+
+    return true; //Is Success
+  }
+  //#endregion
 }
 export const prodState = getModule(ProductModule);
 export default prodState;
