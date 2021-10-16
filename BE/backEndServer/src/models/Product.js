@@ -35,7 +35,7 @@ const productData = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    describe: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: true,
     },

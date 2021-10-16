@@ -48,7 +48,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     };
   }
   @Action async changeCurItem(id: string): Promise<void> {
-    const result = await axios.get(apiUrl + `/product/info?id=${id}`);
+    const result = await axios.get(apiUrl + `/product?id=${id}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rdata = (result as { data: any }).data.data;
     const data: ProductFormat = {
