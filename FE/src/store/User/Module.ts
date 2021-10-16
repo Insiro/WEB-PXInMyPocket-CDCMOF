@@ -61,16 +61,7 @@ export class UserModule extends VuexModule implements UserInterface {
         email: info.email,
         password: info.password,
       });
-      const userData = result.data.user;
-      const data: UserInfoInterface = {
-        email: info.email,
-        profileImg: "prodileImg" in result ? userData.profileImg : null,
-        id: userData.serial_number,
-        bye: userData.expire_date,
-        rank: userData.rank,
-        authority: userData.authority,
-        name: userData.name,
-      };
+      const data = FormatUserInfo(result.data.user);
       this.setSign(true);
       this.setData(data);
       console.log("check login");
@@ -169,6 +160,13 @@ export class UserModule extends VuexModule implements UserInterface {
       return false;
     }
   }
+  @Action async refreshSession(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = await axios.post(apiUrl + "/home/signed");
+    const data = FormatUserInfo(result.data.user);
+    this.setSign(true);
+    this.setData(data);
+  }
   get bSigned(): boolean {
     return this.signed;
   }
@@ -178,3 +176,16 @@ export class UserModule extends VuexModule implements UserInterface {
 }
 export const userState = getModule(UserModule);
 export default userState;
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+export function FormatUserInfo(data: any): UserInfoInterface {
+  return {
+    email: data.email,
+    profileImg: "prodileImg" in data ? data.profileImg : null,
+    id: data.serial_number,
+    bye: data.expire_date,
+    rank: data.rank,
+    authority: data.authority,
+    name: data.name,
+  };
+}
