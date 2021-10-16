@@ -29,7 +29,10 @@ router.all("/signed", (req, res) => {
         result: "true",
         user: retUser,
       })
-      .catch(res.status(400).json({ result: "false" }));
+      .catch((error) => {
+        console.log(error);
+        res.status(400).json({ result: "false" });
+      });
   });
 });
 router.all("/authority-check", (req, res) => {

@@ -34,7 +34,7 @@
     >
       <div class="flex items-center justify-center mt-8">
         <div class="flex items-center">
-          <img class="w-12 h-12" art="logo" />
+          <webIcon class="w-12 h-12" art="logo" />
           <router-link to="/" tag="h1">
             <span class="mx-2 text-2xl font-semibold text-white">
               {{ title }}
@@ -55,16 +55,18 @@
 import globalState from "@/store/global";
 import { Vue, prop, Options } from "vue-class-component";
 import SideBarItem from "./SideBarItem.vue";
+import { Title } from "@/utils";
+import { webIcon } from "@/components/Icons";
 class Props {
-  title = prop<string>({ default: "testTitle" });
   backgroundColor = prop<string>({ default: "green" });
   abv = prop<string>({ default: "abv" });
 }
 
 @Options({
-  components: { SideBarItem },
+  components: { SideBarItem, webIcon },
 })
 export default class SideBarFrame extends Vue.with(Props) {
+  title = Title;
   activeLinkIndex = 0;
   // public findActiveLink(): void {
   //   this.links.forEach((link, index) => {

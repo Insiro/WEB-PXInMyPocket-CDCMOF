@@ -1,6 +1,5 @@
 import userState from "@/store/User";
 import marked, { MarkedOptions } from "marked";
-import { useToast } from "vue-toastification";
 
 export const markedOption: MarkedOptions = {
   renderer: new marked.Renderer(),
@@ -20,3 +19,4 @@ export function AuthorityRequired(): boolean {
   if (!SignRequired()) return false;
   return userState.info.authority;
 }
+export const Title = "내손의 PX";
