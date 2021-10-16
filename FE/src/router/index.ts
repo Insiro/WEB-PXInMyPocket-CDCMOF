@@ -69,7 +69,9 @@ function PageConvert(pagelist: pageObjList): Array<RouteRecordRaw> {
 }
 
 const routes: Array<RouteRecordRaw> = PageConvert(pageList).concat(
-  PageConvert(authUrl).concat(PageConvert(hidden.pageList))
+  PageConvert(authUrl)
+    .concat(PageConvert(hidden.pageList))
+    .concat(PageConvert(AdminList))
 );
 
 const router = createRouter({
