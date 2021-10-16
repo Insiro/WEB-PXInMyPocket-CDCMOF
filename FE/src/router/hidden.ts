@@ -2,6 +2,8 @@ import { pageObjList } from ".";
 import Cart from "@/views/Carts.vue";
 import ProdInfo from "../views/ProdInfo.vue";
 import NewPost from "@/views/NewPost.vue";
+import NewProd from "@/views/NewProd.vue";
+import EditProd from "@/views/EditProd.vue";
 import PostView from "../views/PostView.vue";
 export const pageList: pageObjList = [
   { icon: null, name: "제품", url: "/prod/:id", component: ProdInfo },
@@ -28,6 +30,18 @@ export const pageList: pageObjList = [
     name: "새 게시글",
     url: "/new_post",
     component: NewPost,
+    meta: { authRequired: true },
+  },
+  {
+    name: "상품 등록",
+    url: "/new_prod",
+    component: NewProd,
+    meta: { authRequired: true },
+  },
+  {
+    name: "상품 수정",
+    url: "/edit_prod",
+    component: EditProd,
     meta: { authRequired: true },
   },
 ];

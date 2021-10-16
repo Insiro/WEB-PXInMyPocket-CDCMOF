@@ -33,7 +33,7 @@ const noticeData = (sequelize, DataTypes) => {
       onDelete: "cascade",
       foreignKey: {
         name: "order_id",
-        allowNull: false,
+        allowNull: true,
       },
       sourceKEy: "order_id",
     });

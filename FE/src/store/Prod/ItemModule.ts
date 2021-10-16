@@ -24,6 +24,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     monthly_sale: 0,
     weekly_sale: 0,
     src: null,
+    content: "",
   };
   get info(): ProductFormat {
     return this.data;
@@ -48,6 +49,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
       monthly_sale: 0,
       weekly_sale: 0,
       src: null,
+      content: "",
     };
   }
   @Action async changeCurItem(id: string): Promise<void> {
@@ -64,6 +66,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
       monthly_sale: rdata.monthly_sale,
       weekly_sale: rdata.weekly_sale,
       src: rdata.src,
+      content: rdata.content ?? "",
     };
     this.updateInfo(data);
   }
@@ -78,7 +81,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
         remaining: data.remain,
         price: data.price,
         limit_item: data.limit_item,
-        category: Array.from(data.category).join(" "),
+        category: data.category,
       };
       await axios.post(apiUrl + "/admin/modify-product", parm);
     } catch (error) {
@@ -86,15 +89,16 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
       console.log(error);
     }
   }
-  @Action async deleteProduct(id: string): Promise<void> {
+  @Action async deleteProduct(id: string, name: string): Promise<void> {
     if (AuthorityRequired()) {
       this.toast.error("관리자 로그인이 필요합니다");
       return;
     }
     try {
       await axios.post(apiUrl + "/admin/delete-product", { id: id });
+      this.toast.success("제품에 삭제되었습니다");
     } catch (error) {
-      this.toast.error("제품 삭제에 실패하였습니다");
+      this.toast.error(`제품 ${name}삭제에 실패하였습니다`);
       console.log(error);
     }
   }
@@ -109,11 +113,12 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
         remaining: data.remain,
         price: data.price,
         limit_item: data.limit_item,
-        category: Array.from(data.category).join(" "),
+        category: data.category,
       };
       await axios.post(apiUrl + "/admin/add-product", parm);
+      this.toast.success(`제품 ${data.name} 추가 되었습니다`);
     } catch (error) {
-      this.toast.error("제품 추가에 실패하였습니다");
+      this.toast.error(`제품 ${data.name} 추가에 실패하였습니다`);
       console.log(error);
     }
   }
@@ -121,3 +126,9 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
 }
 export const curItemState = getModule(CurItemModule);
 export default curItemState;
+
+export function isValidProd(data: ProductFormat): boolean {
+  let ret = true;
+  ret = ret && data.name !== "" && data.category !== "" && data.src !== "";
+  return ret;
+}

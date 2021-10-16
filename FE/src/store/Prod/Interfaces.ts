@@ -12,6 +12,7 @@ export interface ProductFormat {
   monthly_sale: number;
   weekly_sale: number;
   src: string | null;
+  content: string;
 }
 export interface CurProdIpnterface {
   data: ProductFormat;

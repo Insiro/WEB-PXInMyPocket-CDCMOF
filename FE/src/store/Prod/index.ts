@@ -57,6 +57,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
           monthly_sale: item.monthly_sale,
           weekly_sale: item.weekly_sale,
           src: item.img,
+          content: item.content ?? "",
         };
         lit.push(it);
       }

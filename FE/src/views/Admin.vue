@@ -2,12 +2,12 @@
   <div class="flex flex-col mt-6">
     <Table>
       <template #header>
+        <TableHead>선택</TableHead>
         <TableHead>&nbsp;<!--for product Img--></TableHead>
         <TableHead :clsas="[thClass]">이름</TableHead>
         <TableHead :clsas="[thClass]">갯수</TableHead>
         <TableHead :clsas="[thClass]">가격</TableHead>
-        <TableHead>&nbsp;</TableHead>
-        <TableHead>선택</TableHead>
+        <TableHead>&nbsp;선택</TableHead>
       </template>
       <template #body>
         <tr v-if="prodList.length === 0">
@@ -17,6 +17,14 @@
         </tr>
         <tr v-for="item in prodList" :key="item.id">
           <TableItem>
+            <CheckBox
+              :value="item.id"
+              :checked_value="checked.has(item.id)"
+              @updates="checkItem"
+              >&nbsp;
+            </CheckBox>
+          </TableItem>
+          <TableItem>
             <img style="max-height: 10rem" :src="item.src" />
           </TableItem>
           <TableItem class="align-middle">{{ item.name }}</TableItem>
@@ -24,24 +32,18 @@
           <TableItem class="align-middle">{{ item.price }}</TableItem>
           <TableItem class="align-middle">
             <Button>
-              <router-link to="#">수정</router-link>
-              <!-- TODO:Edit pages with router-link -->
+              <router-link to="edit_prod">수정</router-link>
             </Button>
-          </TableItem>
-          <TableItem class="align-middle">
-            <CheckBox
-              :value="item.id"
-              :checked_value="checked.has(item.id)"
-              @updates="checkItem"
-            >
-            </CheckBox>
           </TableItem>
         </tr>
       </template>
     </Table>
   </div>
   <WideFrame title="" class="mt-6">
-    <Button class="" @onClick="deleteSelected">삭제 하기</Button>
+    <Button :class="btnButtom">
+      <router-link to="new_prod">추가 하기</router-link>
+    </Button>
+    <Button :class="btnButtom" @onClick="deleteSelected">삭제 하기</Button>
   </WideFrame>
 </template>
 <script lang="ts">
@@ -68,9 +70,12 @@ export default class Carts extends Vue {
   toast = useToast();
   checked: Set<string> = new Set([]);
   cartMony = 0;
+  //#region CSS class
   thClass = ref(
     "text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase"
   );
+  btnButtom = ref("mx-3");
+  //#endregion
   prodList = prodState.productList;
   async deleteSelected(): Promise<void> {
     let toggleList = Array.from(this.checked);

@@ -41,14 +41,32 @@ router.post("/toggle-readed", (req, res) => {
     })
     .catch((err) => {
       res.status(406).json({ error: "failed to toggle readed" });
+      console.log(err);
     });
 });
-
+router.post("/set_readed", (req, res) => {
+  db.Notice.findOne({
+    where: { notice_id: req.body.notice_id },
+  })
+    .then((item) => {
+      item
+        .update({
+          readed: true,
+        })
+        .then(() => {
+          res.status(200).json({ toggle: true });
+        });
+    })
+    .catch((err) => {
+      res.status(406).json({ error: "failed to toggle readed" });
+      console.log(err);
+    });
+});
 //DELETE /notice
 router.delete("/", function (req, res) {
   db.Notice.destory({
     where: {
-      notice_id: req.query.notice_id,
+      notice_id: req.body.notice_id,
       readed: true,
     },
   })

@@ -63,7 +63,7 @@
         </template>
         <template #menu>
           <!--TODO: Add Notify Items Here-->
-          <MenuItem>
+          <MenuItem v-for="item in notices" :key="item.notice_id">
             <div class="flex mx-3 justify-between">
               <span>Contensts</span>
               <Xicon @click="removeNotic('id')" />
@@ -116,7 +116,8 @@ import {
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
-
+import notifyState from "@/store/Notifications";
+import { NoticItemInterface } from "@/store/Notifications/Interfaces";
 @Options({
   components: {
     MenuItem,
@@ -146,6 +147,9 @@ export default class Header extends Vue {
   }
   get is_signed(): boolean {
     return userState.bSigned;
+  }
+  get notices(): Array<NoticItemInterface> {
+    return notifyState.info;
   }
   signOut(): void {
     userState.signOut();
