@@ -6,6 +6,24 @@ import { badRequest } from "../error_handler.js";
 
 router.use("/", checkSigned);
 
+//POST /notice
+//notice를 생성합니다.
+router.post("/", function (req, res) {
+  db.Notice.create({
+    product_name: req.body.product_name,
+    owner_id: req.body.owner_id,
+    order_id: req.body.order_id,
+  })
+    .then((item) => {
+      res.status(200).json({ data: item });
+      console.log("create notice success", item);
+    })
+    .catch((err) => {
+      res.status(406).json({ error: "failed to create notice" });
+      console.log(err);
+    });
+});
+
 //GET /notice
 //주문자 아이디에 해당하는 모든 notice를 보냅니다.
 router.get("/", function (req, res) {
@@ -64,18 +82,17 @@ router.post("/set_readed", (req, res) => {
 });
 //DELETE /notice
 router.delete("/", function (req, res) {
-  db.Notice.destory({
+  db.Notice.destroy({
     where: {
       notice_id: req.body.notice_id,
       readed: true,
     },
   })
-    .then((item) => {
-      res.status(200).json({ data: item });
-      console.log("sending notice success", item);
+    .then(() => {
+      res.status(200).json({ deleteSuccess: true });
     })
     .catch((err) => {
-      res.status(406).json({ error: "failed to send notice" });
+      res.status(406).json({ error: "failed to delete notice" });
       console.log(err);
     });
 });

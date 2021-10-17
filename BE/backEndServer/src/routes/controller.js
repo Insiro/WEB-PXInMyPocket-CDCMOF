@@ -6,6 +6,7 @@ import freeboard from "./freeboard_manage/freeboard.js";
 import notice from "./notice_manage/notice.js";
 import cart from "./cart_manage/cart.js";
 import * as HttpError from "./error_handler.js";
+
 var router = express.Router();
 
 //home으로 이동
@@ -16,4 +17,7 @@ router.use("/freeboard", freeboard);
 router.use("/notice", notice);
 router.use("/cart", cart);
 router.use("/*", HttpError.badRequest);
+
+//dummy data 추가하는 코드
+
 export default router;

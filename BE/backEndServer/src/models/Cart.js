@@ -24,15 +24,15 @@ const cartData = (sequelize, DataTypes) => {
         name: "owner_email",
         allowNull: false,
       },
-      sourceKEy: "email",
+      sourceKey: "email",
     });
 
-    models.Cart.hasOne(models.Product, {
+    models.Cart.belongsTo(models.Product, {
       foreignKey: {
         name: "added_product_id",
         allowNull: false,
       },
-      sourceKEy: "product_id",
+      targetKey: "product_id",
     });
   };
   return cart;

@@ -38,7 +38,7 @@ const orderData = (sequelize, DataTypes) => {
         name: "orderer_id",
         allowNull: false,
       },
-      sourceKEy: "email",
+      sourceKey: "email",
     });
   };
   return order;
