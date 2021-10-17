@@ -32,7 +32,7 @@
           <TableItem class="align-middle">{{ item.price }}</TableItem>
           <TableItem class="align-middle">
             <Button>
-              <router-link to="edit_prod">수정</router-link>
+              <router-link :to="`/edit_prod/${item.id}`"> 수정 </router-link>
             </Button>
           </TableItem>
         </tr>

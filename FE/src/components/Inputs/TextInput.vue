@@ -39,7 +39,6 @@ export default class TextInput extends Vue.with(Prop) {
   defaultClass = ref(
     "text-indigo-600 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
   );
-  value = "";
   iconedFrame = ref("relative mx-4 lg:mx-0");
   iconedClass = ref("w-32 pl-10 pr-4");
   notIconedClass = ref("mt-1 w-full");

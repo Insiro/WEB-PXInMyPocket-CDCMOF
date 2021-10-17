@@ -16,7 +16,6 @@ export function SignRequired(): boolean {
   return userState.bSigned;
 }
 export function AuthorityRequired(): boolean {
-  if (!SignRequired()) return false;
-  return userState.info.authority;
+  return SignRequired() && userState.info.authority;
 }
 export const Title = "내손의 PX";

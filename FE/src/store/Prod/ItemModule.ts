@@ -35,6 +35,10 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
   get cate(): Array<string> {
     return this.data.category.split(" ");
   }
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  get Toast() {
+    return this.toast;
+  }
   @Mutation updateInfo(info: ProductFormat): void {
     this.data = info;
   }
@@ -71,54 +75,61 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     this.updateInfo(data);
   }
   //#region for Admin
-  @Action async changeItemMeta(data: ProductFormat): Promise<void> {
-    if (AuthorityRequired()) {
-      useToast().error("관리자 로그인이 필요합니다");
+  @Action async changeItemMeta(): Promise<void> {
+    const toast = useToast();
+    if (!AuthorityRequired()) {
+      toast.error("관리자 로그인이 필요합니다");
       return;
     }
     try {
       const parm = {
-        remaining: data.remain,
-        price: data.price,
-        limit_item: data.limit_item,
-        category: data.category,
+        remaining: this.data.remain,
+        price: this.data.price,
+        limit_item: this.data.limit_item,
+        category: this.data.category,
+        image: this.data.src,
+        content: this.data.content,
       };
       await axios.post(apiUrl + "/admin/modify-product", parm);
+      toast.success("제품 정보가 업데이트 되었습니다");
+      console.log("asd");
     } catch (error) {
-      this.toast.error("제품 정보 업데이트에 실패하였습니다");
+      toast.error("제품 정보 업데이트에 실패하였습니다");
       console.log(error);
     }
   }
   @Action async deleteProduct(id: string, name: string): Promise<void> {
-    if (AuthorityRequired()) {
-      this.toast.error("관리자 로그인이 필요합니다");
+    const toast = useToast();
+    if (!AuthorityRequired()) {
+      toast.error("관리자 로그인이 필요합니다");
       return;
     }
     try {
       await axios.post(apiUrl + "/admin/delete-product", { id: id });
-      this.toast.success("제품에 삭제되었습니다");
+      toast.success("제품이 삭제되었습니다");
     } catch (error) {
-      this.toast.error(`제품 ${name}삭제에 실패하였습니다`);
+      toast.error(`제품 ${name}삭제에 실패하였습니다`);
       console.log(error);
     }
   }
-  @Action async AddProduct(data: ProductFormat): Promise<void> {
-    if (AuthorityRequired()) {
-      this.toast.error("관리자 로그인이 필요합니다");
+  @Action async AddProduct(): Promise<void> {
+    const toast = useToast();
+    if (!AuthorityRequired()) {
+      toast.error("관리자 로그인이 필요합니다");
       return;
     }
     try {
       const parm = {
-        product_name: data.name,
-        remaining: data.remain,
-        price: data.price,
-        limit_item: data.limit_item,
-        category: data.category,
+        product_name: this.data.name,
+        remaining: this.data.remain,
+        price: this.data.price,
+        limit_item: this.data.limit_item,
+        category: this.data.category,
       };
       await axios.post(apiUrl + "/admin/add-product", parm);
-      this.toast.success(`제품 ${data.name} 추가 되었습니다`);
+      toast.success(`제품 ${this.data.name} 추가 되었습니다`);
     } catch (error) {
-      this.toast.error(`제품 ${data.name} 추가에 실패하였습니다`);
+      toast.error(`제품 ${this.data.name} 추가에 실패하였습니다`);
       console.log(error);
     }
   }
@@ -128,7 +139,5 @@ export const curItemState = getModule(CurItemModule);
 export default curItemState;
 
 export function isValidProd(data: ProductFormat): boolean {
-  let ret = true;
-  ret = ret && data.name !== "" && data.category !== "" && data.src !== "";
-  return ret;
+  return data.name !== "" && data.category !== "" && data.src !== "";
 }
