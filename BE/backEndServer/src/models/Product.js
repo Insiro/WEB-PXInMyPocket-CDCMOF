@@ -39,10 +39,10 @@ const productData = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-	image: {
-		type: DataTypes.TEXT,
-	    defaultValue: null,
-	}
+    image: {
+      type: DataTypes.TEXT,
+      defaultValue: null,
+    },
   });
 };
 export default productData;

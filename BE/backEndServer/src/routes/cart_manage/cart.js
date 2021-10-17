@@ -10,30 +10,29 @@ router.use("/", checkSigned);
 // 현재 로그인 되어있는 유저정보의 장바구니 아이템들을 보냅니다.
 router.get("/", async (req, res) => {
   try {
-    db.Cart.findAll({
+    const items = await db.Cart.findAll({
       where: {
         owner_email: req.session.user.email,
       },
-    }).then((items) => {
-      console.log(items.length);
-      console.log(items[0].added_product_id);
-      for (let i = 0; i < items.length; i++) {
-        db.Product.findOne({
-          where: {
-            product_id: items[i].added_product_id,
-          },
-        })
-          .then((item2) => {
-            res.status(200).json({ data: items[i], info: item2 });
-          })
-          .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error: "matching product not found" });
-          });
-      }
     });
+    console.log(items.length);
+    console.log(items[0].added_product_id);
+    for (let i = 0; i < items.length; i++) {
+      db.Product.findOne({
+        where: {
+          product_id: items[i].added_product_id,
+        },
+      })
+        .then((item2) => {
+          res.status(200).json({ data: items[i], info: item2 });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(404).json({ error: "matching product not found" });
+        });
+    }
   } catch (error) {
-    res.status(500).json({ error: "matching cart_id is not found" });
+    res.status(404).json({ error: "matching cart_id is not found" });
   }
 });
 
@@ -50,7 +49,7 @@ router.post("/", async (req, res) => {
       res.status(200).json({ createSuccess: true });
     })
     .catch(() => {
-      res.status(200).json({ createSuccess: false });
+      res.status(406).json({ createSuccess: false });
     });
 });
 
@@ -66,32 +65,19 @@ router.delete("/", async (req, res) => {
       res.status(200).json({ deleteSuccess: true });
     })
     .catch(() => {
-      res.status(200).json({ deleteSuccess: false });
+      res.status(406).json({ deleteSuccess: false });
     });
 });
 
 // POST /cart/edit
 router.post("/edit", async (req, res) => {
-  db.Cart.findOne({
-    where: {
-      cart_id: req.body.id,
-    },
-  })
-    .then((item) => {
-      item
-        .update({
-          quantity: req.body.quantity,
-        })
-        .then(() => {
-          res.status(200).json({ editSuccess: true });
-        })
-        .catch((err) => {
-          res.status(200).json({ editSuccess: false });
-        });
-    })
-    .catch((err) => {
-      res.status(200).json({ findSuccess: false });
-    });
+  try {
+    const item = await db.Cart.findOne({ where: { cart_id: req.body.id } });
+    await item.update({ quantity: req.body.quantity });
+    res.status(200).json({ editSuccess: true });
+  } catch (error) {
+    res.status(406).json({ findSuccess: false });
+  }
 });
 router.all("/*", badRequest);
 export default router;
