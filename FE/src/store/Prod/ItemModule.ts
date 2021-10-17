@@ -65,7 +65,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
       category: rdata.category,
       monthly_sale: rdata.monthly_sale,
       weekly_sale: rdata.weekly_sale,
-      src: rdata.src,
+      src: rdata.image,
       content: rdata.content ?? "",
     };
     this.updateInfo(data);

@@ -89,7 +89,7 @@ export class CartModule extends VuexModule implements CartInterface {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data.data.map((item: any) => {
         const parm: CartItemInterface = {
-          img: item.src ?? "",
+          img: item.image ?? "",
           name: item.name ?? "",
           id: item.cart_id,
           amount: item.quantity,
