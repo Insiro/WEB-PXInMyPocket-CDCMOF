@@ -69,9 +69,9 @@
             :class="item.readed ? 'bg-gray-200' : ''"
           >
             <div class="flex flex-row mx-3 justify-between">
-              <span class="flex-grow" @click="setRead(item.notice_id)">{{
-                item.product_name
-              }}</span>
+              <span class="flex-grow" @click="setRead(item.notice_id)">
+                {{ item.product_name }}
+              </span>
               <Xicon @click="removeNotic(item.notice_id)" />
             </div>
           </MenuItem>
@@ -155,7 +155,7 @@ export default class Header extends Vue {
     return userState.bSigned;
   }
   get notices(): Array<NoticItemInterface> {
-    return notifyState.info;
+    return notifyState.infos;
   }
   signOut(): void {
     userState.signOut();
