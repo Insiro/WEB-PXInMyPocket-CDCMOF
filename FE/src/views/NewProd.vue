@@ -97,18 +97,9 @@ import Button from "@/components/Button";
   components: { WideFrame, TextInput, CheckBox, InputContainer, Button },
 })
 export default class NewProd extends Vue {
-  prod: ProductFormat = {
-    id: "",
-    name: "", //Use Full
-    remain: 0, //Use Full
-    price: 0, //Use Full
-    limit_item: false, //Use Full
-    category: "", //Use Full
-    monthly_sale: 0,
-    weekly_sale: 0,
-    src: null, //Use Full
-    content: "",
-  };
+  get prod(): ProductFormat {
+    return curItemState.info;
+  }
   toast = useToast();
   //#region styleClass
   inputStyle = ref("rounded-md ");
@@ -116,25 +107,39 @@ export default class NewProd extends Vue {
   //#endregion
   //#region OnChangeEvent
   checkItem(data: CheckBoxEmit): void {
-    this.prod.limit_item = data.checked;
+    const prd = this.prod;
+    prd.limit_item = data.checked;
+    curItemState.updateInfo(prd);
   }
   onNameChanged(data: string): void {
-    this.prod.name = data;
+    const prd = this.prod;
+    prd.name = data;
+    curItemState.updateInfo(prd);
   }
   onCateChanged(data: string): void {
-    this.prod.category = data;
+    const prd = this.prod;
+    prd.category = data;
+    curItemState.updateInfo(prd);
   }
   onRemainChanged(data: string): void {
-    this.prod.remain = Number(data);
+    const prd = this.prod;
+    prd.remain = Number(data);
+    curItemState.updateInfo(prd);
   }
   onSrcChanged(data: string): void {
-    this.prod.src = data;
+    const prd = this.prod;
+    prd.src = data;
+    curItemState.updateInfo(prd);
   }
   onContentChanged(data: string): void {
-    this.prod.content = data;
+    const prd = this.prod;
+    prd.content = data;
+    curItemState.updateInfo(prd);
   }
   onPriceChanged(data: string): void {
-    this.prod.price = Number(data);
+    const prd = this.prod;
+    prd.price = Number(data);
+    curItemState.updateInfo(prd);
   }
   regiostNewProd(): void {
     if (!isValidProd(this.prod)) {
@@ -142,6 +147,13 @@ export default class NewProd extends Vue {
       return;
     }
     curItemState.AddProduct(this.prod);
+  }
+  editProd(): void {
+    if (!isValidProd(this.prod)) {
+      this.toast.error("필드 값을 확인하시오");
+      return;
+    }
+    curItemState.changeItemMeta(this.prod);
   }
   onRegistClicked(): void {
     //

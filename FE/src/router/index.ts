@@ -114,6 +114,10 @@ router.beforeEach(
         case "제품 목록":
           prodState.refresh();
           break;
+        case "상품 수정":
+          await curItemState.changeCurItem(to.params.id.toString());
+          globalState.setPageName(curItemState.name);
+          break;
         case "게시글 목록":
           globalState.setPageName("게시글 목록");
           postListState.update();
