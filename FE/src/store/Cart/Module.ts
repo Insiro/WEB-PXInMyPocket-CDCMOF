@@ -11,6 +11,8 @@ import CartInterface, {
   ItemInterface,
 } from "./Interfaces";
 import store from "..";
+import axios from "axios";
+import { apiUrl } from "@/utils";
 
 @Module({ namespaced: true, store, name: "CartModule", dynamic: true })
 export class CartModule extends VuexModule implements CartInterface {
@@ -49,8 +51,19 @@ export class CartModule extends VuexModule implements CartInterface {
     this.items = this.items.filter((item) => item.id !== id);
   }
   //mutation하고 같은 범위라 이름 안겹치게.
-  @Mutation clear(): void {
-    this.items = [];
+  @Mutation setList(list: Array<CartItemInterface>): void {
+    this.items = list;
+  }
+  @Mutation dumy(mount: number): void {
+    const dumyItem = {
+      id: "dumy",
+      amount: 0,
+      checked: false,
+      name: "dumy",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Logo_Apple.inc.gif",
+      price: 0,
+    };
+    for (let i = 0; i < mount; i++) this.items.push(dumyItem);
   }
 
   @Action Purchase(): boolean {
@@ -63,19 +76,59 @@ export class CartModule extends VuexModule implements CartInterface {
         });
       }
     }
+    cartState.update();
     //TODO: Request Purchare to Server and return result
     return true;
   }
-  @Mutation dumy(mount: number): void {
-    const dumyItem = {
-      id: "dumy",
-      amount: 0,
-      checked: false,
-      name: "dumy",
-      img: "https://upload.wikimedia.org/wikipedia/commons/7/70/Logo_Apple.inc.gif",
-      price: 0,
-    };
-    for (let i = 0; i < mount; i++) this.items.push(dumyItem);
+  @Action async update(): Promise<void> {
+    try {
+      const result = await axios.get(apiUrl + "/cart");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data: any = result.data;
+      const newData: Array<CartItemInterface> = [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data.data.map((item: any) => {
+        const parm: CartItemInterface = {
+          img: item.src ?? "",
+          name: item.name ?? "",
+          id: item.cart_id,
+          amount: item.quantity,
+          checked: false,
+          price: item.price ?? 0,
+        };
+        newData.push(parm);
+      });
+      this.setList(newData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  @Action async remove(id: string): Promise<void> {
+    try {
+      const index = this.items.findIndex((item) => item.id === id);
+      if (index === -1) {
+        console.log("wrong cart ID");
+        return;
+      }
+      await axios.post("/delete", { id: id });
+    } catch (error) {
+      console.log(error);
+      console.log("failed to remove");
+    }
+  }
+  @Action async UpdateItem(id: string): Promise<void> {
+    try {
+      const index = this.items.findIndex((item) => item.id === id);
+      if (index === -1) {
+        console.log("wrong cart ID");
+        return;
+      }
+      const item = this.items[index];
+      await axios.post("/edit", { id: id, quantity: item.amount });
+    } catch (error) {
+      console.log(error);
+      console.log("failed to update;");
+    }
   }
   get kartData(): Array<CartItemInterface> {
     return this.items;

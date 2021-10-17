@@ -15,6 +15,9 @@ import { apiUrl } from "@/utils";
 export class NotifyModule extends VuexModule implements NoticInterface {
   info: Array<NoticItemInterface> = [];
   toast = useToast();
+  get infos(): Array<NoticItemInterface> {
+    return this.info;
+  }
   //Mutations
   @Mutation setInfo(data: NoticItemInterface): void {
     const index = this.info.findIndex(
