@@ -14,11 +14,21 @@ router.get("/", async (req, res) => {
       where: {
         owner_id: req.session.user.email,
       },
-    }).then((items) => {
-      res.status(200).json({ data: items });
+    }).then((item) => {
+		db.Product.findOne({
+			where: {
+				product_id: item.added_product_id
+			}
+		})
+		.then(item2 => {
+	      res.status(200).json({ data: item, info: item2 });		
+		})
+		.catch((error) => {
+		    res.status(500).json({ error: "matching product not found" });
+		})
     });
   } catch (error) {
-    res.status(500).json({ error: "server error on load data" });
+    res.status(500).json({ error: "matching cart_id is not found"});
   }
 });
 
@@ -39,5 +49,35 @@ router.post("/", async (req, res) => {
     });
 });
 
+
+// DELETE /cart
+// 장바구니에 물품을 삭제합니다.
+router.delete("/", async (req,res) => {
+	db.Cart.destory({
+		where: {
+			cart_id: req.body.id
+		}
+	})
+	.then(() => {
+      res.status(200).json({ deleteSuccess: true });
+    })
+    .catch(() => {
+      res.status(200).json({ deleteSuccess: false });
+    });
+})
+
+// POST /cart/edit
+router.post("/edit", async (req,res) => {
+	db.Cart.findOne({
+		where: {
+			cart_id: req.body.id
+		}
+	})
+	.then((item) => {
+		item.update({
+			quantity: req.body.quantity
+		})
+	})
+})
 router.all("/*", badRequest);
 export default router;

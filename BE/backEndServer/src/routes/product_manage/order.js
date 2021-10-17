@@ -49,5 +49,21 @@ router.post("/", function (req, res) {
       console.log(err);
     });
 });
+
+//delete /product_name
+router.delete("/", (req,res) => {
+	 db.Order.delete({
+		 where: {
+			 order_id: req.body.order_id,
+		 }
+	 })
+	.then(() => {
+		 res.status(200),json({ deleteSuccess: true});
+	 })
+	.catch((err) => {
+       res.status(406).json({ error: "failed to delete" });
+	 })
+	
+})
 router.all("/*", badRequest);
 export default router;
