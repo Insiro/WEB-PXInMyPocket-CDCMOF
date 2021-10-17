@@ -79,8 +79,17 @@ router.post("/edit", async (req, res) => {
   }).then((item) => {
     item.update({
       quantity: req.body.quantity,
-    });
-  });
+    })
+	.then(() => {
+		res.status(200).json({ editSuccess: true });
+	})
+	.catch((err) => {
+      res.status(200).json({ editSuccess: false });		
+	})
+  })
+	.catch((err) => {
+		res.status(200).json({ findSuccess: false });		
+  })
 });
 router.all("/*", badRequest);
 export default router;
