@@ -6,14 +6,13 @@ import { badRequest } from "../error_handler.js";
 
 router.use("/", checkSigned);
 
-
 //POST /notice
 //notice를 생성합니다.
 router.post("/", function (req, res) {
   db.Notice.create({
-	product_name: req.body.product_name,
-	owner_id: req.body.owner_id,
-	order_id: req.body.order_id
+    product_name: req.body.product_name,
+    owner_id: req.body.owner_id,
+    order_id: req.body.order_id,
   })
     .then((item) => {
       res.status(200).json({ data: item });
@@ -71,9 +70,9 @@ router.delete("/", function (req, res) {
       readed: true,
     },
   })
-	.then(() => {
-	res.status(200).json({ deleteSuccess: true });
-  })
+    .then(() => {
+      res.status(200).json({ deleteSuccess: true });
+    })
     .catch((err) => {
       res.status(406).json({ error: "failed to delete notice" });
       console.log(err);

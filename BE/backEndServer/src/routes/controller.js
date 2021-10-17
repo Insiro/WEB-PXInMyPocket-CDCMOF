@@ -16,10 +16,9 @@ router.use("/product", product);
 router.use("/admin", admin);
 router.use("/freeboard", freeboard);
 router.use("/notice", notice);
-router.use("/cart",cart);
+router.use("/cart", cart);
 router.use("/*", HttpError.badRequest);
 
 //dummy data 추가하는 코드
-
 
 export default router;

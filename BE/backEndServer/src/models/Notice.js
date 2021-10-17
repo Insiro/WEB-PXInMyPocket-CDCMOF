@@ -30,11 +30,11 @@ const noticeData = (sequelize, DataTypes) => {
       sourceKey: "email",
     });
     models.Notice.belongsTo(models.Order, {
-      onDelete: "cascade", 
+      onDelete: "cascade",
       foreignKey: {
         name: "order_id",
         allowNull: false,
-		type: DataTypes.UUID,
+        type: DataTypes.UUID,
       },
       targetKey: "order_id",
     });

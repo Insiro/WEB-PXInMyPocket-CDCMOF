@@ -28,8 +28,8 @@ db.User = User(sequelize, Sequelize);
 db.Product = Product(sequelize, Sequelize);
 db.Post = Post(sequelize, Sequelize);
 db.Order = Order(sequelize, Sequelize);
-db.Notice = Notice(sequelize,Sequelize);
-db.Cart = Cart(sequelize,Sequelize);
+db.Notice = Notice(sequelize, Sequelize);
+db.Cart = Cart(sequelize, Sequelize);
 console.log(db);
 
 Object.keys(db).forEach((modelName) => {
