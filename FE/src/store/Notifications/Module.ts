@@ -6,7 +6,7 @@ import {
   Mutation,
 } from "vuex-module-decorators";
 
-import { useToast } from "vue-toastification";
+import { TYPE, useToast } from "vue-toastification";
 import { NoticInterface, NoticItemInterface } from "./Interfaces";
 import store from "..";
 import axios from "axios";
@@ -35,7 +35,7 @@ export class NotifyModule extends VuexModule implements NoticInterface {
   //Actions
   @Action async setRead(noticId: string): Promise<void> {
     try {
-      await axios.post(apiUrl + "/home/notice/set_readed", {
+      await axios.post(apiUrl + "/notice/set_readed", {
         notice_id: noticId,
       });
       const index = this.info.findIndex((item) => (item.notice_id = noticId));
@@ -51,10 +51,12 @@ export class NotifyModule extends VuexModule implements NoticInterface {
       const index = this.info.findIndex(
         (item) => item.notice_id === notic.notice_id
       );
-      if (index === -1) {
-        this.toast.info(`${notic.product_name}`, {
+      if (index === -1 && notic.readed === false) {
+        const toast = useToast();
+        toast(`${notic.product_name}`, {
+          type: TYPE.INFO,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onClick(closeToast: any) {
+          onClick: (closeToast: any) => {
             notifyState.setRead(notic.notice_id);
             closeToast();
           },

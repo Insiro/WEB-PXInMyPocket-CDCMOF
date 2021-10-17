@@ -12,6 +12,7 @@ import UserInterface, {
 import store from "..";
 import axios from "axios";
 import { apiUrl } from "@/utils";
+import notifyState from "../Notifications";
 
 @Module({ namespaced: true, store, name: "UserModule", dynamic: true })
 export class UserModule extends VuexModule implements UserInterface {
@@ -54,6 +55,7 @@ export class UserModule extends VuexModule implements UserInterface {
       this.setSign(true);
       this.setData(data);
       console.log("check login");
+      notifyState.updateNotics();
       return true;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -155,6 +157,7 @@ export class UserModule extends VuexModule implements UserInterface {
     const data = FormatUserInfo(result.data.user);
     this.setSign(true);
     this.setData(data);
+    notifyState.updateNotics();
   }
   get bSigned(): boolean {
     return this.signed;

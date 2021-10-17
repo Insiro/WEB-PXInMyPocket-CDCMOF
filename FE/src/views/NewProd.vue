@@ -1,62 +1,79 @@
 <template>
-  <WideFrame class="grid grid-col-1">
-    <TextInput
-      v-model="prod.name"
-      placeholder="이름"
-      input_type="string"
-      :value="prod.name"
-      :class="inputStyle"
-      @updates="onNameChanged"
-    />
-    <TextInput
-      v-model="prod.remain"
-      placeholder="잔여"
-      input_type="number"
-      :value="prod.remain"
-      :class="inputStyle"
-      @updates="onRemainChanged"
-    />
-    <TextInput
-      v-model="prod.price"
-      placeholder="가격"
-      input_type="number"
-      :value="prod.price"
-      :class="inputStyle"
-      @updates="onPriceChanged"
-    />
-    <TextInput
-      v-model="prod.category"
-      placeholder="카테고리"
-      input_type="text"
-      :value="prod.category"
-      :class="inputStyle"
-      @updates="onCateChanged"
-    />
-    <TextInput
-      v-model="prod.src"
-      placeholder="상품 이미지"
-      input_type="text"
-      :value="prod.src"
-      :class="inputStyle"
-      @updates="onSrcChanged"
-    />
-    <TextInput
-      v-model="prod.content"
-      placeholder="설명"
-      input_type="text"
-      :value="prod.content"
-      :class="inputStyle"
-      @updates="onContentChanged"
-    />
-    <label calss="block mt-3">
-      <span class="text-sm text-gray-700 block">한정판</span>
+  <WideFrame container_class="grid grid-col-1">
+    <InputContainer :class="[BlockClass]" title="이미지">
+      <img
+        :src="prod.src"
+        style="max-width: 10rem; max-height: 10rem; object-fit: contain"
+      />
+      <TextInput
+        v-model="prod.src"
+        placeholder="상품 이미지 주소"
+        input_type="url"
+        :value="prod.src"
+        :class="[inputStyle]"
+        @updates="onSrcChanged"
+      />
+    </InputContainer>
+    <InputContainer :class="[BlockClass]" title="이름">
+      <TextInput
+        v-model="prod.name"
+        placeholder="이름"
+        input_type="text"
+        :value="prod.name"
+        :class="[inputStyle]"
+        @updates="onNameChanged"
+      />
+    </InputContainer>
+    <InputContainer :class="[BlockClass]" title="잔여량">
+      <TextInput
+        v-model="prod.remain"
+        placeholder="잔여"
+        input_type="number"
+        :value="prod.remain"
+        :class="[inputStyle]"
+        @updates="onRemainChanged"
+      />
+    </InputContainer>
+    <InputContainer :class="[BlockClass]" title="카테고리">
+      <TextInput
+        v-model="prod.category"
+        placeholder="카테고리"
+        input_type="text"
+        :value="prod.category"
+        :class="[inputStyle]"
+        @updates="onCateChanged"
+      />
+    </InputContainer>
+    <InputContainer :class="[BlockClass]" title="가격">
+      <TextInput
+        v-model="prod.price"
+        placeholder="가격"
+        input_type="number"
+        :value="prod.price"
+        :class="[inputStyle]"
+        @updates="onPriceChanged"
+      />
+    </InputContainer>
+
+    <InputContainer :class="[BlockClass]" title="설명">
+      <TextInput
+        v-model="prod.content"
+        placeholder="설명"
+        input_type="text"
+        :class="[inputStyle]"
+        :value="prod.content"
+        @updates="onContentChanged"
+      />
+    </InputContainer>
+    <InputContainer :class="[BlockClass]" title="한정판">
       <CheckBox
         value="limited"
         :checked_value="prod.limit_item"
         @updates="checkItem"
         >&nbsp;
       </CheckBox>
-    </label>
+    </InputContainer>
+    <Button @onclick="onRegistClicked">등록</Button>
   </WideFrame>
 </template>
 <script lang="ts">
@@ -65,14 +82,21 @@ import { Options, Vue } from "vue-class-component";
 import { useToast } from "vue-toastification";
 
 import { WideFrame } from "@/components/CardFrame";
-import { TextInput, CheckBox, CheckBoxEmit } from "@/components/Inputs";
+import {
+  TextInput,
+  CheckBox,
+  CheckBoxEmit,
+  InputContainer,
+} from "@/components/Inputs";
 
 import curItemState, { isValidProd } from "@/store/Prod/ItemModule";
 import { ProductFormat } from "@/store/Prod/Interfaces";
+import Button from "@/components/Button";
 
-@Options({ components: { WideFrame, TextInput, CheckBox } })
+@Options({
+  components: { WideFrame, TextInput, CheckBox, InputContainer, Button },
+})
 export default class NewProd extends Vue {
-  inputStyle = ref("block rounded-md w-full ");
   prod: ProductFormat = {
     id: "",
     name: "", //Use Full
@@ -86,6 +110,10 @@ export default class NewProd extends Vue {
     content: "",
   };
   toast = useToast();
+  //#region styleClass
+  inputStyle = ref("rounded-md ");
+  BlockClass = ref("block mt-3");
+  //#endregion
   //#region OnChangeEvent
   checkItem(data: CheckBoxEmit): void {
     this.prod.limit_item = data.checked;
@@ -114,6 +142,9 @@ export default class NewProd extends Vue {
       return;
     }
     curItemState.AddProduct(this.prod);
+  }
+  onRegistClicked(): void {
+    //
   }
   //#endregion
 }

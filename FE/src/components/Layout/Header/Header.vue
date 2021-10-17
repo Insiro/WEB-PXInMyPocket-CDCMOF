@@ -63,13 +63,19 @@
         </template>
         <template #menu>
           <!--TODO: Add Notify Items Here-->
-          <MenuItem v-for="item in notices" :key="item.notice_id">
-            <div class="flex mx-3 justify-between">
-              <span>Contensts</span>
-              <Xicon @click="removeNotic('id')" />
+          <MenuItem
+            v-for="item in notices"
+            :key="item.notice_id"
+            :class="item.readed ? 'bg-gray-200' : ''"
+          >
+            <div class="flex flex-row mx-3 justify-between">
+              <span class="flex-grow" @click="setRead(item.notice_id)">{{
+                item.product_name
+              }}</span>
+              <Xicon @click="removeNotic(item.notice_id)" />
             </div>
           </MenuItem>
-          <MenuItem>읽은 알람 삭제</MenuItem>
+          <MenuItem @click="removeReaded">읽은 알람 삭제</MenuItem>
         </template>
       </Menu>
       <Menu>
@@ -160,8 +166,16 @@ export default class Header extends Vue {
   searchModalClose(): void {
     this.show_search_modal = false;
   }
-  removeNotic(_id: string): void {
+  removeNotic(id: string): void {
+    notifyState.remove_Notice(id);
     //TODO remove Notic with Notic Sotr
+  }
+  removeReaded(): void {
+    notifyState.remove_readed();
+    //
+  }
+  setRead(id: string): void {
+    notifyState.setRead(id);
   }
 }
 </script>

@@ -11,7 +11,7 @@ router.use("/", checkSigned);
 router.get("/", function (req, res) {
   db.Notice.findAll({
     where: {
-      owner_id: req.query.owner_id,
+      owner_id: req.query.owner_id ?? req.session.user.email,
     },
   })
     .then((item) => {

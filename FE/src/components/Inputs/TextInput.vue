@@ -19,7 +19,19 @@
 import { Vue, prop } from "vue-class-component";
 import { ref } from "vue";
 class Prop {
-  input_type = prop<string>({ default: "text" });
+  input_type = prop<
+    | "text"
+    | "date"
+    | "datetime-local"
+    | "email"
+    | "month"
+    | "password"
+    | "number"
+    | "url"
+    | "tel"
+    | "time"
+    | "week"
+  >({ default: "text" });
   placeholder = prop<string>({ default: "placeholder" });
   value = prop<string>({ default: "" });
 }
