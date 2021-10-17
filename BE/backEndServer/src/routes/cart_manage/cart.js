@@ -12,12 +12,13 @@ router.get("/", async (req, res) => {
   try {
     db.Cart.findAll({
       where: {
-        owner_id: req.session.user.email,
+        owner_email: req.session.user.email,
       },
     }).then((items) => {
       res.status(200).json({ data: items });
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "server error on load data" });
   }
 });
