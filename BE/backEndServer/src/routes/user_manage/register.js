@@ -23,7 +23,6 @@ router.post("/", (req, res) => {
     .createHash("sha512")
     .update(inputPassword + salt)
     .digest("hex");
-  console.log(req.body.email, req.body.password);
 
   db.User.create({
     email: req.body.email,

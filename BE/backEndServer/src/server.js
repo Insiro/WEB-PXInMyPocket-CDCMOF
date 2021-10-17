@@ -45,6 +45,7 @@ const app = express();
 //#region connet sequelize with db
 const sequelize = db.sequelize;
 
+
 sequelize.sync().then(() => {
   console.log(db.User);
 });
