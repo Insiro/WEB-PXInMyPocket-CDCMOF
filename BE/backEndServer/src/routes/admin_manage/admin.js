@@ -25,6 +25,7 @@ router.post("/add-product", function (req, res) {
     price: price,
     limit_item: limit_item,
     category: category,
+    image: req.body.image,
   })
     .then((item) => {
       res.status(202).send("success");
@@ -56,6 +57,7 @@ router.post("/modify-product", function (req, res) {
         price: price,
         limit_item: limit_item,
         category: category,
+        image: req.body.image,
       })
       .then((item) => {
         res.status(202).json({ result: "success" });
