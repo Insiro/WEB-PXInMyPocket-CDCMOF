@@ -7,9 +7,6 @@
     <WideFrame title="checkbox">
       <CheckBox text="checkbox" name="checkbox" />
     </WideFrame>
-    <WideFrame title="inputForm">
-      <TextInput><icon-search /></TextInput>
-    </WideFrame>
     <WideFrame title="radio"> <Radio /> </WideFrame>
     <Button><router-link to="/signIn">goto SignIn</router-link></Button>
     <Card
@@ -26,14 +23,12 @@ import PageNation from "@/components/PageNation";
 import { CheckBox, TextInput, Radio } from "@/components/Inputs";
 import { Button } from "@/components/Button";
 import Card, { WideFrame } from "@/components/CardFrame";
-import { IconSearch } from "@/components/Icons";
 @Options({
   components: {
     TextInput,
     PageNation,
     WideFrame,
     CheckBox,
-    IconSearch,
     Radio,
     Button,
     Card,

@@ -69,7 +69,7 @@ export class NotifyModule extends VuexModule implements NoticInterface {
     }
   }
   @Action async remove_Notice(id: string): Promise<void> {
-    await axios.delete(apiUrl + "/notice", { data: { notice_id: id } });
+    await axios.delete(apiUrl + "/notice", { notice_id: id });
     this.setList(this.info.filter((item) => item.notice_id !== id));
   }
   @Action async remove_readed(): Promise<void> {

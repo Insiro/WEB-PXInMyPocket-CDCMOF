@@ -109,10 +109,9 @@ console.log(created_product);
 }
 }
 var IsCreated = true;
-if(IsCreated)
-{
-	createDB();
-}
+router.get("/createDB", async (res,req) => {
+	await createDB();
+})
 
 //--------------dummy data 추가하는 코드-------------//
 

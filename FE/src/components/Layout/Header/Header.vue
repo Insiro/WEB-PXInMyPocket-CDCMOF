@@ -5,9 +5,6 @@
     action="검색"
     @close="searchModalClose"
   >
-    <TextInput type="text" placeholder="Search">
-      <IconSearch />
-    </TextInput>
   </BaseModal>
   <header
     class="
@@ -49,14 +46,10 @@
 
     <div class="flex items-center">
       <div class="headBar flex items-center">
-        <TextInput type="text" placeholder="Search">
-          <IconSearch />
-        </TextInput>
         <router-link to="/cart">
           <CartIcon />
         </router-link>
       </div>
-      <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
       <Menu>
         <template #icon>
           <RingIcon />
@@ -112,13 +105,7 @@ import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
 import Menu, { MenuItem } from "./Menu";
 import { TextInput } from "@/components/Inputs";
-import {
-  IconSearch,
-  RingIcon,
-  CartIcon,
-  ProfileIcon,
-  Xicon,
-} from "@/components/Icons";
+import { RingIcon, CartIcon, ProfileIcon, Xicon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
@@ -128,7 +115,6 @@ import { NoticItemInterface } from "@/store/Notifications/Interfaces";
   components: {
     MenuItem,
     TextInput,
-    IconSearch,
     RingIcon,
     CartIcon,
     BaseModal,
