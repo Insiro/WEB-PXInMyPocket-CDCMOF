@@ -62,6 +62,7 @@ router.delete("/", (req, res) => {
     })
     .catch((err) => {
       res.status(406).json({ error: "failed to delete" });
+      console.log(err);
     });
 });
 router.all("/*", badRequest);

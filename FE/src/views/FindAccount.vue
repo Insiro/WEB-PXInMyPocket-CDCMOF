@@ -105,6 +105,7 @@ export default class Regist extends Vue {
 
   async resetPwd(): Promise<void> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       var result: any = await UserState.resetPwd(this.lostPWD);
       console.log(result);
       if (result.data.changePwdSuccess) {
