@@ -58,6 +58,7 @@ import { CheckBox, CheckBoxEmit } from "@/components/Inputs";
 import cartState from "@/store/Cart";
 import { Button } from "@/components/Button";
 import { WideFrame } from "@/components/CardFrame";
+import CartInterface from "@/store/Cart/Interfaces";
 @Options({
   components: {
     Table,
@@ -73,7 +74,9 @@ export default class Carts extends Vue {
   thClass = ref(
     "text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase"
   );
-  CartList = cartState.kartData;
+  get CartList(): CartInterface[] {
+    return cartState.kartData;
+  }
   purchase(): void {
     if (cartState.Purchase())
       //TODO: hadle on Async func

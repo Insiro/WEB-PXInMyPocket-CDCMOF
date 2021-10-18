@@ -16,22 +16,21 @@ router.get("/", async (req, res) => {
       },
     });
     console.log(items.length);
-    console.log(items[0].added_product_id);
+    let cartlist = [];
+    let item = null;
     for (let i = 0; i < items.length; i++) {
-      db.Product.findOne({
-        where: {
-          product_id: items[i].added_product_id,
-        },
-      })
-        .then((item2) => {
-          res.status(200).json({ data: items[i], info: item2 });
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(404).json({ error: "matching product not found" });
+      try {
+        item = await db.Product.findOne({
+          where: { product_id: items[i].added_product_id },
         });
+        cartlist.push({ data: cartlist, info: item });
+      } catch (error) {
+        console.log(error);
+      }
     }
+    res.status(200).json({ data: cartlist });
   } catch (error) {
+    console.log(error);
     res.status(404).json({ error: "matching cart_id is not found" });
   }
 });

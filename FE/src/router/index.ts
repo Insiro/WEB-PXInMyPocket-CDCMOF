@@ -22,6 +22,7 @@ import postState from "@/store/Post";
 import postListState from "@/store/Post/postList";
 import userState from "@/store/User";
 import { useToast } from "vue-toastification";
+import cartState from "@/store/Cart";
 export interface Meta {
   authRequired?: boolean;
   noLayout?: boolean;
@@ -121,6 +122,12 @@ router.beforeEach(
         case "게시글 목록":
           globalState.setPageName("게시글 목록");
           postListState.update();
+        case "장바구니":
+          globalState.setPageName("장바구니");
+          if (userState.bSigned) {
+            cartState.update();
+          }
+          break;
         default:
           globalState.setPageName(to.name.toString());
       }
