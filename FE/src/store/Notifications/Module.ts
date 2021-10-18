@@ -48,28 +48,30 @@ export class NotifyModule extends VuexModule implements NoticInterface {
     }
   }
   @Action async updateNotics(): Promise<void> {
+    const toast = useToast();
     const notics = await axios.get(apiUrl + "/notice");
     const noticData = (notics.data as { data: Array<NoticItemInterface> }).data;
     for (const notic of noticData) {
       const index = this.info.findIndex(
         (item) => item.notice_id === notic.notice_id
       );
-      if (index === -1 && notic.readed === false) {
-        const toast = useToast();
-        toast(`${notic.product_name}`, {
-          type: TYPE.INFO,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onClick: (closeToast: any) => {
-            notifyState.setRead(notic.notice_id);
-            closeToast();
-          },
-        });
+      if (index === -1) {
         this.pushInfo(notic);
+        if (notic.readed === false) {
+          toast(`${notic.product_name}`, {
+            type: TYPE.INFO,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onClick: (closeToast: any) => {
+              notifyState.setRead(notic.notice_id);
+              closeToast();
+            },
+          });
+        }
       }
     }
   }
   @Action async remove_Notice(id: string): Promise<void> {
-    await axios.delete(apiUrl + "/notice", { notice_id: id });
+    await axios.delete(apiUrl + "/notice", { data: { notice_id: id } });
     this.setList(this.info.filter((item) => item.notice_id !== id));
   }
   @Action async remove_readed(): Promise<void> {

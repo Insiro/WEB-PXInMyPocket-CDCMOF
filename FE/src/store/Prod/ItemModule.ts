@@ -89,6 +89,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
         category: this.data.category,
         image: this.data.src,
         content: this.data.content,
+        id: this.data.id,
       };
       await axios.post(apiUrl + "/admin/modify-product", parm);
       toast.success("제품 정보가 업데이트 되었습니다");
