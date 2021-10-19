@@ -48,7 +48,7 @@ router.post("/modify-product", function (req, res) {
 
   db.Product.findOne({
     where: {
-      product_id: req.query.id,
+      product_id: req.body.id,
     },
   }).then((product) => {
     product
@@ -73,14 +73,19 @@ router.post("/modify-product", function (req, res) {
 
 // POST /admin/delete-product
 // 해당물품을 삭제합니다.
-router.post("/delete-product", (req, res) => {
+router.post("/delete-product", async (req, res) => {
   console.log("해당물품을 제거합니다.");
-  db.Product.destroy({
-    where: {
-      product_id: req.query.id,
-    },
-  });
-  res.status(202).send("success");
+  try {
+    await db.Product.destroy({
+      where: {
+        product_id: req.body.id,
+      },
+    });
+    res.status(202).send("success");
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("failed");
+  }
 });
 
 // GET /admin/sell?product_name=초코파이
