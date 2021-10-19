@@ -41,8 +41,8 @@
           >
         </div>
         <div class="flex justify-between justify-items-stretch">
-          <Button :class="purchaseClass">장바구니</Button>
-          <Button :class="purchaseClass">구매하기</Button>
+          <Button :class="purchaseClass" @onClick="addCart">장바구니</Button>
+          <Button :class="purchaseClass" @onClick="purchase">구매하기</Button>
         </div>
       </Card>
     </div>
@@ -53,6 +53,7 @@
 import { ref } from "vue";
 import { Vue, Options } from "vue-class-component";
 import { RouteLocationNormalized, useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 import Card, { CardHash, WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Inputs";
@@ -71,6 +72,7 @@ export default class Name extends Vue {
     amount: 0,
     price: 0,
   };
+  toast = useToast();
   set pageI(id: string) {
     let name = " ";
     //TODO: get is vaild prod Id from Restful api and Update Name
@@ -82,12 +84,7 @@ export default class Name extends Vue {
   purchaseClass = ref("w-full flex-grow px-4 text-sm text-center mx-3");
   infoLineClass = ref("text-base flex-frow px-4");
   //#endregion
-  //#region onclick methods
-  amountChamged(e: Event): void {
-    console.log((e.target as HTMLInputElement).value);
-    this.amount = parseInt((e.target as HTMLInputElement).value);
-    console.log(this.amount);
-  }
+  //#region  get / set
   get itemInfo(): ProductFormat {
     return curItemState.info;
   }
@@ -102,8 +99,22 @@ export default class Name extends Vue {
   get category(): Array<string> {
     return curItemState.cate;
   }
+  //#endregion
+  //#region onclick methods
+  amountChamged(e: Event): void {
+    console.log((e.target as HTMLInputElement).value);
+    this.amount = parseInt((e.target as HTMLInputElement).value);
+    console.log(this.amount);
+  }
   moveAmount(more: boolean): void {
     this.amount += more ? 1 : -1;
+  }
+  purchase(): void {
+    this.toast("결제사와 계약 필요합니다.");
+  }
+  addCart(): void {
+    //
+    this.toast.info("TODO: add to Carts");
   }
   //#endregion
 

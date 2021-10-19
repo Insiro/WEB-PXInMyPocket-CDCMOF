@@ -12,6 +12,7 @@ import postListState from "./store/Post/postList";
 import prodState from "./store/Prod";
 import userState from "./store/User";
 import notifyState from "./store/Notifications";
+import cartState from "./store/Cart";
 @Options({ components: { Layout, EmptyLayout } })
 export default class App extends Vue {
   created(): void {
@@ -19,6 +20,7 @@ export default class App extends Vue {
     prodState.refresh();
     userState.refreshSession();
     notifyState.updateNotics();
+    cartState.update();
   }
   get layout(): string {
     return useRoute().meta.noLayout === true ? "EmptyLayout" : "Layout";

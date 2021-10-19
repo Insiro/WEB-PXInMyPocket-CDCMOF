@@ -15,6 +15,34 @@ router.get("/", async (req, res) => {
         owner_email: req.session.user.email,
       },
     });
+    let items2 = [];
+    for (let i = 0; i < items.length; i++) {
+      await db.Product.findOne({
+        where: {
+          product_id: items[i].added_product_id,
+        },
+      })
+        .then((item) => {
+          items2.push(item);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(404).json({ error: "matching product not found" });
+        });
+    }
+    res.status(200).json({ data: items, info: items2 });
+  } catch (error) {
+    res.status(404).json({ error: "matching cart_id is not found" });
+  }
+});
+/*
+router.get("/", async (req, res) => {
+  try {
+    const items = await db.Cart.findAll({
+      where: {
+        owner_email: req.session.user.email,
+      },
+    });
     console.log(items.length);
     let cartlist = [];
     let item = null;
@@ -34,7 +62,7 @@ router.get("/", async (req, res) => {
     res.status(404).json({ error: "matching cart_id is not found" });
   }
 });
-
+*/
 // POST /cart
 // 장바구니에 물품을 추가합니다.
 router.post("/", async (req, res) => {

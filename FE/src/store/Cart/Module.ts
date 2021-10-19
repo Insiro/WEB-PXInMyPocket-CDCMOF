@@ -5,38 +5,39 @@ import {
   getModule,
   Action,
 } from "vuex-module-decorators";
+import { useToast } from "vue-toastification";
+
 import CartInterface, {
   CartCheckedInterface,
   CartItemInterface,
-  ItemInterface,
 } from "./Interfaces";
 import store from "..";
 import axios from "axios";
 import { apiUrl } from "@/utils";
+import { ProductFormat } from "../Prod/Interfaces";
 
 @Module({ namespaced: true, store, name: "CartModule", dynamic: true })
 export class CartModule extends VuexModule implements CartInterface {
   items: Array<CartItemInterface> = [];
   //class안에서는 인자 1개
-  @Mutation appendItem(id: string, mount: number): void {
-    const item = { name: "", price: 0, img: "", amount: 0 } as ItemInterface; //TODO:get Item name from ID
+  @Mutation appendItem(data: { amount: number; info: ProductFormat }): void {
     this.items.push({
-      id: id,
-      amount: mount,
+      id: data.info.id,
+      amount: data.amount,
       checked: true,
-      name: item.name,
-      img: item.img,
-      price: item.price,
+      name: data.info.name,
+      img: data.info.src ?? " ",
+      price: data.info.price,
     });
   }
-  @Mutation addItem(id: string): void {
-    const index: number = this.items.findIndex((item) => item.id === id);
+  @Mutation addItem(data: ProductFormat): void {
+    const index: number = this.items.findIndex((item) => item.id === data.id);
     if (index !== -1) this.items[index].amount++;
-    else this.appendItem(id, 1);
+    else this.appendItem({ amount: 1, info: data });
   }
-  @Mutation check(id: string, isCheck: boolean): void {
-    const item = this.items.find((item) => item.id === id);
-    if (item !== undefined) item.checked = isCheck;
+  @Mutation check(data: { id: string; isCheck: boolean }): void {
+    const item = this.items.find((item) => item.id === data.id);
+    if (item !== undefined) item.checked = data.isCheck;
   }
   @Mutation reduceItem(id: string): void {
     const index: number = this.items.findIndex((item) => item.id === id);
@@ -83,21 +84,24 @@ export class CartModule extends VuexModule implements CartInterface {
   @Action async update(): Promise<void> {
     try {
       const result = await axios.get(apiUrl + "/cart");
+      console.log(result);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data: any = result.data;
       const newData: Array<CartItemInterface> = [];
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      data.data.map((item: any) => {
-        const parm: CartItemInterface = {
-          img: item.image ?? "",
-          name: item.name ?? "",
-          id: item.cart_id,
-          amount: item.quantity,
-          checked: false,
-          price: item.price ?? 0,
+      const datas = result.data as { data: Array<any>; info: Array<any> };
+      for (let i = 0; i < datas.data.length; i++) {
+        const temp = {
+          id: datas.data[i].added_product_id,
+          amount: datas.data[i].quantity,
+          checked: true,
+          name: datas.info[i].product_name,
+          img: datas.info[i].image,
+          price: datas.info[i].price,
         };
-        newData.push(parm);
-      });
+        console.log(temp);
+        newData.push(temp);
+      }
+      console.log(newData);
       this.setList(newData);
     } catch (error) {
       console.log(error);
@@ -124,10 +128,29 @@ export class CartModule extends VuexModule implements CartInterface {
         return;
       }
       const item = this.items[index];
-      await axios.post("/edit", { id: id, quantity: item.amount });
+      await axios.post(apiUrl + "/edit", { id: id, quantity: item.amount });
     } catch (error) {
       console.log(error);
       console.log("failed to update;");
+    }
+  }
+  @Action async AddItem(data: {
+    amount: number;
+    info: ProductFormat;
+  }): Promise<void> {
+    const toast = useToast();
+    try {
+      const parm = {
+        quantity: data.amount,
+        added_product_id: data.info.id,
+        total_price: 0,
+      };
+      await axios.post(apiUrl, parm);
+      this.appendItem(data);
+      toast.success(`장바구니에 ${name}이 추가되었습니다`);
+    } catch (error) {
+      console.log(error);
+      useToast().error(`${name}추가에 실패하였습니다.`);
     }
   }
   get kartData(): Array<CartItemInterface> {

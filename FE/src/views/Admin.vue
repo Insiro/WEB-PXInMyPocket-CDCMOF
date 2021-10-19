@@ -7,7 +7,7 @@
         <TableHead :clsas="[thClass]">이름</TableHead>
         <TableHead :clsas="[thClass]">갯수</TableHead>
         <TableHead :clsas="[thClass]">가격</TableHead>
-        <TableHead>&nbsp;선택</TableHead>
+        <TableHead>&nbsp;</TableHead>
       </template>
       <template #body>
         <tr v-if="prodList.length === 0">
