@@ -60,6 +60,7 @@ import { TextInput } from "@/components/Inputs";
 import globalState from "@/store/global";
 import { ProductFormat } from "@/store/Prod/Interfaces";
 import curItemState from "@/store/Prod/ItemModule";
+import cartState from "@/store/Cart";
 interface Selected {
   amount: number;
   price: number;
@@ -113,8 +114,10 @@ export default class Name extends Vue {
     this.toast("결제사와 계약 필요합니다.");
   }
   addCart(): void {
-    //
-    this.toast.info("TODO: add to Carts");
+    cartState.AddItem({
+      amount: this.selected.amount,
+      info: curItemState.data,
+    });
   }
   //#endregion
 

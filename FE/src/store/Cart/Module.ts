@@ -35,9 +35,9 @@ export class CartModule extends VuexModule implements CartInterface {
     if (index !== -1) this.items[index].amount++;
     else this.appendItem({ amount: 1, info: data });
   }
-  @Mutation check(data: { id: string; isCheck: boolean }): void {
+  @Mutation check(data: { id: string; checked: boolean }): void {
     const item = this.items.find((item) => item.id === data.id);
-    if (item !== undefined) item.checked = data.isCheck;
+    if (item !== undefined) item.checked = data.checked;
   }
   @Mutation reduceItem(id: string): void {
     const index: number = this.items.findIndex((item) => item.id === id);
@@ -145,7 +145,7 @@ export class CartModule extends VuexModule implements CartInterface {
         added_product_id: data.info.id,
         total_price: 0,
       };
-      await axios.post(apiUrl, parm);
+      await axios.post(apiUrl + "/cart", parm);
       this.appendItem(data);
       toast.success(`장바구니에 ${name}이 추가되었습니다`);
     } catch (error) {
