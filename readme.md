@@ -4,6 +4,7 @@
 
 You can see Project Detailed Explanation on [this Page](https://mof-cdc.notion.site/PX-4c48ee84d315407c90c6a809f02dab79)  
 You can see ReadMe for BackEnd on [BE](https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF/blob/master/BE/README.md)  
+You can see ReadMe for FrontEnd on [FE](https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF/blob/master/FE/README.md)
 ## GitHub Actions Status
 | Name                      | Status                                                                                                         |
 |---------------------------|----------------------------------------------------------------------------------------------------------------|
