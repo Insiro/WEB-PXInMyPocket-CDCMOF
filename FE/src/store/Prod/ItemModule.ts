@@ -84,17 +84,17 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     }
     try {
       const parm = {
-        remaining: this.data.remain,
-        price: this.data.price,
-        limit_item: this.data.limit_item,
-        category: this.data.category,
-        image: this.data.src,
-        content: this.data.content,
-        id: this.data.id,
-        name: this.data.name,
+        remaining: this.info.remain,
+        price: this.info.price,
+        limit_item: this.info.limit_item,
+        category: this.info.category,
+        image: this.info.src,
+        content: this.info.content,
+        id: this.info.id,
+        name: this.info.name,
       };
       await axios.post(apiUrl + "/admin/modify-product", parm);
-      prodState.updateItem(this.data);
+      prodState.refresh();
       toast.success("제품 정보가 업데이트 되었습니다");
     } catch (error) {
       toast.error("제품 정보 업데이트에 실패하였습니다");
@@ -123,15 +123,19 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
     }
     try {
       const parm = {
-        product_name: this.data.name,
-        remaining: this.data.remain,
-        price: this.data.price,
-        limit_item: this.data.limit_item,
-        category: this.data.category,
+        product_name: this.info.name,
+        remaining: this.info.remain,
+        price: this.info.price,
+        limit_item: this.info.limit_item,
+        category: this.info.category,
       };
-      await axios.post(apiUrl + "/admin/add-product", parm);
-      toast.success(`제품 ${this.data.name} 추가 되었습니다`);
-      prodState.addItem(this.data);
+      const ret = await axios.post(apiUrl + "/admin/add-product", parm);
+      const dat = Object.assign({}, this.info);
+      console.log(dat);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      dat.id = ret.data as any;
+      toast.success(`제품 ${this.info.name} 추가 되었습니다`);
+      prodState.addItem(dat);
     } catch (error) {
       toast.error(`제품 ${this.data.name} 추가에 실패하였습니다`);
       console.log(error);

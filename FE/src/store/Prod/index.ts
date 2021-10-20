@@ -23,8 +23,18 @@ export class ProductModule extends VuexModule implements ProdInterface {
   }
   @Mutation updateItem(data: ProductFormat): void {
     const index = this.items.findIndex((item) => (item.id = data.id));
-    if (index !== -1) this.items[index] = data;
-    else this.addItem(data);
+    if (index !== -1) {
+      this.items[index].id = data.id;
+      this.items[index].name = data.name;
+      this.items[index].remain = data.remain;
+      this.items[index].price = data.price;
+      this.items[index].limit_item = data.limit_item;
+      this.items[index].category = data.category;
+      this.items[index].monthly_sale = data.monthly_sale;
+      this.items[index].weekly_sale = data.weekly_sale;
+      this.items[index].src = data.src;
+      this.items[index].content = data.content;
+    } else this.toast.error(`존재하지 않는 상품 입니다`);
   }
   @Mutation updateCate(data: Array<string>): void {
     this.cate = new Set(data);
@@ -91,15 +101,13 @@ export class ProductModule extends VuexModule implements ProdInterface {
       return false;
     }
     try {
-      await axios.post(apiUrl + "/admin/delete-product", {
-        id: id,
-      });
+      await axios.post(apiUrl + "/admin/delete-product", { id: id });
       this.delOne(id);
+      return true;
     } catch (error) {
       console.log(error);
+      return false;
     }
-
-    return true; //Is Success
   }
   //#endregion
 }

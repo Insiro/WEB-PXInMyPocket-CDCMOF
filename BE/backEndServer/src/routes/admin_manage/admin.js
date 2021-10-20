@@ -28,7 +28,7 @@ router.post("/add-product", function (req, res) {
     image: req.body.image,
   })
     .then((item) => {
-      res.status(202).send("success");
+      res.status(202).json(item.product_id);
       console.log("add product success", item);
     })
     .catch((err) => {
