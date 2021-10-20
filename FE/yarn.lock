@@ -4277,7 +4277,6 @@ fsevents@~2.3.2:
     postcss: ^8.3.5
     prettier: ^2.4.1
     register-service-worker: ^1.7.2
-    reset.css: ^2.0.2
     tailwindcss: ^2.2.2
     typescript: ^4.3.2
     vite: ^2.3.8
@@ -5161,13 +5160,6 @@ fsevents@~2.3.2:
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
   checksum: a03ef6895445f33a4015300c426699bc66b2b044ba7b670aa238610381b56d3f07c686251740d575e22f4c87531ba662d06937508f0f3c0f1ddc04db3130560b
-  languageName: node
-  linkType: hard
-
-"reset.css@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "reset.css@npm:2.0.2"
-  checksum: a6e0206cf0f6b16c7ccd2670fee730ebae6b36b4390bc9ea508a9de3220224ce4087cc760dd466996d6d360b7aa4738fad795a443a85817c8ccd75ee0ff3276a
   languageName: node
   linkType: hard
 
