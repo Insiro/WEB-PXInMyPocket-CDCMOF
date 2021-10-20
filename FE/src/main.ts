@@ -6,7 +6,6 @@ import store from "./store";
 
 import Toast, { PluginOptions, POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import "reset.css";
 import "normalize.css";
 import "./assets/main.css";
 import "./class-component-hooks";
