@@ -48,6 +48,7 @@ export class postListModule extends VuexModule implements postListInterface {
   }
   @Action async updateAnnouncement(post_id: string | null): Promise<void> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const result: any = await axios.post(apiUrl + "/admin/set-announcement", {
         post_id: post_id,
       });

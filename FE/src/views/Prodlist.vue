@@ -1,9 +1,10 @@
 <template>
   <WideFrame>
-    <Button @onClick="refresh">목록 새로고침</Button>
+    <Button @onClick="refresh"><Refresh /></Button>
     <CardHash
       v-for="cate in Array.from(cates)"
       :key="cate"
+      class="ml-3"
       :tag="cate"
       :highlight="filterName === cate"
       @hash_click="hashClicked"
@@ -37,13 +38,13 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { useRouter } from "vue-router";
 import { PageNation } from "@/components/PageNation";
 import Card, { WideFrame, CardHash } from "@/components/CardFrame";
 import Button from "@/components/Button";
+import { Refresh } from "@/components/Icons";
 import prodState from "@/store/Prod";
 import { ProductFormat } from "@/store/Prod/Interfaces";
-import { useRouter } from "vue-router";
-
 interface min_max {
   min: number;
   max: number;
@@ -56,6 +57,7 @@ interface min_max {
     WideFrame,
     CardHash,
     Button,
+    Refresh,
   },
   watch: {},
 })

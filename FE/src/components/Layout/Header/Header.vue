@@ -5,9 +5,6 @@
     action="검색"
     @close="searchModalClose"
   >
-    <TextInput type="text" placeholder="Search">
-      <IconSearch />
-    </TextInput>
   </BaseModal>
   <header
     class="
@@ -49,32 +46,33 @@
 
     <div class="flex items-center">
       <div class="headBar flex items-center">
-        <TextInput type="text" placeholder="Search">
-          <IconSearch />
-        </TextInput>
         <router-link to="/cart">
           <CartIcon />
         </router-link>
       </div>
-      <IconSearch class="ml-4" :class="[menuItemClass]" @click="openSearch" />
       <Menu>
         <template #icon>
           <RingIcon />
         </template>
         <template #menu>
           <!--TODO: Add Notify Items Here-->
-          <MenuItem>
-            <div class="flex mx-3 justify-between">
-              <span>Contensts</span>
-              <Xicon @click="removeNotic('id')" />
+          <MenuItem
+            v-for="item in notices"
+            :key="item.notice_id"
+            :class="item.readed ? 'bg-gray-200' : ''"
+          >
+            <div class="flex flex-row mx-3 justify-between">
+              <span class="flex-grow" @click="setRead(item.notice_id)">
+                {{ item.product_name }}
+              </span>
+              <Xicon @click="removeNotic(item.notice_id)" />
             </div>
           </MenuItem>
-          <MenuItem>읽은 알람 삭제</MenuItem>
+          <MenuItem @click="removeReaded">읽은 알람 삭제</MenuItem>
         </template>
       </Menu>
       <Menu>
         <template #icon>
-          <!-- TODO: change to profileImg -->
           <ProfileIcon v-show="!is_signed" />
           <img
             v-show="is_signed"
@@ -107,22 +105,16 @@ import { Vue, Options } from "vue-class-component";
 import { ref } from "vue";
 import Menu, { MenuItem } from "./Menu";
 import { TextInput } from "@/components/Inputs";
-import {
-  IconSearch,
-  RingIcon,
-  CartIcon,
-  ProfileIcon,
-  Xicon,
-} from "@/components/Icons";
+import { RingIcon, CartIcon, ProfileIcon, Xicon } from "@/components/Icons";
 import BaseModal from "@/components/Modal";
 import globalState from "@/store/global";
 import userState from "@/store/User/Module";
-
+import notifyState from "@/store/Notifications";
+import { NoticItemInterface } from "@/store/Notifications/Interfaces";
 @Options({
   components: {
     MenuItem,
     TextInput,
-    IconSearch,
     RingIcon,
     CartIcon,
     BaseModal,
@@ -148,6 +140,9 @@ export default class Header extends Vue {
   get is_signed(): boolean {
     return userState.bSigned;
   }
+  get notices(): Array<NoticItemInterface> {
+    return notifyState.infos;
+  }
   signOut(): void {
     userState.signOut();
   }
@@ -157,8 +152,16 @@ export default class Header extends Vue {
   searchModalClose(): void {
     this.show_search_modal = false;
   }
-  removeNotic(_id: string): void {
+  removeNotic(id: string): void {
+    notifyState.remove_Notice(id);
     //TODO remove Notic with Notic Sotr
+  }
+  removeReaded(): void {
+    notifyState.remove_readed();
+    //
+  }
+  setRead(id: string): void {
+    notifyState.setRead(id);
   }
 }
 </script>

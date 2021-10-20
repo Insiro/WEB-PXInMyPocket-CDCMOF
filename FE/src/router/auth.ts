@@ -3,8 +3,8 @@ import ChangeInfo from "@/views/ChangeInfo.vue";
 import Regist from "@/views/Regist.vue";
 import FindAccount from "@/views/FindAccount.vue";
 import Notification from "@/views/TestNotice.vue";
-import { pageObj } from ".";
-export const authUrl: Array<pageObj> = [
+import { pageObjList } from ".";
+export const authUrl: pageObjList = [
   {
     icon: null,
     name: "testNotice",
@@ -38,7 +38,7 @@ export const authUrl: Array<pageObj> = [
     name: "changeInfo",
     url: "/changeInfo",
     component: ChangeInfo,
-    meta: { noLayout: true },
+    meta: { noLayout: true, authRequired: true },
   },
 ];
 export default authUrl;

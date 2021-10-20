@@ -9,6 +9,12 @@
       />
       <!-- <div></div> -->
       <Card class="mx-5 md:flex-grow itemArea ccard" :title="itemInfo.name">
+        <div v-if="category !== undefined" class="px-6 pt-4 pb-2">
+          <!--hashTag Area-->
+          <CardHash v-for="hash in category" :key="hash" :tag="hash">
+            {{ hash }}
+          </CardHash>
+        </div>
         <div :class="infoLineClass">{{ itemInfo.price }}</div>
         <div :class="infoLineClass">잔여 {{ itemInfo.remain }}</div>
         <div :class="infoLineClass">
@@ -35,29 +41,36 @@
           >
         </div>
         <div class="flex justify-between justify-items-stretch">
-          <Button :class="purchaseClass">장바구니</Button>
-          <Button :class="purchaseClass">구매하기</Button>
+          <Button :class="purchaseClass" @onClick="addCart">장바구니</Button>
+          <Button :class="purchaseClass" @onClick="purchase">구매하기</Button>
         </div>
       </Card>
     </div>
-    <WideFrame class="mx-10 max-w-none mt-3"> expression of Item </WideFrame>
+    <WideFrame class="mx-10 max-w-none mt-3">
+      <!--eslint-disable-next-line vue/no-v-html-->
+      <div id="marked" class="marked" v-html="markedcont" />
+    </WideFrame>
   </div>
 </template>
 <script lang="ts">
 import { ref } from "vue";
 import { Vue, Options } from "vue-class-component";
 import { RouteLocationNormalized, useRouter } from "vue-router";
-import Card, { WideFrame } from "@/components/CardFrame";
+import { useToast } from "vue-toastification";
+import marked from "marked";
+import { markedOption } from "@/utils";
+import Card, { CardHash, WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Inputs";
 import globalState from "@/store/global";
 import { ProductFormat } from "@/store/Prod/Interfaces";
 import curItemState from "@/store/Prod/ItemModule";
+import cartState from "@/store/Cart";
 interface Selected {
   amount: number;
   price: number;
 }
-@Options({ components: { Card, WideFrame, Button, TextInput } })
+@Options({ components: { Card, WideFrame, Button, TextInput, CardHash } })
 export default class Name extends Vue {
   //#region init state
   id = "";
@@ -65,14 +78,7 @@ export default class Name extends Vue {
     amount: 0,
     price: 0,
   };
-  // itemInfo: ItemInfo = {
-  //   name: "Title",
-  //   price: "",
-  //   remaining: 0,
-  //   category: "",
-  //   limit_item: false,
-  //   imgUrl: "",
-  // };
+  toast = useToast();
   set pageI(id: string) {
     let name = " ";
     //TODO: get is vaild prod Id from Restful api and Update Name
@@ -84,12 +90,7 @@ export default class Name extends Vue {
   purchaseClass = ref("w-full flex-grow px-4 text-sm text-center mx-3");
   infoLineClass = ref("text-base flex-frow px-4");
   //#endregion
-  //#region onclick methods
-  amountChamged(e: Event): void {
-    console.log((e.target as HTMLInputElement).value);
-    this.amount = parseInt((e.target as HTMLInputElement).value);
-    console.log(this.amount);
-  }
+  //#region  get / set
   get itemInfo(): ProductFormat {
     return curItemState.info;
   }
@@ -101,8 +102,31 @@ export default class Name extends Vue {
   get amount(): number {
     return this.selected.amount;
   }
+  get category(): Array<string> {
+    return curItemState.cate;
+  }
+  get markedcont(): string {
+    marked.setOptions(markedOption);
+    return marked(curItemState.info.content);
+  }
+  //#endregion
+  //#region onclick methods
+  amountChamged(e: Event): void {
+    console.log((e.target as HTMLInputElement).value);
+    this.amount = parseInt((e.target as HTMLInputElement).value);
+    console.log(this.amount);
+  }
   moveAmount(more: boolean): void {
     this.amount += more ? 1 : -1;
+  }
+  purchase(): void {
+    this.toast("결제사와 계약 필요합니다.");
+  }
+  addCart(): void {
+    cartState.AddItem({
+      amount: this.selected.amount,
+      info: curItemState.data,
+    });
   }
   //#endregion
 

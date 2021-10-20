@@ -12,6 +12,8 @@ import UserInterface, {
 import store from "..";
 import axios from "axios";
 import { apiUrl } from "@/utils";
+import notifyState from "../Notifications";
+import cartState from "../Cart";
 
 @Module({ namespaced: true, store, name: "UserModule", dynamic: true })
 export class UserModule extends VuexModule implements UserInterface {
@@ -40,17 +42,6 @@ export class UserModule extends VuexModule implements UserInterface {
     this.info = data;
     return true;
   }
-  //mutation하고 같은 범위라 이름 안겹치게.
-  @Action updateData(data: UserInfoInterface): boolean {
-    if (data.email === null) return false;
-    //TODO: update UserInfo with API
-    if (true) {
-      this.setData(data);
-    } else {
-      return false;
-    }
-    return true;
-  }
   @Action async signIn(info: {
     email: string;
     password: string;
@@ -61,19 +52,11 @@ export class UserModule extends VuexModule implements UserInterface {
         email: info.email,
         password: info.password,
       });
-      const userData = result.data.user;
-      const data: UserInfoInterface = {
-        email: info.email,
-        profileImg: "prodileImg" in result ? userData.profileImg : null,
-        id: userData.serial_number,
-        bye: userData.expire_date,
-        rank: userData.rank,
-        authority: userData.authority,
-        name: userData.name,
-      };
+      const data = FormatUserInfo(result.data.user);
       this.setSign(true);
       this.setData(data);
       console.log("check login");
+      notifyState.updateNotics();
       return true;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -99,7 +82,6 @@ export class UserModule extends VuexModule implements UserInterface {
     }
   }
   @Action async regist(info: RegistInterface): Promise<boolean> {
-    //TODO: signIn from server;
     try {
       await axios.post(apiUrl + "/home/register", {
         email: info.email,
@@ -111,7 +93,7 @@ export class UserModule extends VuexModule implements UserInterface {
       });
       this.setSign(true);
       this.setData(info);
-      console.log("check register");
+      this.signIn(info as { email: string; password: string });
       return true;
     } catch (err: unknown) {
       console.warn("ERROR!!!!! : ", err);
@@ -150,6 +132,7 @@ export class UserModule extends VuexModule implements UserInterface {
       return null;
     }
   }
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
   @Action async changeUserInfo(info: any): Promise<boolean> {
     try {
       console.log(info);
@@ -169,6 +152,15 @@ export class UserModule extends VuexModule implements UserInterface {
       return false;
     }
   }
+  @Action async refreshSession(): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = await axios.post(apiUrl + "/home/signed");
+    const data = FormatUserInfo(result.data.user);
+    this.setSign(true);
+    this.setData(data);
+    notifyState.updateNotics();
+    cartState.update();
+  }
   get bSigned(): boolean {
     return this.signed;
   }
@@ -178,3 +170,16 @@ export class UserModule extends VuexModule implements UserInterface {
 }
 export const userState = getModule(UserModule);
 export default userState;
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+export function FormatUserInfo(data: any): UserInfoInterface {
+  return {
+    email: data.email,
+    profileImg: "prodileImg" in data ? data.profileImg : null,
+    id: data.serial_number,
+    bye: data.expire_date,
+    rank: data.rank,
+    authority: data.authority,
+    name: data.name,
+  };
+}

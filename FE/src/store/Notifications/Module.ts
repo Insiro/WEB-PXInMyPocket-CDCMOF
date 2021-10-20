@@ -6,7 +6,7 @@ import {
   Mutation,
 } from "vuex-module-decorators";
 
-import { useToast, TYPE } from "vue-toastification";
+import { TYPE, useToast } from "vue-toastification";
 import { NoticInterface, NoticItemInterface } from "./Interfaces";
 import store from "..";
 import axios from "axios";
@@ -15,54 +15,69 @@ import { apiUrl } from "@/utils";
 export class NotifyModule extends VuexModule implements NoticInterface {
   info: Array<NoticItemInterface> = [];
   toast = useToast();
+  get infos(): Array<NoticItemInterface> {
+    return this.info;
+  }
   //Mutations
-  @Mutation setOrderId(orderId: string | null, IDX: integer): void {
-    this.info[IDX].orderId = orderId;
-  }
-  @Mutation setDate(date: string | null, IDX: integer): void {
-    this.info[IDX].date = date;
-  }
-  @Mutation setProductName(name: string | null, IDX: integer): void {
-    this.info[IDX].productName = name;
-  }
-  @Mutation setQuantity(quantity: number | null, IDX: integer): void {
-    this.info[IDX].quantity = quantity;
-  }
-  @Mutation setTotalPrice(price: number | null, IDX: integer): void {
-    this.info[IDX].totalPrice = price;
+  @Mutation setInfo(data: NoticItemInterface): void {
+    const index = this.info.findIndex(
+      (item) => item.notice_id === data.notice_id
+    );
+    if (index === -1) this.info.push(data);
+    else this.info[index] = data;
   }
   @Mutation clearNoticeInfo(): void {
     this.info = [];
   }
-  @Mutation pushInfo(element: any): void {
+  @Mutation pushInfo(element: NoticItemInterface): void {
     this.info.push(element);
   }
-
+  @Mutation setList(data: Array<NoticItemInterface>): void {
+    this.info = data;
+  }
   //Actions
-  @Action async updateNotics(): Promise<any> {
-    const arrivedItems = await axios.get(apiUrl + "/home/user/order-arrive");
-    console.log(arrivedItems);
-
-    for (let i = 0; i < arrivedItems.data.data.length; i++) {
-      const element: any = arrivedItems.data.data[i];
-      console.log(element);
-      this.pushInfo(element);
+  @Action async setRead(noticId: string): Promise<void> {
+    try {
+      await axios.post(apiUrl + "/notice/set_readed", {
+        notice_id: noticId,
+      });
+      const index = this.info.findIndex((item) => (item.notice_id = noticId));
+      if (index !== -1) this.info[index].readed = true;
+    } catch (error) {
+      console.log(`error on set Readed Notic\n Error : ${error}`);
     }
-    return this.info;
   }
-
-  @Action async showToast(info: { orderId }): Promise<void> {
-    this.toast.info("info toast", {
-      timeout: false,
-      id: "toastId",
-      onClick: () => {
-        //TODO: close cloas toast end send readed notification alert
-      },
-    });
+  @Action async updateNotics(): Promise<void> {
+    const toast = useToast();
+    const notics = await axios.get(apiUrl + "/notice");
+    const noticData = (notics.data as { data: Array<NoticItemInterface> }).data;
+    for (const notic of noticData) {
+      const index = this.info.findIndex(
+        (item) => item.notice_id === notic.notice_id
+      );
+      if (index === -1) {
+        this.pushInfo(notic);
+        if (notic.readed === false) {
+          toast(`${notic.product_name}`, {
+            type: TYPE.INFO,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onClick: (closeToast: any) => {
+              notifyState.setRead(notic.notice_id);
+              closeToast();
+            },
+          });
+        }
+      }
+    }
   }
-
-  @Action async dismissToast(): Promise<void> {
-    this.toast.dismiss("toastID");
+  @Action async remove_Notice(id: string): Promise<void> {
+    await axios.delete(apiUrl + "/notice", { data: { notice_id: id } });
+    this.setList(this.info.filter((item) => item.notice_id !== id));
+  }
+  @Action async remove_readed(): Promise<void> {
+    for (const notic of this.info.filter((item) => item.readed)) {
+      this.remove_Notice(notic.notice_id);
+    }
   }
   @Action async dismissAllToast(): Promise<void> {
     this.toast.clear();

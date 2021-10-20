@@ -1,4 +1,3 @@
-import IconSearch from "./Search.vue";
 import webIcon from "./webIcon.vue";
 import Refresh from "./Refresh.vue";
 import Xicon from "./Xicon.vue";
@@ -8,7 +7,6 @@ import CartIcon from "./Cart.vue";
 import ProfileIcon from "./Profile.vue";
 import { Component } from "vue";
 export {
-  IconSearch,
   webIcon,
   Refresh,
   Xicon,
@@ -23,7 +21,6 @@ interface IconComponent {
   component: Component<any, any, any, any, any>;
 }
 export const IconComponentList: Array<IconComponent> = [
-  { name: "search-icon", component: IconSearch },
   { name: "web-icon", component: webIcon },
   { name: "refresh-icon", component: Refresh },
   { name: "x-icon", component: Xicon },

@@ -10,7 +10,6 @@
       <div v-show="mod.id">
         <div v-show="mod.idSuccess">당신의 아이디는 <br />{{ lookedID }}</div>
         <div v-show="!mod.idSuccess">정보를 찾지 못 하였습니다</div>
-        <!--TODO: 아이디 찾은거 성공적인지-->
       </div>
     </BaseModal>
     <div class="w-full max-w-sm p-6 bg-white rounded-md shadow-md">
@@ -91,7 +90,6 @@ export default class Regist extends Vue {
 
   //#region Item Event
   async findID(): Promise<void> {
-    //TODO: find ID and Modal
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var result: any = await UserState.findID(this.lostID);
     if (result.data.findIdSuccess) {
@@ -107,6 +105,7 @@ export default class Regist extends Vue {
 
   async resetPwd(): Promise<void> {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       var result: any = await UserState.resetPwd(this.lostPWD);
       console.log(result);
       if (result.data.changePwdSuccess) {

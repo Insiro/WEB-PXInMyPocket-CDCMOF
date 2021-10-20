@@ -29,6 +29,7 @@ const store = new Store<RootState>({
         monthly_sale: 0,
         weekly_sale: 0,
         src: null,
+        content: "",
       },
     },
     prodList: { items: [], cate: new Set([]) },
@@ -47,6 +48,5 @@ const store = new Store<RootState>({
       data: [],
     },
   },
-  plugins: [createLogger()],
 });
 export default store;

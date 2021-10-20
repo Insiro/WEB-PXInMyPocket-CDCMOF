@@ -11,7 +11,8 @@ import User from "./User.js";
 import Product from "./Product.js";
 import Post from "./Post.js";
 import Order from "./Order.js";
-
+import Notice from "./Notice.js";
+import Cart from "./Cart.js";
 const db = {};
 
 const sequelize = new Sequelize(
@@ -26,7 +27,8 @@ db.User = User(sequelize, Sequelize);
 db.Product = Product(sequelize, Sequelize);
 db.Post = Post(sequelize, Sequelize);
 db.Order = Order(sequelize, Sequelize);
-
+db.Notice = Notice(sequelize, Sequelize);
+db.Cart = Cart(sequelize, Sequelize);
 console.log(db);
 
 Object.keys(db).forEach((modelName) => {

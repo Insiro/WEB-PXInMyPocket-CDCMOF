@@ -119,7 +119,6 @@ export default class SignIn extends Vue {
       }
       this.router.push("/");
     } else {
-      //TODO: alert wrong passwod
       this.mod.signin = true;
       this.modalOpen = true;
     }

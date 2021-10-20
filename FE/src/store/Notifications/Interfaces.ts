@@ -1,9 +1,7 @@
 export interface NoticItemInterface {
-  orderId: string | null;
-  orderDate: string | null;
-  productName: string | null;
-  quantity: number | null;
-  totalPrice: number | null;
+  notice_id: string;
+  readed: boolean;
+  product_name: string;
 }
 export interface NoticInterface {
   info: Array<NoticItemInterface>;

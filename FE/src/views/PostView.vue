@@ -1,11 +1,9 @@
 <template>
-  <WideFrame class="mt-0">
-    <div v-if="isNotic" class="text-3xl font-medium text-gray-700 my-3">
-      공지
-    </div>
+  <WideFrame v-if="isNotic" class="mt-0">
+    <div class="text-3xl font-medium text-gray-700 my-3">공지</div>
   </WideFrame>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="marked mt-5" v-html="postText"></div>
+  <div id="marked" class="marked mt-5" v-html="postText"></div>
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";

@@ -9,6 +9,8 @@ class Prop {
   colspan = prop<number>({ default: 1 });
 }
 export default class Item extends Vue.with(Prop) {
-  styleClass = ref("px-6 py-4 border-b border-gray-200 whitespace-nowrap");
+  styleClass = ref(
+    "px-6 py-4 border-b border-gray-200 whitespace-nowrap align-top"
+  );
 }
 </script>

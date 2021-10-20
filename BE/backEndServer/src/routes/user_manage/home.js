@@ -5,6 +5,7 @@ import db from "../../models/Index.js";
 import register from "./register.js";
 import finduser from "./finduser.js";
 import user from "./user.js";
+import { checkSigned } from "../middleWare.js";
 import * as HttpError from "../error_handler.js";
 var router = express.Router();
 
@@ -12,8 +13,27 @@ var router = express.Router();
 router.get("/", HttpError.badRequest);
 
 //FE에 세션에 대한 정보를 알려주기 위한 부분입니다.
+router.all("/signed", checkSigned);
 router.all("/signed", (req, res) => {
-  res.status(200).send(req.session.user.authorized === true);
+  db.User.findOne({
+    where: { email: req.session.user.email },
+  }).then((user) => {
+    let retUser = Object.assign(user.dataValues);
+    delete retUser.password;
+    delete retUser.salt;
+    delete retUser.createdAt;
+    delete retUser.updatedAt;
+    res
+      .status(202)
+      .json({
+        result: "true",
+        user: retUser,
+      })
+      .catch((error) => {
+        console.log(error);
+        res.status(400).json({ result: "false" });
+      });
+  });
 });
 router.all("/authority-check", (req, res) => {
   res.status(200).send(req.session.user.authority);

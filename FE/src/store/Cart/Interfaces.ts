@@ -14,7 +14,6 @@ export interface CartCheckedInterface {
   amount: number;
 }
 export interface ItemInterface {
-  //TODO: use ItemIterface with Items store;
   name: string;
   price: number;
   img: string;

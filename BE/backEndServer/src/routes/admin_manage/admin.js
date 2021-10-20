@@ -1,6 +1,6 @@
 // admin 페이지에서는 관리자 권한은 가진 유저가 물품정보를 수정할 수 있습니다.
 import express from "express";
-var router = express.Router();
+const router = express.Router();
 import db from "../../models/Index.js";
 import { checkAdmin, checkSigned } from "../middleWare.js";
 import { badRequest } from "../error_handler.js";
@@ -12,11 +12,11 @@ router.use("/*", checkAdmin);
 // POST /admin/add-product
 // 새로운 재고를 추가합니다.
 router.post("/add-product", function (req, res) {
-  var product_name = req.body.product_name;
-  var remaining = req.body.remaining;
-  var price = req.body.price;
-  var limit_item = req.body.limit_item;
-  var category = req.body.category;
+  const product_name = req.body.product_name;
+  const remaining = req.body.remaining;
+  const price = req.body.price;
+  const limit_item = req.body.limit_item;
+  const category = req.body.category;
 
   console.log(req.session.user.email);
   db.Product.create({
@@ -25,9 +25,10 @@ router.post("/add-product", function (req, res) {
     price: price,
     limit_item: limit_item,
     category: category,
+    image: req.body.image,
   })
     .then((item) => {
-      res.status(202).send("success");
+      res.status(202).json(item.product_id);
       console.log("add product success", item);
     })
     .catch((err) => {
@@ -40,15 +41,11 @@ router.post("/add-product", function (req, res) {
 // POST /admin/modify-product
 // 재고수량, 가격을 변경합니다.
 router.post("/modify-product", function (req, res) {
-  var product_name = req.body.product_name;
-  var remaining = req.body.remaining;
-  var price = req.body.price;
-  var limit_item = req.body.limit_item;
-  var category = req.body.category;
-
+  const { id, remaining, price, limit_item, category, name, image, content } =
+    req.body;
   db.Product.findOne({
     where: {
-      name: product_name,
+      product_id: id,
     },
   }).then((product) => {
     product
@@ -57,6 +54,9 @@ router.post("/modify-product", function (req, res) {
         price: price,
         limit_item: limit_item,
         category: category,
+        image: image,
+        product_name: name,
+        content: content,
       })
       .then((item) => {
         res.status(202).json({ result: "success" });
@@ -72,30 +72,33 @@ router.post("/modify-product", function (req, res) {
 
 // POST /admin/delete-product
 // 해당물품을 삭제합니다.
-router.post("/delete-product", (req, res) => {
+router.post("/delete-product", async (req, res) => {
   console.log("해당물품을 제거합니다.");
-  var product_name = req.body.product_name;
-  db.Product.destroy({
-    where: {
-      product_name: product_name,
-    },
-  });
-  res.status(202).send("success");
+  try {
+    await db.Product.destroy({
+      where: {
+        product_id: req.body.id,
+      },
+    });
+    res.status(202).send("success");
+  } catch (error) {
+    console.log(error);
+    res.status(400).send("failed");
+  }
 });
 
 // GET /admin/sell?product_name=초코파이
 // pos기에서 물품이 해당 부분이 실행되고 물품의 수량변화가 일어남
 router.get("/sell", (req, res) => {
   console.log("제품이 하나 팔림");
-  var product_name = req.query.product_name;
   db.Product.findOne({
     where: {
-      product_name: product_name,
+      product_id: req.query.id,
     },
   }).then((foundProduct) => {
-    var remaining = foundProduct.remaining - 1;
-    var weekly_sale = foundProduct.weekly_sale + 1;
-    var monthly_sale = foundProduct.monthly_sale + 1;
+    const remaining = foundProduct.remaining - 1;
+    const weekly_sale = foundProduct.weekly_sale + 1;
+    const monthly_sale = foundProduct.monthly_sale + 1;
     foundProduct.update({
       remaining: remaining,
       weekly_sale: weekly_sale,

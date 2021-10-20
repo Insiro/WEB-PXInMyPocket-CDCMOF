@@ -9,14 +9,14 @@
         <span class="text-2xl font-semibold text-gray-700">notice test</span>
       </div>
 
-      <form class="mt-4" @submit.prevent="regist">
+      <form class="mt-4" @submit.prevent="">
         <div class="mt-6">
           <Button class="w-full px-4 text-sm text-center" @onClick="sendNotice">
             update Notices
           </Button>
-			<Button class="w-full px-4 text-sm text-center" @onClick="NoticPosts">
-			announcement
-	</Button>
+          <Button class="w-full px-4 text-sm text-center" @onClick="NoticPosts">
+            announcement
+          </Button>
         </div>
       </form>
     </div>
@@ -40,7 +40,7 @@ import postListState from "@/store/Post/postList";
 })
 export default class NoticTest extends Vue {
   router = useRouter();
-  newNotices: NoticInterface;
+  newNotices: NoticInterface | undefined;
   //모달 트리거
   mod = {
     notice: false,
@@ -61,10 +61,11 @@ export default class NoticTest extends Vue {
       console.log(result);
     }
   }
-async NoticPosts(): Promise<Array<postListItem>> {
+  async NoticPosts(): Promise<Array<postListItem>> {
     //TODO: filter with isNotic?
-	var result = await postListState.getAnnouncement()
-	console.log(result);
+    var result = await postListState.getAnnouncement();
+    console.log(result);
+    return [];
     //return postListState.posts.filter((item) => item.announcement).slice(4);
   }
   //#region Item Event

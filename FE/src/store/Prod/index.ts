@@ -8,9 +8,11 @@ import {
 import ProdInterface, { ProductFormat } from "./Interfaces";
 import store from "..";
 import axios from "axios";
-import { apiUrl } from "@/utils";
+import { apiUrl, AuthorityRequired } from "@/utils";
+import { useToast } from "vue-toastification";
 @Module({ namespaced: true, store, name: "ProductModule", dynamic: true })
 export class ProductModule extends VuexModule implements ProdInterface {
+  toast = useToast();
   items: Array<ProductFormat> = [];
   cate: Set<string> = new Set([]);
   @Mutation update(data: Array<ProductFormat>): void {
@@ -21,36 +23,24 @@ export class ProductModule extends VuexModule implements ProdInterface {
   }
   @Mutation updateItem(data: ProductFormat): void {
     const index = this.items.findIndex((item) => (item.id = data.id));
-    if (index !== -1) this.items[index] = data;
-    else this.addItem(data);
-  }
-  @Action updateItems(): boolean {
-    //TODO: get Items from RestFul Api
-    return false;
+    if (index !== -1) {
+      this.items[index].id = data.id;
+      this.items[index].name = data.name;
+      this.items[index].remain = data.remain;
+      this.items[index].price = data.price;
+      this.items[index].limit_item = data.limit_item;
+      this.items[index].category = data.category;
+      this.items[index].monthly_sale = data.monthly_sale;
+      this.items[index].weekly_sale = data.weekly_sale;
+      this.items[index].src = data.src;
+      this.items[index].content = data.content;
+    } else this.toast.error(`존재하지 않는 상품 입니다`);
   }
   @Mutation updateCate(data: Array<string>): void {
     this.cate = new Set(data);
   }
-  @Mutation dumy(mount: number): void {
-    const dumyItem = {
-      id: "dumy",
-      name: "dumy",
-      remain: 0,
-      price: 0,
-      limit_item: false,
-      category: "dumy",
-      monthly_sale: 0,
-      weekly_sale: 0,
-      src: null,
-    };
-    const dumyCate = "dumy";
-    for (let i = 0; i < mount; i++) this.items.push(dumyItem);
-    this.cate.add(dumyCate);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Action getCategories(_cateString: string): Array<string> {
-    //TODO: get categories from Server
-    return ["dumy"];
+  @Mutation delOne(id: string): void {
+    this.items = this.items.filter((item) => item.id !== id);
   }
   @Action async updateCategories(): Promise<void> {
     try {
@@ -62,7 +52,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
     } catch (e) {
       console.log(e);
     }
-    //TODO: update categories from API;
   }
   @Action async refresh(): Promise<void> {
     try {
@@ -80,7 +69,8 @@ export class ProductModule extends VuexModule implements ProdInterface {
           category: item.category,
           monthly_sale: item.monthly_sale,
           weekly_sale: item.weekly_sale,
-          src: item.img,
+          src: item.image,
+          content: item.content ?? "",
         };
         lit.push(it);
       }
@@ -92,7 +82,6 @@ export class ProductModule extends VuexModule implements ProdInterface {
     } catch (e) {
       console.log(e);
     }
-    //TODO : do refrash list
   }
   itemCate(id: string): Array<string> {
     const index = this.items.findIndex((item) => (item.id = id));
@@ -105,10 +94,22 @@ export class ProductModule extends VuexModule implements ProdInterface {
   get productList(): Array<ProductFormat> {
     return this.items;
   }
-  prod(id: string): ProductFormat | null {
-    //TODO : make work with out module (get prod??)
-    return this.items.find((item) => item.id === id) ?? null;
+  //#region for Admin
+  @Action async deleteProd(id: string): Promise<boolean> {
+    if (!AuthorityRequired()) {
+      this.toast.error("관리자 로그인이 필요합니다");
+      return false;
+    }
+    try {
+      await axios.post(apiUrl + "/admin/delete-product", { id: id });
+      this.delOne(id);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
+  //#endregion
 }
 export const prodState = getModule(ProductModule);
 export default prodState;
