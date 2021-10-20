@@ -21,11 +21,10 @@ builed file with be plcaed on `./dist`
 ## store Datas
 
 1. localstrage  
-|Name|type|des|
-|--|--|--|
-|save_sign_data|boolean|remember me is checked|
-|saved_email|string|email data for remember me|
-|saced_pwd|string|password data for remeber me|
+
+save_sign_data  
+saved_email  
+saved_pwd  
 
 2. vuex sotrage
 `Cart`
