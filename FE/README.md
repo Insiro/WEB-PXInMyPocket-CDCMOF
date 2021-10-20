@@ -47,9 +47,9 @@ builed file with be plcaed on `./dist`
 `reset`for reset password when forgot password  
 `admin` for handle prods (add / edit / delete)  
 3. dynamic pages
-prod/:id id's information view  
-post/:id id's information view  
-edit_prod/:id id's information edit  
+`prod/:id` id's information view  
+`post/:id` id's information view  
+`edit_prod/:id1 id's information edit  
 4. oth
-new_post regist new post
-new_prod regist new product  
+`new_post` regist new post
+`new_prod` regist new product  
