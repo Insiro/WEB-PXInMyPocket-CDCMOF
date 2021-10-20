@@ -20,7 +20,7 @@ builed file with be plcaed on `./dist`
 
 ## store Datas
 
-1. localstrage
+1. localstrage  
 |Name|type|des|
 |--|--|--|
 |save_sign_data|boolean|remember me is checked|
