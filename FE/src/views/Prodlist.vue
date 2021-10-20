@@ -1,6 +1,6 @@
 <template>
   <WideFrame>
-    <Button @onClick="refresh">목록 새로고침</Button>
+    <Button @onClick="refresh"><Refresh /></Button>
     <CardHash
       v-for="cate in Array.from(cates)"
       :key="cate"
@@ -9,7 +9,7 @@
       @hash_click="hashClicked"
     />
   </WideFrame>
-  <div class="mt-3 grid grid-cols-3 gap-4">
+  <div class="ml-3 mt-3 grid grid-cols-3 gap-4">
     <Card
       v-for="(item, index) in prods"
       v-show="index <= viewRange.max && index >= viewRange.min"
@@ -37,13 +37,13 @@
 </template>
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { useRouter } from "vue-router";
 import { PageNation } from "@/components/PageNation";
 import Card, { WideFrame, CardHash } from "@/components/CardFrame";
 import Button from "@/components/Button";
+import { Refresh } from "@/components/Icons";
 import prodState from "@/store/Prod";
 import { ProductFormat } from "@/store/Prod/Interfaces";
-import { useRouter } from "vue-router";
-
 interface min_max {
   min: number;
   max: number;
@@ -56,6 +56,7 @@ interface min_max {
     WideFrame,
     CardHash,
     Button,
+    Refresh,
   },
   watch: {},
 })

@@ -25,7 +25,7 @@
             </CheckBox>
           </TableItem>
           <TableItem>
-            <img style="max-height: 10rem" :src="item.src" />
+            <img style="max-height: 10rem; min-width: 7rem" :src="item.src" />
           </TableItem>
           <TableItem class="align-middle">{{ item.name }}</TableItem>
           <TableItem class="align-middle">{{ item.remain }}</TableItem>
