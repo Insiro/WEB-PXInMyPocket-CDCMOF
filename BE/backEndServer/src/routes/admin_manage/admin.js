@@ -41,14 +41,11 @@ router.post("/add-product", function (req, res) {
 // POST /admin/modify-product
 // 재고수량, 가격을 변경합니다.
 router.post("/modify-product", function (req, res) {
-  const remaining = req.body.remaining;
-  const price = req.body.price;
-  const limit_item = req.body.limit_item;
-  const category = req.body.category;
-
+  const { id, remaining, price, limit_item, category, name, image, content } =
+    req.body;
   db.Product.findOne({
     where: {
-      product_id: req.body.id,
+      product_id: id,
     },
   }).then((product) => {
     product
@@ -57,7 +54,9 @@ router.post("/modify-product", function (req, res) {
         price: price,
         limit_item: limit_item,
         category: category,
-        image: req.body.image,
+        image: image,
+        product_name: name,
+        content: content,
       })
       .then((item) => {
         res.status(202).json({ result: "success" });

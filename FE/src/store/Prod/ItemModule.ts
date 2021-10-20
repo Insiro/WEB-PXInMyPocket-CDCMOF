@@ -10,6 +10,7 @@ import store from "..";
 import axios from "axios";
 import { apiUrl, AuthorityRequired } from "@/utils";
 import { useToast } from "vue-toastification";
+import prodState from ".";
 
 @Module({ namespaced: true, store, name: "CurItemModule", dynamic: true })
 export class CurItemModule extends VuexModule implements CurProdIpnterface {
@@ -90,10 +91,11 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
         image: this.data.src,
         content: this.data.content,
         id: this.data.id,
+        name: this.data.name,
       };
       await axios.post(apiUrl + "/admin/modify-product", parm);
+      prodState.updateItem(this.data);
       toast.success("제품 정보가 업데이트 되었습니다");
-      console.log("asd");
     } catch (error) {
       toast.error("제품 정보 업데이트에 실패하였습니다");
       console.log(error);
@@ -129,6 +131,7 @@ export class CurItemModule extends VuexModule implements CurProdIpnterface {
       };
       await axios.post(apiUrl + "/admin/add-product", parm);
       toast.success(`제품 ${this.data.name} 추가 되었습니다`);
+      prodState.addItem(this.data);
     } catch (error) {
       toast.error(`제품 ${this.data.name} 추가에 실패하였습니다`);
       console.log(error);
