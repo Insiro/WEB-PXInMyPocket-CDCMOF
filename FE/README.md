@@ -23,7 +23,7 @@ builed file with be plcaed on `./dist`
 1. localstrage
 |Name|type|des|
 |--|--|--|
-|save_sign_data|boolean |remember me is checked|
+|save_sign_data|boolean|remember me is checked|
 |saved_email|string|email data for remember me|
 |saced_pwd|string|password data for remeber me|
 
