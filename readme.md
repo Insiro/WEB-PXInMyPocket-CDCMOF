@@ -54,16 +54,21 @@ this project is Prowerd By [osam](https://osam.kr)
  - 3. px관리가 전산화 되어 효율성이 높아지며 물품들의 실질적 유동을 파악 할 수 있어, 허위 주문과 같은 부당거래, 납품비리 등을 제재하는 효과를 줄 수 있다. 
  - 4. 군대라는 특성상 훈련 및 기타 상황에 의해 px운영 시간이 변동되거나 운영 수칙이 바뀌는 경우가 종종 있다. 어플리케이션을 통해 이러한 점을 이용자들에게 미리 고지하여 이용자들의 편익을 증대시킨다.
 
-## 어플리케이션 예시
-### 첫 페이지
-![px_application_example_1](https://user-images.githubusercontent.com/55325690/132701650-f2b13637-8175-47ea-8bf6-70903bfa486d.png)
+## 어플리케이션
+### 홈 페이지
+![px_application_example_1](https://user-images.githubusercontent.com/19542951/138066741-127a33b1-ab17-41b3-bbef-0898192bda54.png)
 
-### 주문확인 페이지
-![px_application_example_2](https://user-images.githubusercontent.com/55325690/132704631-3ed5b421-64bb-4138-a6cf-4a628f7c995e.png)
+### 로그인 페이지
+![px_application_example_2](https://user-images.githubusercontent.com/19542951/138066942-c33deb81-5da0-4bd3-9bf9-5ca89b81f0f1.png)
 
-### 재고확인 페이지
-![px_application_example_3](https://user-images.githubusercontent.com/55325690/132704351-2de1b05a-b2d1-4e47-afca-dae4247c096e.png)
+### 회원가입 페이지
+![px_application_example_3](https://user-images.githubusercontent.com/19542951/138067057-c051e3ce-805b-4826-ac7f-f39f1781ff18.png)
 
+### 제품목록 페이지
+![px_application_example_4](https://user-images.githubusercontent.com/19542951/138067165-7667f2b5-4c47-4b64-8244-0bb5b4bae6ee.png)
+
+### 장바구니 페이지
+![image](https://user-images.githubusercontent.com/19542951/138067543-16fd86f2-127d-4b43-89a4-76cca07092bd.png)
 
 
 ## 팀 정보 (Team Information)
