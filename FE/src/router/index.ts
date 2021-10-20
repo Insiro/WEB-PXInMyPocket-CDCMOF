@@ -42,7 +42,6 @@ export const pageList: pageObjList = [
   { name: "Home", url: "/", component: Home },
   { name: "제품 목록", url: "/prodList", component: Prodlist },
   { name: "게시글 목록", url: "/posts", component: PostList },
-  { name: "프로젝트 정보", url: "/about", component: About },
   { name: "oss license", url: "/lisense", component: Lisense },
 ];
 export const AdminList: pageObjList = [
