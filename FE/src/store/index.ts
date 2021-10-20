@@ -48,6 +48,5 @@ const store = new Store<RootState>({
       data: [],
     },
   },
-  plugins: [createLogger()],
 });
 export default store;

@@ -2,15 +2,51 @@
 
 # 내 손안에 PX
 
+You can see Project Detailed Explanation on [this Page](https://mof-cdc.notion.site/PX-4c48ee84d315407c90c6a809f02dab79)
+
+## GitHub Actions Status
+| Name                      | Status                                                                                                         |
+|---------------------------|----------------------------------------------------------------------------------------------------------------|
+| ESLint                    | ![ESLint](https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF/actions/workflows/lint.yml/badge.svg)                         |
+
+## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
+
+ - Debian Based Operation System
+ - ECMAScript 6 Supporting Browser on Users
+ - Node-js version overed then 14
+ - yarn berry with pnp mode
+ - **this project Not Suppoer Internet Explorer**
+### Testaed Env
+| EnvName | EnvVersion |
+|--------|--|
+|NodeJs|14.18.0|
+|yarn Berry|3.0.2|
+|Ubuntu|20.10|
+|MySql|8.0.25|
+## 프로젝트 사용법 (Getting Started)
+this project is tested on node-js v14
+
+
+requirements PreSet
+1. set WebServer Proxy
+  - `/md` aliase to MD folder
+  - `/` set root Folder to FrontEnd Builded Folder
+  - `/api` reverse Proxy to backendServer ex) `localhost:8000`
+2. install `mysql-server` on Your Server
+3. change `backEndServer/config/config.json` for your `mysql-server` settings
+ 
+
+
+
 ## 프로잭트 소개
 - Node.js 와 Vue를 이용하여 제작한 px어플리케이션
 
+this project is Prowerd By [osam](https://osam.kr)
 
 ## 기능 설명
  - 1. 본인이 복무하고 있는 부대의 px 물품 재고 상황을 어플리케이션을 통해 실시간으로 확인 할 수 있게 한다. 
  - 2. px에 납품 가능한 물품 중 원하는 물품을 예약 신청하게끔 한다. 예약 신청시 선입금 기능을 추가한다. 
- - 3. 병사들의 물품 선호를 파악하여 익년 납품업체 선정에 도움이 될 수 있도록 한다. 
- - 4. 해당 부대 px운영에 대한 정보를 게시하며 이용자가 개선점을 표명할 수 있는 게시판을 제공한다.
+ - 3. 해당 부대 px운영에 대한 정보를 게시하며 이용자가 개선점을 표명할 수 있는 게시판을 제공한다.
  
 ## 기대 효과
  - 1. px의 입고되는 물품들을 보면 들어오는 물품들의 종류나 수량이 시종여일하지 않다. 해당 어플은 본인 부대 px물품 재고상황을 px에 직접 방문하지 않고도 확인 가능하여 이는 병사들의 생활에 개선을 줄 수 있다. 
@@ -30,46 +66,50 @@
 
 
 
+## 팀 정보 (Team Information)
+|Name|Github|Home|Email|Part|
+|--|--|--|--|--|
+|JinWook Jung|[@jwj3400](https://github.com/jwj3400)| null | [rlwlsdnr@naver.com](mailto:rlwlsdnr@naver.com) |BackEnd, Docs
+|SeongHoon Kim|[@Insiro](https://github.com/Insiro)|[https://insiro.me](https://insiro.me)| [leeon@insiro.me](mailto:leeon@insiro.me) |FrontEnd, DevOps, Project Manager|
 
-## 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
- - 리눅스계열 OS
- - ECMAScript 6 지원 브라우저 사용
 
 ## 기술 스택 (Technique Used) 
-### Server(back-end)
+### Server
  - 운영체제: Linux 계열
  - 서버 프로그래밍 언어와 프레임 워크: node.js v16.6.0, express 
  - 데이터베이스: MySQL(sequelize ORM 사용)
- - 기타 사용한 라이브러리:
  
 ### Front-end
  -  프론트엔트 프레임워크: vue.js 
- -  UI framework: BootStrap
- - 기타 사용한 라이브러리:
+ -  UI framework: TailWind-css
 
-## 설치 안내 (Installation Process)
+## How To Install
+1. clone git storage
 ```bash
 $ git clone https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF.git
-$ yarn or npm install
-$ yarn start or npm run start
+cd WEB-PXInMyPocket-CDC
 ```
-
-## 프로젝트 사용법 (Getting Started)
-**마크다운 문법을 이용하여 자유롭게 기재**
-
-
- 
-## 팀 정보 (Team Information)
-- jung jin wook (rlwlsdnr@naver.com), Github Id: jwj3400
-- kim seong hun (insiro@gmail.com), Github Id: insiro
-
+2. install and build FrontEnd 
+on Folder`WEB-PXInMyPocket-CDC`
+```bash
+$ cd ./FE
+$ yarn set version berry
+$ yarn install
+$ yarn build
+```
+output files will on `./FE/dist` folder
+3. install and Run BackEnd
+on Folder`WEB-PXInMyPocket-CDC`
+```bash
+$ cd ./BE/backEndServer
+$ yarn set version berry
+$ yarn install
+$ yarn start
+```
 ## 저작권 및 사용권 정보 (Copyleft / End User License)
- * [MIT](https://github.com/osam2020-WEB/Sample-ProjectName-TeamName/blob/master/license.md)
-
+ * [MIT](https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF/blob/master/license.md)
 This project is licensed under the terms of the MIT license.
 
-※ [라이선스 비교표(클릭)](https://olis.or.kr/license/compareGuide.do)
+Copyright © Insiro.me and jwj3400 and WEB-PXInMyPocket-CDCMOF Contributors
 
-※ [Github 내 라이선스 키워드(클릭)](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/licensing-a-repository)
-
-※ [\[참조\] Github license의 종류와 나에게 맞는 라이선스 선택하기(클릭)](https://flyingsquirrel.medium.com/github-license%EC%9D%98-%EC%A2%85%EB%A5%98%EC%99%80-%EB%82%98%EC%97%90%EA%B2%8C-%EB%A7%9E%EB%8A%94-%EB%9D%BC%EC%9D%B4%EC%84%A0%EC%8A%A4-%EC%84%A0%ED%83%9D%ED%95%98%EA%B8%B0-ae29925e8ff4)
+[OpenSource License](https://github.com/osamhack2021/WEB-PXInMyPocket-CDCMOF/blob/master/MD/osLicense.md)
