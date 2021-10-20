@@ -4,12 +4,13 @@
     <CardHash
       v-for="cate in Array.from(cates)"
       :key="cate"
+      class="ml-3"
       :tag="cate"
       :highlight="filterName === cate"
       @hash_click="hashClicked"
     />
   </WideFrame>
-  <div class="ml-3 mt-3 grid grid-cols-3 gap-4">
+  <div class="mt-3 grid grid-cols-3 gap-4">
     <Card
       v-for="(item, index) in prods"
       v-show="index <= viewRange.max && index >= viewRange.min"
