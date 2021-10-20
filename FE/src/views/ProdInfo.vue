@@ -46,7 +46,10 @@
         </div>
       </Card>
     </div>
-    <WideFrame class="mx-10 max-w-none mt-3"> expression of Item </WideFrame>
+    <WideFrame class="mx-10 max-w-none mt-3">
+      <!--eslint-disable-next-line vue/no-v-html-->
+      <div id="marked" class="marked" v-html="markedcont" />
+    </WideFrame>
   </div>
 </template>
 <script lang="ts">
@@ -54,6 +57,8 @@ import { ref } from "vue";
 import { Vue, Options } from "vue-class-component";
 import { RouteLocationNormalized, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import marked from "marked";
+import { markedOption } from "@/utils";
 import Card, { CardHash, WideFrame } from "@/components/CardFrame";
 import Button from "@/components/Button";
 import { TextInput } from "@/components/Inputs";
@@ -99,6 +104,10 @@ export default class Name extends Vue {
   }
   get category(): Array<string> {
     return curItemState.cate;
+  }
+  get markedcont(): string {
+    marked.setOptions(markedOption);
+    return marked(curItemState.info.content);
   }
   //#endregion
   //#region onclick methods
