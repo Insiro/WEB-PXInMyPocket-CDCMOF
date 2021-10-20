@@ -56,6 +56,7 @@ import { Button } from "@/components/Button";
 import { WideFrame } from "@/components/CardFrame";
 import prodState from "@/store/Prod";
 import { useToast } from "vue-toastification";
+import { ProductFormat } from "@/store/Prod/Interfaces";
 @Options({
   components: {
     Table,
@@ -76,16 +77,23 @@ export default class Carts extends Vue {
   );
   btnButtom = ref("mx-3");
   //#endregion
-  prodList = prodState.productList;
+  get prodList(): ProductFormat[] {
+    return prodState.productList;
+  }
   async deleteSelected(): Promise<void> {
-    let toggleList = Array.from(this.checked);
-    let failed = false;
-    await toggleList.map(async (id) => {
-      const result = await prodState.deleteProd(id);
-      failed = failed || result;
-    });
-    if (toggleList) this.toast.success("상품 삭제에 성공하였습니다");
-    else this.toast.error("삭제에 실패한 상품이 있습니다.");
+    try {
+      let toggleList = Array.from(this.checked);
+      let failed = false;
+      await toggleList.map(async (id) => {
+        const result = await prodState.deleteProd(id);
+        failed = failed || result;
+      });
+      if (toggleList) this.toast.success("상품 삭제에 성공하였습니다");
+      else this.toast.error("삭제에 실패한 상품이 있습니다.");
+    } catch (error) {
+      console.log(error);
+      this.toast.error("삭제에 실패한 상품이 있습니다.");
+    }
   }
   checkItem(data: CheckBoxEmit): void {
     if (data.checked) {

@@ -29,6 +29,9 @@ export class ProductModule extends VuexModule implements ProdInterface {
   @Mutation updateCate(data: Array<string>): void {
     this.cate = new Set(data);
   }
+  @Mutation delOne(id: string): void {
+    this.items = this.items.filter((item) => item.id !== id);
+  }
   @Action async updateCategories(): Promise<void> {
     try {
       const data = await axios.get(apiUrl + "/category");
@@ -91,7 +94,7 @@ export class ProductModule extends VuexModule implements ProdInterface {
       await axios.post(apiUrl + "/admin/delete-product", {
         id: id,
       });
-      this.update(this.items.filter((item) => item.id !== id));
+      this.delOne(id);
     } catch (error) {
       console.log(error);
     }
